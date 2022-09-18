@@ -1,6 +1,6 @@
 <p align="center"><img src="https://matonoprato.com.br/wp-content/uploads/2020/12/amazonica.png" width="250"></p>
 
-# Vitória Régia API
+# Regia's move API
 
 Back-end application for Vitória Régia project.
 
