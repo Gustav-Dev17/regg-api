@@ -18,7 +18,7 @@ model Users {
     updated_at DateTime @updatedAt
 }
 
-model Transporter {
+model Transporters {
     id                String @id @default(auto()) @map("_id") @db.ObjectId
     name              String
     phone             String @unique
@@ -29,10 +29,10 @@ model Transporter {
     password          String
     created_at        DateTime @default(now())
     updated_at        DateTime @updatedAt
-    vehicle           Vehicle?
+    vehicle           Vehicles?
 }
 
-model Vehicle {
+model Vehicles {
     id             String      @id @default(auto()) @map("_id") @db.ObjectId
     owner_name     String   // nome do dono do véiculo
     owner_cpf_cnpj String   // CPF ou CNPJ do dono do vepiculo
@@ -45,6 +45,6 @@ model Vehicle {
     license_plate  String      @unique   // n. da placa
     renavam        String      @unique   // renavam
     chassi         String      @unique   // chassi
-    transporter    Transporter @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
+    transporter    Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
     transporterId  String      @unique @db.ObjectId //id do Transporter
 }
