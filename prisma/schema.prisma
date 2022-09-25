@@ -19,32 +19,38 @@ model Users {
 }
 
 model Transporters {
-    id                String @id @default(auto()) @map("_id") @db.ObjectId
+    id                String    @id @default(auto()) @map("_id") @db.ObjectId
     name              String
-    phone             String @unique
-    cpf               String @unique
-    license_category  String   // categoria da habiitação do transportador
-    transport_license Boolean   // licença do transportador para o frete ou transporte de cargas
-    email             String   @unique
+    phone             String    @unique
+    cpf               String    @unique
+    license_category  String // categoria da habiitação do transportador
+    transport_license Boolean // licença do transportador para o frete ou transporte de cargas
+    email             String    @unique
     password          String
-    created_at        DateTime @default(now())
-    updated_at        DateTime @updatedAt
+    created_at        DateTime  @default(now())
+    updated_at        DateTime  @updatedAt
     vehicle           Vehicles?
 }
 
 model Vehicles {
-    id             String      @id @default(auto()) @map("_id") @db.ObjectId
-    owner_name     String   // nome do dono do véiculo
-    owner_cpf_cnpj String   // CPF ou CNPJ do dono do vepiculo
-    brand          String   // marca do véiculo 
-    model          String   // modelo do véiculo 
-    capacity       String   // capacidade de carga e transporte do véiculo 
-    year           String   // ano do véiculo 
-    color          String   // cor predominante do veículo
-    fuel           String   // combustível  usado
-    license_plate  String      @unique   // n. da placa
-    renavam        String      @unique   // renavam
-    chassi         String      @unique   // chassi
+    id             String       @id @default(auto()) @map("_id") @db.ObjectId
+    owner_name     String // nome do dono do véiculo
+    owner_cpf_cnpj String // CPF ou CNPJ do dono do vepiculo
+    brand          String // marca do véiculo 
+    model          String // modelo do véiculo 
+    capacity       String // capacidade de carga e transporte do véiculo 
+    year           String // ano do véiculo 
+    color          String // cor predominante do veículo
+    fuel           String // combustível  usado
+    license_plate  String       @unique // n. da placa
+    renavam        String       @unique // renavam
+    chassi         String       @unique // chassi
     transporter    Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
-    transporterId  String      @unique @db.ObjectId //id do Transporter
+    transporterId  String       @unique @db.ObjectId //id do Transporter
+}
+
+model FurnitureImages {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    image_altname String // nome alternativo da imagem no sistema
+    image_path    String // endereço da imagem no sistema
 }
