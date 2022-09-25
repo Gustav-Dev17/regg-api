@@ -1,14 +1,14 @@
 import express from "express";
-import { transporterSchema } from "schemas/transporter.schema";
 import { loginSchema } from "schemas/login.schema";
-import { DoLogin } from "controllers/auth.controller";
+import { DoLogin } from "controllers/auth.transporter.controller";
+import { transporterSchema } from "schemas/transporter.schema";
 import { validate } from "validators/fields.validator";
 import { AuthMiddleware } from "middlewares/auth.middleware";
 import { CreateTransporter, DeleteTransporter, ReadTransporter, ReadAllTransporters, UpdateTransporter } from "controllers/transporters.controller";
 
 const route = express.Router();
 
-route.post("/login", validate(loginSchema), DoLogin);
+route.post("/transporter/login", validate(loginSchema), DoLogin);
 
 //transporter routes
 route.post("/transporter", validate(transporterSchema), CreateTransporter);
