@@ -31,13 +31,15 @@ export const UpdateUserService = async (body: IRequestUserBody, id: string) => {
   try {
     const user = await ReadUserByID(id);
     const name = body.name || user?.name;
+    const cpf = body.cpf || user?.cpf;
+    const phone = body.phone || user?.phone;
     const email = body.email || user?.email;
 
     const decryptedPassword = body.password || user?.password;
 
     const password = bcrypt.hashSync(decryptedPassword as string, 8);
 
-    return UpdateUser({ name, email, password }, id);
+    return UpdateUser({ name, cpf, phone, email, password }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }

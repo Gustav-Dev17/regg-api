@@ -1,14 +1,14 @@
 import express from "express";
-import { userSchema } from "schemas/user.schema";
 import { loginSchema } from "schemas/login.schema";
-import { DoLogin } from "controllers/auth.controller";
+import { DoLogin } from "controllers/auth.user.controller";
+import { userSchema } from "schemas/user.schema";
 import { validate } from "validators/fields.validator";
 import { AuthMiddleware } from "middlewares/auth.middleware";
 import { CreateUser, DeleteUser, ReadUser, ReadAllUsers, UpdateUser } from "controllers/users.controller";
 
 const route = express.Router();
 
-route.post("/login", validate(loginSchema), DoLogin);
+route.post("/user/login", validate(loginSchema), DoLogin);
 
 //user routes
 route.post("/user", validate(userSchema), CreateUser);

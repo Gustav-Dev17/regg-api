@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LoginService } from "services/auth.services";
+import { LoginService } from "services/auth.transporter.services";
 
 export const DoLogin = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
