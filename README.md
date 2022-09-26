@@ -1,21 +1,19 @@
-<p align="center"><img src="https://matonoprato.com.br/wp-content/uploads/2020/12/amazonica.png" width="250"></p>
+# Regg API
 
-# Vitória Régia API
-
-Back-end application for Vitória Régia project.
+Back-end application for Regg project.
 
 ## 🧬 Cloning this project
 
 1. To clone this project with command line you must have <a href="https://git-scm.com/downloads">Git</a> installed on your machine. On your terminal run:
 
 ```
-git clone https://github.com/amazonsoft-tech/victoria-backend.git
+git clone https://github.com/amazonsoft-tech/regg-backend.git
 ```
 
 2. Access the root folder:
 
 ```
-cd victoria-backend
+cd regg-backend
 ```
 
 ## 💿 Installing dependencies
