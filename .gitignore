@@ -5,3 +5,10 @@ yarn-error.log
 # Lock files
 package-*.json
 *.lock
+
+# IDEs Folders
+.idea
+.vscode
+
+# Does not need to upload this folder
+furniture-images/

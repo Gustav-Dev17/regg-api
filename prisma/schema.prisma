@@ -8,14 +8,15 @@ generator client {
 }
 
 model Users {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    name       String
-    cpf        String   @unique
-    phone      String   @unique
-    email      String   @unique
-    password   String
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    id           String        @id @default(auto()) @map("_id") @db.ObjectId
+    name         String
+    cpf          String        @unique
+    phone        String        @unique
+    email        String        @unique
+    password     String
+    created_at   DateTime      @default(now())
+    updated_at   DateTime      @updatedAt
+    avatarImages AvatarImages?
 }
 
 model Transporters {
@@ -53,4 +54,11 @@ model FurnitureImages {
     id            String @id @default(auto()) @map("_id") @db.ObjectId
     image_altname String // nome alternativo da imagem no sistema
     image_path    String // endereço da imagem no sistema
+}
+
+model AvatarImages {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    avatar_path String
+    userId      String @unique @db.ObjectId
+    user        Users  @relation(fields: [userId], references: [id])
 }

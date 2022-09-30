@@ -13,7 +13,7 @@ class Upload {
         callback(null, this.url);
       },
       filename: (request, file, callback) => {
-        callback(null, `${Date.now()}_${file.originalname}.jpg`);
+        callback(null, `${Date.now()}_${file.originalname}`);
       },
     });
   }
