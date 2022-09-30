@@ -14,7 +14,7 @@ app.use(
   }),
 );
 app.use(express.json());
-
+app.use("/furniture-images", express.static("furniture-images"));
 app.use(userRoutes);
 app.use(transporterRoutes);
 app.use(furnitureImagesRoutes);
