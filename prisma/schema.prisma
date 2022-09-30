@@ -34,20 +34,20 @@ model Transporters {
 }
 
 model Vehicles {
-    id             String       @id @default(auto()) @map("_id") @db.ObjectId
-    owner_name     String // nome do dono do véiculo
-    owner_cpf_cnpj String // CPF ou CNPJ do dono do vepiculo
-    brand          String // marca do véiculo 
-    model          String // modelo do véiculo 
-    capacity       String // capacidade de carga e transporte do véiculo 
-    year           String // ano do véiculo 
-    color          String // cor predominante do veículo
-    fuel           String // combustível  usado
-    license_plate  String       @unique // n. da placa
-    renavam        String       @unique // renavam
-    chassi         String       @unique // chassi
-    transporter    Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
-    transporterId  String       @unique @db.ObjectId //id do Transporter
+    id            String       @id @default(auto()) @map("_id") @db.ObjectId
+    owner_name    String // nome do dono do véiculo
+    owner_cpf     String // CPF do dono do vepiculo
+    brand         String // marca do véiculo 
+    model         String // modelo do véiculo 
+    capacity      String? // capacidade de carga e transporte do véiculo 
+    year          String // ano do véiculo 
+    color         String? // cor predominante do veículo
+    fuel          String? // combustível  usado
+    license_plate String       @unique // n. da placa
+    renavam       String       @unique // renavam
+    chassi        String       @unique // chassi
+    transporter   Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
+    transporterId String       @unique @db.ObjectId //id do Transporter
 }
 
 model FurnitureImages {
