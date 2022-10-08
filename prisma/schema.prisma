@@ -14,23 +14,49 @@ model Users {
     phone        String        @unique
     email        String        @unique
     password     String
+    deliveries   Deliveries[]
     created_at   DateTime      @default(now())
     updated_at   DateTime      @updatedAt
     avatarImages AvatarImages?
 }
 
 model Transporters {
-    id                String    @id @default(auto()) @map("_id") @db.ObjectId
+    id                String        @id @default(auto()) @map("_id") @db.ObjectId
     name              String
-    phone             String    @unique
-    cpf               String    @unique
+    phone             String        @unique
+    cpf               String        @unique
     license_category  String // categoria da habiitação do transportador
     transport_license Boolean // licença do transportador para o frete ou transporte de cargas
-    email             String    @unique
+    email             String        @unique
     password          String
-    created_at        DateTime  @default(now())
-    updated_at        DateTime  @updatedAt
+    deliveries        Deliveries[]
+    created_at        DateTime      @default(now())
+    updated_at        DateTime      @updatedAt
     vehicle           Vehicles?
+    avatar_images      AvatarImages?
+}
+
+model Deliveries {
+    id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+    status                String
+    origin                String //coordenadas da origem
+    originDesc            String //endereço ou nome do local
+    destine               String //coordenadas do destino
+    destineDesc           String //endereço ou nome do local
+    delivery_items        String[]
+    delivery_travel_price String
+    delivery_price        String
+    delivery_total_price  String
+
+    transporter_avatar  String
+    transporter_name    String
+    transporter_vehicle String
+
+    transporter   Transporters? @relation(fields: [transporterId], references: [id])
+    transporterId String?       @db.ObjectId
+
+    user   Users  @relation(fields: [userId], references: [id])
+    userId String @db.ObjectId
 }
 
 model Vehicles {
@@ -57,8 +83,10 @@ model FurnitureImages {
 }
 
 model AvatarImages {
-    id          String @id @default(auto()) @map("_id") @db.ObjectId
-    avatar_path String
-    userId      String @unique @db.ObjectId
-    user        Users  @relation(fields: [userId], references: [id])
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    avatar_path   String
+    userId        String?       @unique @db.ObjectId
+    user          Users?        @relation(fields: [userId], references: [id])
+    transporterId String?       @unique @db.ObjectId
+    transporter   Transporters? @relation(fields: [transporterId], references: [id])
 }
