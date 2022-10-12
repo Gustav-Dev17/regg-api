@@ -8,17 +8,19 @@ generator client {
 }
 
 model Users {
-    id            String         @id @default(auto()) @map("_id") @db.ObjectId
-    name          String
-    cpf           String         @unique
-    phone         String         @unique
-    email         String         @unique
-    password      String
-    created_at    DateTime       @default(now())
-    updated_at    DateTime       @updatedAt
-    avatarImages  AvatarImages?
-    SelectedItems SelectedItems?
-    Deliveries    Deliveries?
+    id             String         @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    cpf            String         @unique
+    phone          String         @unique
+    email          String         @unique
+    password       String
+    //relacionamentos
+    avatar_image   AvatarImages?
+    selected_items SelectedItems?
+    deliveries     Deliveries?
+    //criado e ou atualizado em
+    created_at     DateTime       @default(now())
+    updated_at     DateTime       @updatedAt
 }
 
 model Transporters {
@@ -30,11 +32,13 @@ model Transporters {
     transport_license Boolean // licença do transportador para o frete ou transporte de cargas
     email             String        @unique
     password          String
+    //relacionamentos
+    vehicle           Vehicles?
+    avatar_image      AvatarImages?
+    deliveries        Deliveries?
+    //criado e ou atualizado em
     created_at        DateTime      @default(now())
     updated_at        DateTime      @updatedAt
-    vehicle           Vehicles?
-    avatarImages      AvatarImages?
-    Deliveries        Deliveries?
 }
 
 model Vehicles {
@@ -50,59 +54,82 @@ model Vehicles {
     license_plate String       @unique // n. da placa
     renavam       String       @unique // renavam
     chassi        String       @unique // chassi
+    //relacionamentos
     transporter   Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
     transporterId String       @unique @db.ObjectId //id do Transporter
+    //criado e ou atualizado em
+    created_at    DateTime     @default(now())
+    updated_at    DateTime     @updatedAt
 }
 
 model Deliveries {
-    id               String         @id @default(auto()) @map("_id") @db.ObjectId
-    status           StatusTypes //Accepted InProgress Refused Waiting Finished
-    selectedItems    SelectedItems?
-    origin           String //coordenadas da origem
-    originDesc       String //endereço ou nome do local
-    destine          String //coordenadas do destino
-    destineDesc      String //endereço ou nome do local
-    userId           String         @unique @db.ObjectId
-    user             Users          @relation(fields: [userId], references: [id])
-    transporterId    String?        @unique @db.ObjectId
-    transporter      Transporters?  @relation(fields: [transporterId], references: [id])
-    created_at       DateTime       @default(now())
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    status        StatusTypes //Accepted InProgress Refused Waiting Finished
+    selectedItems SelectedItems?
+    origin        String //coordenadas da origem
+    origin_desc   String //endereço ou nome do local
+    destine       String //coordenadas do destino
+    destine_desc  String //endereço ou nome do local
+    //relacionamentos
+    userId        String         @unique @db.ObjectId
+    user          Users          @relation(fields: [userId], references: [id])
+    transporterId String?        @unique @db.ObjectId
+    transporter   Transporters?  @relation(fields: [transporterId], references: [id])
+    //criado e ou atualizado em
+    created_at    DateTime       @default(now())
+    updated_at    DateTime       @updatedAt
 }
 
 model Items {
-    id    String           @id @default(auto()) @map("_id") @db.ObjectId
-    image FurnitureImages?
-    name  String           @unique
-    value Float
+    id         String           @id @default(auto()) @map("_id") @db.ObjectId
+    name       String           @unique
+    item_price Float
+    //relacionamentos
+    image      FurnitureImages?
+    //criado e ou atualizado em
+    created_at DateTime         @default(now())
+    updated_at DateTime         @updatedAt
 }
 
 model SelectedItems {
     id             String      @id @default(auto()) @map("_id") @db.ObjectId
     status         StatusTypes //Accepted InProgress Refused Waiting Finished
-    amount         Int
-    value          Float
+    items_amount   Int
+    items_price    Float
     delivery_price Float
+    //relacionamentos
     userId         String      @unique @db.ObjectId
     user           Users       @relation(fields: [userId], references: [id])
     deliveryId     String?     @unique @db.ObjectId
     delivery       Deliveries? @relation(fields: [deliveryId], references: [id])
+    //criado e ou atualizado em
+    created_at     DateTime    @default(now())
+    updated_at     DateTime    @updatedAt
 }
 
 model FurnitureImages {
-    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
     image_altname String // nome alternativo da imagem no sistema
     image_path    String // endereço da imagem no sistema
-    item          Items  @relation(fields: [itemId], references: [id])
-    itemId        String @unique @db.ObjectId //id do Transporter
+    //relacionamentos
+    item          Items    @relation(fields: [itemId], references: [id])
+    itemId        String   @unique @db.ObjectId //id do Transporter
+    //criado e ou atualizado em
+    created_at    DateTime @default(now())
+    updated_at    DateTime @updatedAt
 }
 
 model AvatarImages {
     id            String        @id @default(auto()) @map("_id") @db.ObjectId
     avatar_path   String
+    //relacionamentos
     userId        String?       @unique @db.ObjectId
     user          Users?        @relation(fields: [userId], references: [id])
     transporterId String?       @unique @db.ObjectId
     transporter   Transporters? @relation(fields: [transporterId], references: [id])
+    //criado e ou atualizado em
+    created_at    DateTime      @default(now())
+    updated_at    DateTime      @updatedAt
 }
 
 enum StatusTypes {
