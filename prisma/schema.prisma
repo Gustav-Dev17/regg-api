@@ -55,7 +55,7 @@ model Vehicles {
     renavam       String       @unique // renavam
     chassi        String       @unique // chassi
     //relacionamentos
-    transporter   Transporters @relation(fields: [transporterId], references: [id]) //relacionamento 1-to-1 com Transporter
+    transporter   Transporters @relation(fields: [transporterId], references: [id], onDelete: Cascade) //relacionamento 1-to-1 com Transporter
     transporterId String       @unique @db.ObjectId //id do Transporter
     //criado e ou atualizado em
     created_at    DateTime     @default(now())
@@ -83,7 +83,7 @@ model Deliveries {
 model Items {
     id         String           @id @default(auto()) @map("_id") @db.ObjectId
     name       String           @unique
-    item_price Float
+    price      Float
     //relacionamentos
     image      FurnitureImages?
     //criado e ou atualizado em
@@ -99,9 +99,9 @@ model SelectedItems {
     delivery_price Float
     //relacionamentos
     userId         String      @unique @db.ObjectId
-    user           Users       @relation(fields: [userId], references: [id])
+    user           Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
     deliveryId     String?     @unique @db.ObjectId
-    delivery       Deliveries? @relation(fields: [deliveryId], references: [id])
+    delivery       Deliveries? @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
     created_at     DateTime    @default(now())
     updated_at     DateTime    @updatedAt
@@ -112,7 +112,7 @@ model FurnitureImages {
     image_altname String // nome alternativo da imagem no sistema
     image_path    String // endereço da imagem no sistema
     //relacionamentos
-    item          Items    @relation(fields: [itemId], references: [id])
+    item          Items    @relation(fields: [itemId], references: [id], onDelete: Cascade)
     itemId        String   @unique @db.ObjectId //id do Transporter
     //criado e ou atualizado em
     created_at    DateTime @default(now())
@@ -124,9 +124,9 @@ model AvatarImages {
     avatar_path   String
     //relacionamentos
     userId        String?       @unique @db.ObjectId
-    user          Users?        @relation(fields: [userId], references: [id])
+    user          Users?        @relation(fields: [userId], references: [id], onDelete: Cascade)
     transporterId String?       @unique @db.ObjectId
-    transporter   Transporters? @relation(fields: [transporterId], references: [id])
+    transporter   Transporters? @relation(fields: [transporterId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
     created_at    DateTime      @default(now())
     updated_at    DateTime      @updatedAt
