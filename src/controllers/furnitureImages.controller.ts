@@ -5,8 +5,9 @@ import { UpdateFurnitureImages, ReadFurnitureImageId, UploadFurnitureImages, Del
 export const UploadFurnitureImage = async (req: Request, res: Response) => {
   try {
     const uploadImage = await UploadFurnitureImages({
-      image_altname: req.body.image_altname,
+      image_altname: req.body.image_altname as string,
       image_path: req.file?.path as string,
+      itemId: req.body.itemId as string,
     });
     return res.status(201).json(uploadImage);
   } catch (e) {
