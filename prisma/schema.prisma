@@ -8,16 +8,17 @@ generator client {
 }
 
 model Users {
-    id           String        @id @default(auto()) @map("_id") @db.ObjectId
-    name         String
-    cpf          String        @unique
-    phone        String        @unique
-    email        String        @unique
-    password     String
-    deliveries   Deliveries[]
-    created_at   DateTime      @default(now())
-    updated_at   DateTime      @updatedAt
-    avatarImages AvatarImages?
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    name          String
+    cpf           String         @unique
+    phone         String         @unique
+    email         String         @unique
+    password      String
+    created_at    DateTime       @default(now())
+    updated_at    DateTime       @updatedAt
+    avatarImages  AvatarImages?
+    SelectedItems SelectedItems?
+    Deliveries    Deliveries?
 }
 
 model Transporters {
@@ -29,34 +30,11 @@ model Transporters {
     transport_license Boolean // licença do transportador para o frete ou transporte de cargas
     email             String        @unique
     password          String
-    deliveries        Deliveries[]
     created_at        DateTime      @default(now())
     updated_at        DateTime      @updatedAt
     vehicle           Vehicles?
-    avatar_images      AvatarImages?
-}
-
-model Deliveries {
-    id                    String   @id @default(auto()) @map("_id") @db.ObjectId
-    status                String
-    origin                String //coordenadas da origem
-    originDesc            String //endereço ou nome do local
-    destine               String //coordenadas do destino
-    destineDesc           String //endereço ou nome do local
-    delivery_items        String[]
-    delivery_travel_price String
-    delivery_price        String
-    delivery_total_price  String
-
-    transporter_avatar  String
-    transporter_name    String
-    transporter_vehicle String
-
-    transporter   Transporters? @relation(fields: [transporterId], references: [id])
-    transporterId String?       @db.ObjectId
-
-    user   Users  @relation(fields: [userId], references: [id])
-    userId String @db.ObjectId
+    avatarImages      AvatarImages?
+    Deliveries        Deliveries?
 }
 
 model Vehicles {
@@ -76,10 +54,46 @@ model Vehicles {
     transporterId String       @unique @db.ObjectId //id do Transporter
 }
 
+model Deliveries {
+    id               String         @id @default(auto()) @map("_id") @db.ObjectId
+    status           StatusTypes //Accepted InProgress Refused Waiting Finished
+    selectedItems    SelectedItems?
+    origin           String //coordenadas da origem
+    originDesc       String //endereço ou nome do local
+    destine          String //coordenadas do destino
+    destineDesc      String //endereço ou nome do local
+    userId           String         @unique @db.ObjectId
+    user             Users          @relation(fields: [userId], references: [id])
+    transporterId    String?        @unique @db.ObjectId
+    transporter      Transporters?  @relation(fields: [transporterId], references: [id])
+    created_at       DateTime       @default(now())
+}
+
+model Items {
+    id    String           @id @default(auto()) @map("_id") @db.ObjectId
+    image FurnitureImages?
+    name  String           @unique
+    value Float
+}
+
+model SelectedItems {
+    id             String      @id @default(auto()) @map("_id") @db.ObjectId
+    status         StatusTypes //Accepted InProgress Refused Waiting Finished
+    amount         Int
+    value          Float
+    delivery_price Float
+    userId         String      @unique @db.ObjectId
+    user           Users       @relation(fields: [userId], references: [id])
+    deliveryId     String?     @unique @db.ObjectId
+    delivery       Deliveries? @relation(fields: [deliveryId], references: [id])
+}
+
 model FurnitureImages {
     id            String @id @default(auto()) @map("_id") @db.ObjectId
     image_altname String // nome alternativo da imagem no sistema
     image_path    String // endereço da imagem no sistema
+    item          Items  @relation(fields: [itemId], references: [id])
+    itemId        String @unique @db.ObjectId //id do Transporter
 }
 
 model AvatarImages {
@@ -89,4 +103,12 @@ model AvatarImages {
     user          Users?        @relation(fields: [userId], references: [id])
     transporterId String?       @unique @db.ObjectId
     transporter   Transporters? @relation(fields: [transporterId], references: [id])
+}
+
+enum StatusTypes {
+    Accepted
+    InProgress
+    Refused
+    Waiting
+    Finished
 }
