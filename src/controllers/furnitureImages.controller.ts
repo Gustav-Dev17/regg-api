@@ -58,3 +58,19 @@ export const ChangeFurnitureImage = async (req: Request, res: Response) => {
         }
     }
 }
+
+export const DeleteFurnitureImage = async (req: Request, res: Response) => {
+    try {
+        const image = DeleteFurnitureImages(req.params.id);
+        return res.status(204).json(image);
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            if (e.code === "P2023") {
+                return res.status(409).json({ message: "Malformed id!" });
+            }
+            if (e.code === "P2025") {
+                return res.status(409).json({ message: "Furniture Image does not exist" });
+            }
+        }
+    }
+}
