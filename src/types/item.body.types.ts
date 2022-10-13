@@ -1,9 +1,9 @@
 export interface IRequestItemBody {
   name?: string;
-  item_price?: number;
+  price?: number;
 }
 
-export interface IItem {
+export interface Item {
   name: string;
-  item_price: number;
+  price: number;
 }

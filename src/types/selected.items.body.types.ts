@@ -1,7 +1,7 @@
-export type Status = "Accepted" | "InProgress" | "Refused" | "Waiting" | "Finished";
+export type StatusTypes = "Accepted" | "InProgress" | "Refused" | "Waiting" | "Finished";
 
-export interface IRequestSelectedItemBody {
-  status?: Status;
+export interface IRequestSelectedItemsBody {
+  status?: StatusTypes;
   items_amount?: number;
   items_price?: number;
   delivery_price?: number;
@@ -9,11 +9,18 @@ export interface IRequestSelectedItemBody {
   deliveryId?: string;
 }
 
-export interface ISelectedItem {
-  status: Status;
+export interface ISelectedItems {
+  status: StatusTypes;
   items_amount: number;
   items_price: number;
   delivery_price: number;
   userId: string;
-  deliveryId: string;
+  deliveryId?: string;
+}
+
+export interface ISelectedItemsFields {
+  status: StatusTypes;
+  items_amount: number;
+  items_price: number;
+  delivery_price: number;
 }
