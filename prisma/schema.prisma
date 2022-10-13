@@ -28,8 +28,8 @@ model Transporters {
     name              String
     phone             String        @unique
     cpf               String        @unique
-    license_category  String // categoria da habiitação do transportador
-    transport_license Boolean // licença do transportador para o frete ou transporte de cargas
+    license_category  String
+    transport_license Boolean
     email             String        @unique
     password          String
     //relacionamentos
@@ -43,20 +43,20 @@ model Transporters {
 
 model Vehicles {
     id            String       @id @default(auto()) @map("_id") @db.ObjectId
-    owner_name    String // nome do dono do véiculo
-    owner_cpf     String // CPF do dono do vepiculo
-    brand         String // marca do véiculo 
-    model         String // modelo do véiculo 
-    capacity      String? // capacidade de carga e transporte do véiculo 
-    year          String // ano do véiculo 
-    color         String? // cor predominante do veículo
-    fuel          String? // combustível  usado
-    license_plate String       @unique // n. da placa
-    renavam       String       @unique // renavam
-    chassi        String       @unique // chassi
+    owner_name    String
+    owner_cpf     String
+    brand         String
+    model         String
+    capacity      String?
+    year          String
+    color         String?
+    fuel          String?
+    license_plate String       @unique
+    renavam       String       @unique
+    chassi        String       @unique
     //relacionamentos
-    transporter   Transporters @relation(fields: [transporterId], references: [id], onDelete: Cascade) //relacionamento 1-to-1 com Transporter
-    transporterId String       @unique @db.ObjectId //id do Transporter
+    transporter   Transporters @relation(fields: [transporterId], references: [id], onDelete: Cascade)
+    transporterId String       @unique @db.ObjectId
     //criado e ou atualizado em
     created_at    DateTime     @default(now())
     updated_at    DateTime     @updatedAt
@@ -66,10 +66,10 @@ model Deliveries {
     id            String         @id @default(auto()) @map("_id") @db.ObjectId
     status        StatusTypes //Accepted InProgress Refused Waiting Finished
     selectedItems SelectedItems?
-    origin        String //coordenadas da origem
-    origin_desc   String //endereço ou nome do local
-    destine       String //coordenadas do destino
-    destine_desc  String //endereço ou nome do local
+    origin        String
+    origin_desc   String
+    destine       String
+    destine_desc  String
     //relacionamentos
     userId        String         @unique @db.ObjectId
     user          Users          @relation(fields: [userId], references: [id])
@@ -93,7 +93,7 @@ model Items {
 
 model SelectedItems {
     id             String      @id @default(auto()) @map("_id") @db.ObjectId
-    status         StatusTypes //Accepted InProgress Refused Waiting Finished
+    status         StatusTypes
     items_amount   Int
     items_price    Float
     delivery_price Float
@@ -109,11 +109,11 @@ model SelectedItems {
 
 model FurnitureImages {
     id            String   @id @default(auto()) @map("_id") @db.ObjectId
-    image_altname String // nome alternativo da imagem no sistema
-    image_path    String // endereço da imagem no sistema
+    image_altname String
+    image_path    String
     //relacionamentos
     item          Items    @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    itemId        String   @unique @db.ObjectId //id do Transporter
+    itemId        String   @unique @db.ObjectId
     //criado e ou atualizado em
     created_at    DateTime @default(now())
     updated_at    DateTime @updatedAt
