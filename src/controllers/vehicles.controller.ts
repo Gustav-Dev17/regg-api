@@ -40,7 +40,7 @@ export const ReadAllVehicles = async (_req: Request, res: Response) => {
 export const ReadVehicleByTransporter = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    req.body.userId = id;
+    // req.body.userId = id;
     const vehicles = await ListVehicleByUserService(id);
     return res.status(200).json(vehicles);
   } catch (e) {

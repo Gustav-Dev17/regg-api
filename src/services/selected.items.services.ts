@@ -4,9 +4,12 @@ import {
   ReadSelectedItemsByUserId,
   ReadSelectedItemsById,
   ReadAllSelectedItems,
+  ReadSelectedItemsByIdAndStatus,
   UpdateSelectedItems,
   DeleteSelectedItems,
 } from "repositories/selected.items.repository";
+
+export type StatusTypes = "InProgress" | "Finished";
 
 export const CreateSelectedItemsService = (body: ISelectedItems) => {
   try {
@@ -35,6 +38,14 @@ export const ListSelectedItemsByIdService = (id: string) => {
 export const ListAllSelectedItemsService = () => {
   try {
     return ReadAllSelectedItems();
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
+export const ListSelectedItemsByUserIdAndStatusService = (id: string, status: StatusTypes) => {
+  try {
+    return ReadSelectedItemsByIdAndStatus(id, status);
   } catch (e) {
     throw new Error((e as Error).message);
   }

@@ -5,9 +5,12 @@ import {
   ListSelectedItemsByUserIdService,
   ListSelectedItemsByIdService,
   ListAllSelectedItemsService,
+  ListSelectedItemsByUserIdAndStatusService,
   UpdateSelectedItemsService,
   DeleteSelectedItemsService,
 } from "services/selected.items.services";
+
+export type StatusTypes = "InProgress" | "Finished";
 
 export const CreateSelectedItems = async (req: Request, res: Response) => {
   try {
@@ -43,6 +46,16 @@ export const ReadAllSelectedItems = async (__: Request, res: Response) => {
   try {
     const items = await ListAllSelectedItemsService();
     return res.status(200).json(items);
+  } catch (e) {
+    return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
+  }
+};
+
+export const ReadSelectedItemsByUserIdAndStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+    const item = await ListSelectedItemsByUserIdAndStatusService(id, req.params.status as StatusTypes);
+    return res.status(200).json(item);
   } catch (e) {
     return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
   }

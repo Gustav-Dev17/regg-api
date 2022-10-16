@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 interface TokenPayload {
   userId?: string;
+  userType: string;
   transporterId?: string;
   transporterName?: string;
   transporterCPF?: string;
@@ -20,9 +21,11 @@ export const AuthMiddleware = async (req: Request, res: Response, next: NextFunc
     const decoded = verify(token, authConf.secret) as TokenPayload;
     if (decoded.userId) {
       req.id = decoded.userId;
+      req.userType = decoded.userType;
     }
     if (decoded.transporterId) {
       req.id = decoded.transporterId;
+      req.userType = decoded.userType;
       req.transporterName = decoded.transporterName;
       req.transporterCPF = decoded.transporterCPF;
     }

@@ -1,6 +1,8 @@
 import prisma from "services/prisma.services";
 import { ISelectedItems, IRequestSelectedItemsBody } from "types/selected.items.body.types";
 
+export type StatusTypes = "InProgress" | "Finished";
+
 export const CreateSelectedItemsRepo = (body: ISelectedItems) => {
   return prisma.selectedItems.create({ data: body });
 };
@@ -23,6 +25,14 @@ export const ReadSelectedItemsById = (id: string) => {
 
 export const ReadAllSelectedItems = () => {
   return prisma.selectedItems.findMany();
+};
+
+export const ReadSelectedItemsByIdAndStatus = (id: string, status: StatusTypes) => {
+  try {
+    return prisma.selectedItems.findMany({ where: { id, status } });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
 };
 
 export const UpdateSelectedItems = (body: IRequestSelectedItemsBody, id: string) => {

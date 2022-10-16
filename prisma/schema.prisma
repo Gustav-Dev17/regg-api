@@ -9,6 +9,7 @@ generator client {
 
 model Users {
     id             String         @id @default(auto()) @map("_id") @db.ObjectId
+    user_type      UserTypes      @default(Client)
     name           String
     cpf            String         @unique
     phone          String         @unique
@@ -25,6 +26,7 @@ model Users {
 
 model Transporters {
     id                String        @id @default(auto()) @map("_id") @db.ObjectId
+    user_type         UserTypes     @default(Transporter)
     name              String
     phone             String        @unique
     cpf               String        @unique
@@ -63,21 +65,24 @@ model Vehicles {
 }
 
 model Deliveries {
-    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
     status        StatusTypes //Accepted InProgress Refused Waiting Finished
-    selectedItems SelectedItems?
+    // selectedItems SelectedItems?
     origin        String
     origin_desc   String
     destine       String
     destine_desc  String
     //relacionamentos
-    userId        String         @unique @db.ObjectId
-    user          Users          @relation(fields: [userId], references: [id])
-    transporterId String?        @unique @db.ObjectId
-    transporter   Transporters?  @relation(fields: [transporterId], references: [id])
+    userId        String        @unique @db.ObjectId
+    user          Users         @relation(fields: [userId], references: [id])
+    transporterId String?       @unique @db.ObjectId
+    transporter   Transporters? @relation(fields: [transporterId], references: [id])
+
+    selectedItemsId String?        @unique @db.ObjectId
+    selectedItems   SelectedItems? @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
-    created_at    DateTime       @default(now())
-    updated_at    DateTime       @updatedAt
+    created_at      DateTime       @default(now())
+    updated_at      DateTime       @updatedAt
 }
 
 model Items {
@@ -94,17 +99,17 @@ model Items {
 model SelectedItems {
     id             String      @id @default(auto()) @map("_id") @db.ObjectId
     status         StatusTypes
+    items          ItemsType[]
     items_amount   Int
     items_price    Float
     delivery_price Float
     //relacionamentos
     userId         String      @unique @db.ObjectId
     user           Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    deliveryId     String?     @unique @db.ObjectId
-    delivery       Deliveries? @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
     created_at     DateTime    @default(now())
     updated_at     DateTime    @updatedAt
+    Deliveries     Deliveries?
 }
 
 model FurnitureImages {
@@ -138,4 +143,18 @@ enum StatusTypes {
     Refused
     Waiting
     Finished
+    Cancelled
+}
+
+enum UserTypes {
+    Client
+    Transporter
+}
+
+type ItemsType {
+    id       String
+    image    String
+    quantity Int
+    title    String
+    price    Float
 }

@@ -1,7 +1,7 @@
-export type Status = "Accepted" | "InProgress" | "Refused" | "Waiting" | "Finished";
+export type StatusTypes = "Accepted" | "InProgress" | "Refused" | "Waiting" | "Finished" | "Cancelled";
 
 export interface IRequestDeliveryBody {
-  status?: Status;
+  status?: StatusTypes;
   origin?: string;
   origin_desc?: string;
   destine?: string;
@@ -11,7 +11,7 @@ export interface IRequestDeliveryBody {
 }
 
 export interface IDelivery {
-  status: Status;
+  status: StatusTypes;
   origin: string;
   origin_desc: string;
   destine: string;

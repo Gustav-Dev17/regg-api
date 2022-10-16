@@ -18,10 +18,11 @@ export const LoginService = async (email: string, password: string) => {
         transporterId: transporter.id,
         transporterName: transporter.name,
         transporterCPF: transporter.cpf,
+        userType: transporter.user_type,
       },
       authConf.secret as string,
       {
-        expiresIn: authConf.expires
+        expiresIn: authConf.expires,
       },
     );
 
