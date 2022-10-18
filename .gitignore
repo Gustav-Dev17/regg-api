@@ -12,3 +12,6 @@ package-*.json
 
 # Does not need to upload this folder
 furniture-images/
+
+# Jetbrains new IDE - Fleet
+.fleet

@@ -1,6 +1,6 @@
 export interface IRequestVehicleBody {
   owner_name?: string;
-  owner_cpf_cnpj?: string;
+  owner_cpf?: string;
   brand?: string;
   model?: string;
   capacity?: string;
