@@ -11,9 +11,21 @@ import {
   ReadSelectedItemsById,
   ReadSelectedItemsByUserId,
   ReadAllSelectedItems,
+  ReadSelectedItemsByUserIdAndStatus,
   UpdateSelectedItems,
   DeleteSelectedItems,
 } from "controllers/selected.items.controller";
+import {
+  CreateDelivery,
+  ReadDelivery,
+  ReadAllDeliveries,
+  ReadDeliveriesByUser,
+  ReadDeliveriesByUserAndStatus,
+  ReadDeliveriesByTransporter,
+  ReadDeliveriesByTransporterAndStatus,
+  UpdateDelivery,
+  DeleteDelivery,
+} from "controllers/deliveries.controller";
 
 const route = express.Router();
 
@@ -23,14 +35,16 @@ route.post("/user/login", validate(loginSchema), DoLogin);
 route.post("/user", validate(userSchema), CreateUser);
 route.get("/user", AuthMiddleware, ReadUser);
 route.get("/users", AuthMiddleware, ReadAllUsers);
-route.patch("/user", validate(userSchema), AuthMiddleware, UpdateUser);
+route.patch("/user", AuthMiddleware, UpdateUser);
 route.delete("/user", AuthMiddleware, DeleteUser);
 
 //user's package of items
-route.post("/selectedItems/create", validate(selectedItemsSchema), CreateSelectedItems);
+route.post("/selectedItems/create", validate(selectedItemsSchema), AuthMiddleware, CreateSelectedItems);
+route.get("/selectedItems/find/:id", AuthMiddleware, ReadSelectedItemsById);
 route.get("/selectedItems/read", AuthMiddleware, ReadSelectedItemsByUserId);
 route.get("/selectedItems/readAll", AuthMiddleware, ReadAllSelectedItems);
-route.get("/selectedItems/find/:id", AuthMiddleware, ReadSelectedItemsById);
-route.patch("/selectedItems/update/:id", validate(selectedItemsSchema), AuthMiddleware, UpdateSelectedItems);
+route.get("/selectedItems/readBy", AuthMiddleware, ReadSelectedItemsByUserIdAndStatus); //query example: ?status=2
+route.patch("/selectedItems/update/:id", AuthMiddleware, UpdateSelectedItems);
 route.delete("/selectedItems/delete/:id", AuthMiddleware, DeleteSelectedItems);
+
 export default route;

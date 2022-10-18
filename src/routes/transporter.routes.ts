@@ -15,8 +15,8 @@ route.post("/transporter/login", validate(loginSchema), DoLogin);
 //transporter routes
 route.post("/transporter", validate(transporterSchema), CreateTransporter);
 route.get("/transporter", AuthMiddleware, ReadTransporter);
-route.get("/transporters", AuthMiddleware, ReadAllTransporters);
-route.patch("/transporter", validate(transporterSchema), AuthMiddleware, UpdateTransporter);
+route.get("/transporters", AuthMiddleware, ReadAllTransporters); //query example to paginate: ?page=2
+route.patch("/transporter", AuthMiddleware, UpdateTransporter);
 route.delete("/transporter", AuthMiddleware, DeleteTransporter);
 
 //transporter routes
@@ -24,7 +24,7 @@ route.post("/vehicle", validate(vehicleSchema), AuthMiddleware, CreateVehicle);
 route.get("/vehicle/:id", AuthMiddleware, AuthMiddleware, ReadVehicle);
 route.get("/vehicles", AuthMiddleware, ReadAllVehicles);
 route.get("/transporter/vehicle", AuthMiddleware, AuthMiddleware, ReadVehicleByTransporter);
-route.patch("/vehicle/:id", validate(vehicleSchema), AuthMiddleware, UpdateVehicle);
+route.patch("/vehicle/:id", AuthMiddleware, UpdateVehicle);
 route.delete("/vehicle/:id", AuthMiddleware, DeleteVehicle);
 
 export default route;

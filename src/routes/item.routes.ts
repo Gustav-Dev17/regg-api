@@ -9,7 +9,7 @@ const route = express.Router();
 route.post("item/create", validate(itemSchema), CreateItem);
 route.get("item/read/:id", ReadItem);
 route.get("item/readAll", ReadAllItems);
-route.patch("item/update/:id", validate(itemSchema), UpdateItem);
+route.patch("item/update/:id", UpdateItem);
 route.delete("item/delete/:id", DeleteItem);
 
 export default route;

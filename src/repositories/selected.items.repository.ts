@@ -27,9 +27,9 @@ export const ReadAllSelectedItems = () => {
   return prisma.selectedItems.findMany();
 };
 
-export const ReadSelectedItemsByIdAndStatus = (id: string, status: StatusTypes) => {
+export const ReadSelectedItemsByUserIdAndStatus = (userId: string, status: StatusTypes) => {
   try {
-    return prisma.selectedItems.findMany({ where: { id, status } });
+    return prisma.selectedItems.findMany({ where: { userId, status } });
   } catch (e) {
     throw new Error((e as Error).message);
   }

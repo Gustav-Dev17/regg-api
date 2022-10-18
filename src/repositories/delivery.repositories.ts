@@ -31,33 +31,14 @@ export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
       skip: PgConfig.perPage * pageNumber,
-      //   where: { userId },
-      where: {
-        AND: [
-          {
-            userId: userId,
-          },
-          {
-            status: "Accepted",
-          },
-          {
-            status: "Cancelled",
-          },
-          {
-            status: "InProgress",
-          },
-          {
-            status: "Refused",
-          },
-          {
-            status: "Waiting",
-          },
-        ],
-      },
+      where: { AND: [{ userId: userId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
       orderBy: { updated_at: "desc" },
     });
   } else {
-    return prisma.deliveries.findMany();
+    return prisma.deliveries.findMany({
+      where: { AND: [{ userId: userId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
+      orderBy: { updated_at: "desc" },
+    });
   }
 };
 
@@ -70,7 +51,10 @@ export const ReadDeliveriesByUserAndStatus = (userId: string, pageNumber: number
       orderBy: { updated_at: "desc" },
     });
   } else {
-    return prisma.deliveries.findMany();
+    return prisma.deliveries.findMany({
+      where: { userId, status },
+      orderBy: { updated_at: "desc" },
+    });
   }
 };
 
@@ -79,33 +63,14 @@ export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: n
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
       skip: PgConfig.perPage * pageNumber,
-      //   where: { transporterId },
-      where: {
-        AND: [
-          {
-            transporterId: transporterId,
-          },
-          {
-            status: "Accepted",
-          },
-          {
-            status: "Cancelled",
-          },
-          {
-            status: "InProgress",
-          },
-          {
-            status: "Refused",
-          },
-          {
-            status: "Waiting",
-          },
-        ],
-      },
+      where: { AND: [{ transporterId: transporterId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
       orderBy: { updated_at: "desc" },
     });
   } else {
-    return prisma.deliveries.findMany();
+    return prisma.deliveries.findMany({
+      where: { AND: [{ transporterId: transporterId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
+      orderBy: { updated_at: "desc" },
+    });
   }
 };
 
@@ -118,7 +83,10 @@ export const ReadDeliveriesByTransporterAndStatus = (transporterId: string, page
       orderBy: { updated_at: "desc" },
     });
   } else {
-    return prisma.deliveries.findMany();
+    return prisma.deliveries.findMany({
+      where: { transporterId, status },
+      orderBy: { updated_at: "desc" },
+    });
   }
 };
 

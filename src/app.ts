@@ -1,9 +1,11 @@
 import cors from "cors";
 import express from "express";
-import itemRoutes from "routes/item.routes"
+import itemRoutes from "routes/item.routes";
 import userRoutes from "routes/user.routes";
 import transporterRoutes from "routes/transporter.routes";
 import furnitureImagesRoutes from "routes/furnitureImages.routes";
+import deliveryRoutes from "routes/delivery.routes";
+import googleAuth from "routes/auth.google.routes";
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use(itemRoutes);
 app.use(userRoutes);
 app.use(transporterRoutes);
 app.use(furnitureImagesRoutes);
+app.use(deliveryRoutes);
+app.use(googleAuth);
 
 app.get("/", (__, res) => {
   res.send("Back-end is running...");

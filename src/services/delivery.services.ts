@@ -1,5 +1,5 @@
 import { IDelivery, IRequestDeliveryBody } from "./../types/delivery.body.types";
-import { Request, Response } from "express";
+import { ReadSelectedItemsById, UpdateSelectedItems } from "repositories/selected.items.repository";
 import {
   CreateDeliveriesRepo,
   ReadDeliveryByID,
@@ -14,7 +14,7 @@ import {
 
 import { StatusTypes } from "types/delivery.body.types";
 
-export const CreateDeliveryService = async (body: IDelivery, id: string) => {
+export const CreateDeliveryService = async (body: IDelivery) => {
   try {
     return CreateDeliveriesRepo(body);
   } catch (e) {
@@ -73,9 +73,9 @@ export const ReadDeliveriesByTransporterAndStatusService = (id: string, pageNumb
 export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: string, userType: string) => {
   try {
     const delivery = await ReadDeliveryByID(id);
-    
+
     if (userType === "Client") {
-      if (delivery?.status === "Waiting" || "Accepted" || "Refused") {
+      if (delivery?.status === "Waiting" || delivery?.status === "Accepted" || delivery?.status === "Refused") {
         if (body.status === "Cancelled") {
           return DeleteDeliveryService(id);
         }
@@ -85,14 +85,24 @@ export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: stri
     }
 
     if (userType === "Transporter") {
-      if (body.status === "Accepted" || "InProgress" || "Finished") {
+      if (body.status === "Refused" || body.status === "Cancelled") {
+        const status = body.status || (delivery?.status as StatusTypes);
+        return UpdateDelivery({ status, transporterId: null }, id);
+      }
+      if (body.status === "Accepted" || body.status === "InProgress") {
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status }, id);
       }
-      if (body.status === "Refused" || "Cancelled") {
+      if (body.status === "Finished") {
+        try {
+          const selectedItemId = delivery?.selectedItemsId as string;
+          const status = "Finished" as StatusTypes;
+          await UpdateSelectedItems({ status }, selectedItemId); //atualiza status dos items
+        } catch (e) {
+          throw new Error((e as Error).message);
+        }
         const status = body.status || (delivery?.status as StatusTypes);
-        const transporterId = "" || (delivery?.transporterId as string);
-        return UpdateDelivery({ status, transporterId }, id);
+        return UpdateDelivery({ status }, id);
       } else {
         throw new Error("Error. Something went wrong!");
       }

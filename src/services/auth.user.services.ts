@@ -5,16 +5,15 @@ import { authConf } from "config/auth.config";
 
 export const LoginService = async (email: string, password: string) => {
   try {
-    
-        const user = await prisma.users.findFirstOrThrow({ where: { email } });
-        if (!user) {
-        throw new Error("User does not exist!");
-        }
-        const matchPassword = await bcrypt.compare(password, user.password);
-        if (!matchPassword) {
-        throw new Error("Invalid credentials!");
-        }
-        const token = jwt.sign({ userId: user.id, userType: user.user_type }, authConf.secret as string, { expiresIn: authConf.expires });
+    const user = await prisma.users.findFirstOrThrow({ where: { email } });
+    if (!user) {
+      throw new Error("User does not exist!");
+    }
+    const matchPassword = await bcrypt.compare(password, user.password);
+    if (!matchPassword) {
+      throw new Error("Invalid credentials!");
+    }
+    const token = jwt.sign({ userId: user.id, userType: user.user_type }, authConf.secret as string, { expiresIn: authConf.expires });
 
     return token;
   } catch (e) {

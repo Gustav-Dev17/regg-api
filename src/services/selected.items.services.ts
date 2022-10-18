@@ -4,7 +4,7 @@ import {
   ReadSelectedItemsByUserId,
   ReadSelectedItemsById,
   ReadAllSelectedItems,
-  ReadSelectedItemsByIdAndStatus,
+  ReadSelectedItemsByUserIdAndStatus,
   UpdateSelectedItems,
   DeleteSelectedItems,
 } from "repositories/selected.items.repository";
@@ -45,7 +45,7 @@ export const ListAllSelectedItemsService = () => {
 
 export const ListSelectedItemsByUserIdAndStatusService = (id: string, status: StatusTypes) => {
   try {
-    return ReadSelectedItemsByIdAndStatus(id, status);
+    return ReadSelectedItemsByUserIdAndStatus(id, status);
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -55,10 +55,11 @@ export const UpdateSelectedItemsService = async (body: IRequestSelectedItemsBody
   try {
     const item = await ReadSelectedItemsById(id);
     const status = body.status || item?.status;
+    const items = body.items || item?.items;
     const items_amount = body.items_amount || item?.items_amount;
     const items_price = body.items_price || item?.items_price;
     const delivery_price = body.delivery_price || item?.delivery_price;
-    return UpdateSelectedItems({ status, items_amount, items_price, delivery_price }, id);
+    return UpdateSelectedItems({ status, items, items_amount, items_price, delivery_price }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }

@@ -1,4 +1,5 @@
 import prisma from "services/prisma.services";
+import { PgConfig } from "config/pagination.config";
 import { ITransporter, IRequestTransporterBody } from "types/transporter.body.types";
 
 export const CreateTransportersRepo = (body: ITransporter) => {
@@ -13,8 +14,15 @@ export const ReadTransporterByID = (id: string) => {
   }
 };
 
-export const ReadTransporters = () => {
-  return prisma.transporters.findMany();
+export const ReadTransporters = (pageNumber?: number) => {
+  if (pageNumber) {
+    return prisma.transporters.findMany({
+      take: PgConfig.perPage,
+      skip: PgConfig.perPage * pageNumber,
+    });
+  } else {
+    return prisma.transporters.findMany();
+  }
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {

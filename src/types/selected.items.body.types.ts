@@ -1,4 +1,4 @@
-export type StatusTypes = "Accepted" | "InProgress" | "Refused" | "Waiting" | "Finished" | "Cancelled";
+export type StatusTypes = "Accepted" | "InProgress" | "Selected" | "Refused" | "Waiting" | "Finished" | "Cancelled";
 
 export type ItemsType = {
   id: string;
@@ -28,7 +28,7 @@ export interface ISelectedItems {
 
 export interface ISelectedItemsFields {
   status: StatusTypes;
-  items?: ItemsType[];
+  items: ItemsType[];
   items_amount: number;
   items_price: number;
   delivery_price: number;

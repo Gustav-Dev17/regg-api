@@ -44,10 +44,10 @@ export const UpdateItem = async (req: Request, res: Response) => {
         return res.status(409).json({ message: "There's already an item with this name!" });
       }
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Item does not exist!" });
+        return res.status(404).json({ message: "Item does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when updating item!", descripton: (e as Error).message });
@@ -61,10 +61,10 @@ export const DeleteItem = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Item does not exist!" });
+        return res.status(404).json({ message: "Item does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when deleting item!", descripton: (e as Error).message });

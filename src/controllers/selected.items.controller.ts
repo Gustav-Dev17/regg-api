@@ -54,7 +54,7 @@ export const ReadAllSelectedItems = async (__: Request, res: Response) => {
 export const ReadSelectedItemsByUserIdAndStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const item = await ListSelectedItemsByUserIdAndStatusService(id, req.params.status as StatusTypes);
+    const item = await ListSelectedItemsByUserIdAndStatusService(id, req.query.status as StatusTypes);
     return res.status(200).json(item);
   } catch (e) {
     return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
@@ -68,10 +68,10 @@ export const UpdateSelectedItems = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Package of selected items does not exist!" });
+        return res.status(404).json({ message: "Package of selected items does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when updating package of items!", descripton: (e as Error).message });
@@ -85,10 +85,10 @@ export const DeleteSelectedItems = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Package of selected items does not exist!" });
+        return res.status(404).json({ message: "Package of selected items does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when deleting package of items!", descripton: (e as Error).message });

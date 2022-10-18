@@ -66,8 +66,7 @@ model Vehicles {
 
 model Deliveries {
     id            String        @id @default(auto()) @map("_id") @db.ObjectId
-    status        StatusTypes //Accepted InProgress Refused Waiting Finished
-    // selectedItems SelectedItems?
+    status        StatusTypes   @default(Waiting)
     origin        String
     origin_desc   String
     destine       String
@@ -78,11 +77,11 @@ model Deliveries {
     transporterId String?       @unique @db.ObjectId
     transporter   Transporters? @relation(fields: [transporterId], references: [id])
 
-    selectedItemsId String?        @unique @db.ObjectId
-    selectedItems   SelectedItems? @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
+    selectedItemsId String        @unique @db.ObjectId
+    selectedItems   SelectedItems @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
-    created_at      DateTime       @default(now())
-    updated_at      DateTime       @updatedAt
+    created_at      DateTime      @default(now())
+    updated_at      DateTime      @updatedAt
 }
 
 model Items {
@@ -139,6 +138,7 @@ model AvatarImages {
 
 enum StatusTypes {
     Accepted
+    Selected
     InProgress
     Refused
     Waiting
