@@ -2,7 +2,6 @@ import prisma from "services/prisma.services";
 
 export const FindUserOrTransporterByEmail = (email: string, userType: string) => {
   try {
-    console.log(email);
     if (userType === "User") {
       return prisma.users.findUnique({ where: { email } });
     }
