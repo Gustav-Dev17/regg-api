@@ -1,12 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { 
-  CreateTransporterService, 
-  DeleteTransporterService, 
-  ListTransporterService, 
-  ListTransportersService, 
-  UpdateTransporterService 
-} from "services/transporters.services";
+import { CreateTransporterService, DeleteTransporterService, ListTransporterService, ListTransportersService, UpdateTransporterService } from "services/transporters.services";
 
 export const CreateTransporter = async (req: Request, res: Response) => {
   try {
@@ -32,10 +26,16 @@ export const ReadTransporter = async (req: Request, res: Response) => {
   }
 };
 
-export const ReadAllTransporters = async (__: Request, res: Response) => {
+export const ReadAllTransporters = async (req: Request, res: Response) => {
   try {
-    const transporters = await ListTransportersService();
-    return res.status(200).json(transporters);
+    if (req.query.page) {
+      var pageNumber: number = parseInt(req.query.page as string);
+      const transporters = await ListTransportersService(pageNumber);
+      return res.status(200).json(transporters);
+    } else {
+      const transporters = await ListTransportersService();
+      return res.status(200).json(transporters);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing transporters!", descripton: (e as Error).message });
   }
@@ -52,10 +52,10 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
         return res.status(409).json({ message: "Email address is already being used!" });
       }
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Transporter does not exist!" });
+        return res.status(404).json({ message: "Transporter does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when updating transporter!", descripton: (e as Error).message });
@@ -70,10 +70,10 @@ export const DeleteTransporter = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(409).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Malformed id!" });
       }
       if (e.code === "P2025") {
-        return res.status(409).json({ message: "Transporter does not exist!" });
+        return res.status(404).json({ message: "Transporter does not exist!" });
       }
     }
     return res.status(400).json({ message: "Error when deleting transporter!", descripton: (e as Error).message });

@@ -19,9 +19,13 @@ export const ListTransporterService = (id: string) => {
   }
 };
 
-export const ListTransportersService = () => {
+export const ListTransportersService = (pageNumber?: number) => {
   try {
-    return ReadTransporters();
+    if (pageNumber) {
+      return ReadTransporters(pageNumber as number);
+    } else {
+      return ReadTransporters();
+    }
   } catch (e) {
     throw new Error((e as Error).message);
   }
