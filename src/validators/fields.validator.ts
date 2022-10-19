@@ -8,11 +8,7 @@ import { ITransporter } from "types/transporter.body.types";
 import { IVehicleFields } from "types/vehicle.body.types";
 import { NextFunction, Request, Response } from "express";
 
-export interface IGooglAuth {
-  email: string;
-}
-
-export const validate = (schema: SchemaOf<ILogin | IUser | ITransporter | IVehicleFields | Item | ISelectedItemsFields | IDeliveryFields | IGooglAuth>) => {
+export const validate = (schema: SchemaOf<ILogin | IUser | ITransporter | IVehicleFields | Item | ISelectedItemsFields | IDeliveryFields>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;

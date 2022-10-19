@@ -6,10 +6,7 @@ export type UserTypes = "User" | "Transporter";
 
 export const CheckEmail = async (req: Request, res: Response) => {
   try {
-    if (req.params.userType !== "User" && req.params.userType !== "Transporter") {
-      return res.status(400).json({ message: "A valid param is required!" });
-    }
-    const userOrTransporter = await FindUserOrTransporter(req.body.email as string, req.params.userType as UserTypes);
+    const userOrTransporter = await FindUserOrTransporter(req.query.email as string, req.query.type as string);
 
     if (userOrTransporter) {
       return res.status(200).json(userOrTransporter);

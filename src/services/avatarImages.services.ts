@@ -53,7 +53,7 @@ export const UpdateAvatarImage = async (body: IRequestAvatarImagesBody, id: stri
     }
 
     const avatarPath = `/${body.avatar_path}` || image?.avatar_path;
-    const userId = body.userId || image?.userId;
+    const userId = body.userId || image?.userId as string;
 
     return UpdateAvatarImageRepo({ avatar_path: avatarPath, userId }, id);
   } catch (e) {
