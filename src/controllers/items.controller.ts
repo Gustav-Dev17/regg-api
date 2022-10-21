@@ -18,7 +18,7 @@ export const CreateItem = async (req: Request, res: Response) => {
 
 export const ReadItem = async (req: Request, res: Response) => {
   try {
-    const item = await ListItemService(req.id);
+    const item = await ListItemService(req.params.id);
     return res.status(200).json(item);
   } catch (e) {
     return res.status(400).json({ message: "Error when listing item!", descripton: (e as Error).message });
@@ -36,7 +36,7 @@ export const ReadAllItems = async (__: Request, res: Response) => {
 
 export const UpdateItem = async (req: Request, res: Response) => {
   try {
-    const item = await UpdateItemService(req.body, req.id);
+    const item = await UpdateItemService(req.body, req.params.id);
     return res.status(200).json(item);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -56,7 +56,7 @@ export const UpdateItem = async (req: Request, res: Response) => {
 
 export const DeleteItem = async (req: Request, res: Response) => {
   try {
-    const item = await DeleteItemService(req.id);
+    const item = await DeleteItemService(req.params.id);
     return res.status(204).json(item);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

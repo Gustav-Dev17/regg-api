@@ -47,7 +47,7 @@ export const ReadFurnitureImagesById = async (req: Request, res: Response) => {
 export const ChangeFurnitureImage = async (req: Request, res: Response) => {
   try {
     const image = UpdateFurnitureImages({ image_altname: req.body.image_altname, image_path: req.file?.path }, req.params.id);
-    return res.status(200).json(image);
+    return res.status(200).json(image); //não está retornando
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {

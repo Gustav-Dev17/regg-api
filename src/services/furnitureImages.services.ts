@@ -4,6 +4,7 @@ import {
   DeleteFurnitureImage,
   ReadFurnitureImageByAltname,
   ReadFurnitureImageById,
+  ReadFurnitureByItemId,
   ReadFurnitureImages,
   UpdateFurnitureImage,
 } from "repositories/furnitureImages.repository";
@@ -12,8 +13,13 @@ import fs from "fs";
 export const UploadFurnitureImages = async (body: IFurnitureImages) => {
   try {
     const altname = await ReadFurnitureImageByAltname(body.image_altname);
+    const itemId = await ReadFurnitureByItemId(body.itemId);
+
     if (altname) {
       throw new Error("Altname already exists");
+    }
+    if (itemId) {
+      throw new Error("There's already an image for this item");
     }
     return CreateFurnitureImagesRepo(body);
   } catch (e) {

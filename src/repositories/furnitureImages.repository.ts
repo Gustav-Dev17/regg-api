@@ -17,6 +17,14 @@ export const ReadFurnitureImageById = (id: string) => {
   }
 };
 
+export const ReadFurnitureByItemId = (itemId: string) => {
+  try {
+    return prisma.furnitureImages.findUnique({ where: { itemId } });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const ReadFurnitureImageByAltname = (image_altname: string) => {
   try {
     return prisma.furnitureImages.findFirst({ where: { image_altname } });
