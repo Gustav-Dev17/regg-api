@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import { loginSchema } from "schemas/login.schema";
 import { DoLogin } from "controllers/auth.user.controller";
 import { userSchema } from "schemas/user.schema";
@@ -27,7 +27,7 @@ import {
   DeleteDelivery,
 } from "controllers/deliveries.controller";
 
-const route = express.Router();
+const route = Router();
 
 route.post("/user/login", validate(loginSchema), DoLogin);
 

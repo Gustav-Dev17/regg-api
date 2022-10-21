@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import { itemSchema } from "schemas/item.schema";
 import { validate } from "validators/fields.validator";
 import { CreateItem, DeleteItem, ReadItem, ReadAllItems, UpdateItem } from "controllers/items.controller";
 
-const route = express.Router();
+const route = Router();
 
 //item routes
 route.post("/item/create", validate(itemSchema), CreateItem);
