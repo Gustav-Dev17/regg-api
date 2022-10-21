@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { uploadAvatarImages } from "config/AvatarImages.config";
+import { uploadAvatarImages } from "../config/AvatarImages.config";
 import {
   UploadAvatarImagesController,
   ReadAllAvatarImagesController,
@@ -8,7 +8,7 @@ import {
   ReadAvatarImagesByUserIdController,
   UpdateAvatarImageController,
   DeleteAvatarImagesController,
-} from "controllers/avatarImages.controller";
+} from "../controllers/avatarImages.controller";
 
 const avatarImagesRoutes = Router();
 

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { loginSchema } from "schemas/login.schema";
-import { vehicleSchema } from "schemas/vehicle.schema";
-import { DoLogin } from "controllers/auth.transporter.controller";
-import { transporterSchema } from "schemas/transporter.schema";
-import { validate } from "validators/fields.validator";
-import { AuthMiddleware } from "middlewares/auth.middleware";
-import { CreateTransporter, DeleteTransporter, ReadTransporter, ReadAllTransporters, UpdateTransporter } from "controllers/transporters.controller";
-import { CreateVehicle, DeleteVehicle, ReadVehicle, ReadVehicleByTransporter, ReadAllVehicles, UpdateVehicle } from "controllers/vehicles.controller";
+import { loginSchema } from "../schemas/login.schema";
+import { vehicleSchema } from "../schemas/vehicle.schema";
+import { DoLogin } from "../controllers/auth.transporter.controller";
+import { transporterSchema } from "../schemas/transporter.schema";
+import { validate } from "../validators/fields.validator";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { CreateTransporter, DeleteTransporter, ReadTransporter, ReadAllTransporters, UpdateTransporter } from "../controllers/transporters.controller";
+import { CreateVehicle, DeleteVehicle, ReadVehicle, ReadVehicleByTransporter, ReadAllVehicles, UpdateVehicle } from "../controllers/vehicles.controller";
 
 const route = Router();
 

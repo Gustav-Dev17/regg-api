@@ -11,7 +11,7 @@ import {
   ReadDeliveriesByTransporterAndStatusService,
   UpdateDeliveryService,
   DeleteDeliveryService,
-} from "services/delivery.services";
+} from "../services/delivery.services";
 
 export const CreateDelivery = async (req: Request, res: Response) => {
   try {

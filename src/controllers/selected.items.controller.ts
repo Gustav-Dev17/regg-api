@@ -8,7 +8,7 @@ import {
   ListSelectedItemsByUserIdAndStatusService,
   UpdateSelectedItemsService,
   DeleteSelectedItemsService,
-} from "services/selected.items.services";
+} from "../services/selected.items.services";
 
 export type StatusTypes = "InProgress" | "Finished";
 

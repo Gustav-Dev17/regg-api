@@ -1,4 +1,4 @@
-import { IFurnitureImages, IRequestFurnitureImagesBody } from "types/furnitureImages.body.types";
+import { IFurnitureImages, IRequestFurnitureImagesBody } from "../types/furnitureImages.body.types";
 import {
   CreateFurnitureImagesRepo,
   DeleteFurnitureImage,
@@ -7,7 +7,7 @@ import {
   ReadFurnitureByItemId,
   ReadFurnitureImages,
   UpdateFurnitureImage,
-} from "repositories/furnitureImages.repository";
+} from "../repositories/furnitureImages.repository";
 import fs from "fs";
 
 export const UploadFurnitureImages = async (body: IFurnitureImages) => {

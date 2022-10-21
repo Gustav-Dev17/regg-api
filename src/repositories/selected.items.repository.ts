@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { ISelectedItems, IRequestSelectedItemsBody } from "types/selected.items.body.types";
+import prisma from "../services/prisma.services";
+import { ISelectedItems, IRequestSelectedItemsBody } from "../types/selected.items.body.types";
 
 export type StatusTypes = "InProgress" | "Finished";
 

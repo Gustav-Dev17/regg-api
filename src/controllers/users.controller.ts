@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateUserService, DeleteUserService, ListUserService, ListUsersService, UpdateUserService } from "services/users.services";
+import { CreateUserService, DeleteUserService, ListUserService, ListUsersService, UpdateUserService } from "../services/users.services";
 
 export const CreateUser = async (req: Request, res: Response) => {
   try {

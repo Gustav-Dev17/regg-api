@@ -1,5 +1,5 @@
-import { IRequestVehicleBody, IVehicle } from "types/vehicle.body.types";
-import { CreateVehiclesRepo, ReadVehicles, ReadVehicleByID, ReadVehicleByUser, UpdateVehicle, DeleteVehicle } from "repositories/vehicles.repository";
+import { IRequestVehicleBody, IVehicle } from "../types/vehicle.body.types";
+import { CreateVehiclesRepo, ReadVehicles, ReadVehicleByID, ReadVehicleByUser, UpdateVehicle, DeleteVehicle } from "../repositories/vehicles.repository";
 
 export const CreateVehicleService = (body: IVehicle) => {
   try {

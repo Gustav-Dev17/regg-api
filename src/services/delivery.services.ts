@@ -1,5 +1,5 @@
-import { IDelivery, IRequestDeliveryBody } from "./../types/delivery.body.types";
-import { ReadSelectedItemsById, UpdateSelectedItems } from "repositories/selected.items.repository";
+import { IDelivery, IRequestDeliveryBody } from "../types/delivery.body.types";
+import { ReadSelectedItemsById, UpdateSelectedItems } from "../repositories/selected.items.repository";
 import {
   CreateDeliveriesRepo,
   ReadDeliveryByID,
@@ -10,9 +10,9 @@ import {
   ReadDeliveriesByTransporterAndStatus,
   UpdateDelivery,
   DeleteDelivery,
-} from "repositories/delivery.repositories";
+} from "../repositories/delivery.repositories";
 
-import { StatusTypes } from "types/delivery.body.types";
+import { StatusTypes } from "../types/delivery.body.types";
 
 export const CreateDeliveryService = async (body: IDelivery) => {
   try {

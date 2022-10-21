@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { IFurnitureImages, IRequestFurnitureImagesBody } from "types/furnitureImages.body.types";
+import prisma from "../services/prisma.services";
+import { IFurnitureImages, IRequestFurnitureImagesBody } from "../types/furnitureImages.body.types";
 
 export const CreateFurnitureImagesRepo = (body: IFurnitureImages) => {
   return prisma.furnitureImages.create({ data: body });

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { IRequestTransporterBody, ITransporter } from "types/transporter.body.types";
-import { CreateTransportersRepo, ReadTransporters, ReadTransporterByID, UpdateTransporter, DeleteTransporter } from "repositories/transporters.repository";
+import { IRequestTransporterBody, ITransporter } from "../types/transporter.body.types";
+import { CreateTransportersRepo, ReadTransporters, ReadTransporterByID, UpdateTransporter, DeleteTransporter } from "../repositories/transporters.repository";
 
 export const CreateTransporterService = (body: ITransporter) => {
   try {

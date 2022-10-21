@@ -1,6 +1,6 @@
-import prisma from "services/prisma.services";
-import { PgConfig } from "config/pagination.config";
-import { ITransporter, IRequestTransporterBody } from "types/transporter.body.types";
+import prisma from "../services/prisma.services";
+import { PgConfig } from "../config/pagination.config";
+import { ITransporter, IRequestTransporterBody } from "../types/transporter.body.types";
 
 export const CreateTransportersRepo = (body: ITransporter) => {
   return prisma.transporters.create({ data: body });

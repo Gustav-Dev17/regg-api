@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateVehicleService, ListVehicleService, ListVehiclesService, ListVehicleByUserService, UpdateVehicleService, DeleteVehicleService } from "services/vehicles.services";
+import { CreateVehicleService, ListVehicleService, ListVehiclesService, ListVehicleByUserService, UpdateVehicleService, DeleteVehicleService } from "../services/vehicles.services";
 
 export const CreateVehicle = async (req: Request, res: Response) => {
   try {

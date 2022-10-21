@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { IVehicle, IRequestVehicleBody } from "types/vehicle.body.types";
+import prisma from "../services/prisma.services";
+import { IVehicle, IRequestVehicleBody } from "../types/vehicle.body.types";
 
 export const CreateVehiclesRepo = (body: IVehicle) => {
   return prisma.vehicles.create({ data: body });

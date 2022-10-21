@@ -1,4 +1,4 @@
-import prisma from "services/prisma.services";
+import prisma from "../services/prisma.services";
 
 export const FindUserOrTransporterByEmail = (email: string, userType: string) => {
   try {

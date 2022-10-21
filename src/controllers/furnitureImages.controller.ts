@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { UpdateFurnitureImages, ReadFurnitureImageId, ReadAllFurnitureImages, UploadFurnitureImages, DeleteFurnitureImages } from "services/furnitureImages.services";
+import { UpdateFurnitureImages, ReadFurnitureImageId, ReadAllFurnitureImages, UploadFurnitureImages, DeleteFurnitureImages } from "../services/furnitureImages.services";
 
 export const UploadFurnitureImage = async (req: Request, res: Response) => {
   try {

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { itemSchema } from "schemas/item.schema";
-import { validate } from "validators/fields.validator";
-import { CreateItem, DeleteItem, ReadItem, ReadAllItems, UpdateItem } from "controllers/items.controller";
+import { itemSchema } from "../schemas/item.schema";
+import { validate } from "../validators/fields.validator";
+import { CreateItem, DeleteItem, ReadItem, ReadAllItems, UpdateItem } from "../controllers/items.controller";
 
 const route = Router();
 

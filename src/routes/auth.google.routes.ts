@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CheckEmail } from "controllers/auth.google.controller";
+import { CheckEmail } from "../controllers/auth.google.controller";
 
 const route = Router();
 

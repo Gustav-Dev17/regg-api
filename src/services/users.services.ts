@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { IRequestUserBody, IUser } from "types/user.body.types";
-import { CreateUsersRepo, ReadUsers, ReadUserByID, UpdateUser, DeleteUser } from "repositories/users.repository";
+import { IRequestUserBody, IUser } from "../types/user.body.types";
+import { CreateUsersRepo, ReadUsers, ReadUserByID, UpdateUser, DeleteUser } from "../repositories/users.repository";
 
 export const CreateUserService = (body: IUser) => {
   try {

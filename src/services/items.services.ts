@@ -1,5 +1,5 @@
-import { IRequestItemBody, Item } from "types/item.body.types";
-import { CreateItemsRepo, ReadItems, ReadItemByID, UpdateItem, DeleteItem } from "repositories/items.repository";
+import { IRequestItemBody, Item } from "../types/item.body.types";
+import { CreateItemsRepo, ReadItems, ReadItemByID, UpdateItem, DeleteItem } from "../repositories/items.repository";
 
 export const CreateItemService = (body: Item) => {
   try {

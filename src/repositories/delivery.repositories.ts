@@ -1,7 +1,7 @@
-import prisma from "services/prisma.services";
-import { PgConfig } from "config/pagination.config";
-import { IDelivery, IRequestDeliveryBody } from "./../types/delivery.body.types";
-import { StatusTypes } from "types/delivery.body.types";
+import prisma from "../services/prisma.services";
+import { PgConfig } from "../config/pagination.config";
+import { IDelivery, IRequestDeliveryBody } from "../types/delivery.body.types";
+import { StatusTypes } from "../types/delivery.body.types";
 
 export const CreateDeliveriesRepo = (body: IDelivery) => {
   return prisma.deliveries.create({ data: body });
