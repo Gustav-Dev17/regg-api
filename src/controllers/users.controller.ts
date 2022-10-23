@@ -12,6 +12,8 @@ export const CreateUser = async (req: Request, res: Response) => {
       cpf: user.cpf,
       phone: user.phone,
       email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -42,6 +44,11 @@ export const ReadUser = async (req: Request, res: Response) => {
       cpf: user?.cpf,
       phone: user?.phone,
       email: user?.email,
+      avatar_image: user?.avatar_image,
+      created_at: user?.created_at,
+      updated_at: user?.updated_at,
+      selected_items: user?.selected_items,
+      deliveries: user?.deliveries
     });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user!", descripton: (e as Error).message });
@@ -68,6 +75,8 @@ export const UpdateUser = async (req: Request, res: Response) => {
       cpf: user.cpf,
       phone: user.phone,
       email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

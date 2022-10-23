@@ -14,6 +14,8 @@ export const CreateTransporter = async (req: Request, res: Response) => {
       email: transporter.email,
       license_category: transporter.license_category,
       transport_license: transporter.transport_license,
+      created_at: transporter.created_at,
+      updated_at: transporter.updated_at,
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -46,6 +48,11 @@ export const ReadTransporter = async (req: Request, res: Response) => {
       email: transporter?.email,
       license_category: transporter?.license_category,
       transport_license: transporter?.transport_license,
+      avatar_image: transporter?.avatar_image,
+      created_at: transporter?.created_at,
+      updated_at: transporter?.updated_at,
+      vehicle: transporter?.vehicle,
+      deliveries: transporter?.deliveries,
     });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing transporter!", descripton: (e as Error).message });
@@ -80,6 +87,8 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
       email: transporter.email,
       license_category: transporter.license_category,
       transport_license: transporter.transport_license,
+      created_at: transporter.created_at,
+      updated_at: transporter.updated_at,
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

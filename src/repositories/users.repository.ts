@@ -7,7 +7,14 @@ export const CreateUsersRepo = (body: IUser) => {
 
 export const ReadUserByID = (id: string) => {
   try {
-    return prisma.users.findUnique({ where: { id } });
+    return prisma.users.findUnique({
+      where: { id },
+      include: {
+        avatar_image: true,
+        selected_items: true,
+        deliveries: true,
+      },
+    });
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -22,6 +29,9 @@ export const ReadUsers = () => {
       cpf: true,
       phone: true,
       email: true,
+      avatar_image: true,
+      selected_items: true,
+      deliveries: true,
     },
   });
 };

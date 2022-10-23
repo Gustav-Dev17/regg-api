@@ -8,7 +8,14 @@ export const CreateTransportersRepo = (body: ITransporter) => {
 
 export const ReadTransporterByID = (id: string) => {
   try {
-    return prisma.transporters.findUnique({ where: { id } });
+    return prisma.transporters.findUnique({
+      where: { id },
+      include: {
+        avatar_image: true,
+        vehicle: true,
+        deliveries: true,
+      },
+    });
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -26,6 +33,9 @@ export const ReadTransporters = (pageNumber?: number) => {
         email: true,
         license_category: true,
         transport_license: true,
+        avatar_image: true,
+        vehicle: true,
+        deliveries: true
       },
       take: PgConfig.perPage,
       skip: PgConfig.perPage * (pageNumber - 1),
