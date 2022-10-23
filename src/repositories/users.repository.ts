@@ -30,6 +30,8 @@ export const ReadUsers = () => {
       phone: true,
       email: true,
       avatar_image: true,
+      created_at: true,
+      updated_at: true,
       selected_items: true,
       deliveries: true,
     },

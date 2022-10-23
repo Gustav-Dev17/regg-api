@@ -34,8 +34,10 @@ export const ReadTransporters = (pageNumber?: number) => {
         license_category: true,
         transport_license: true,
         avatar_image: true,
+        created_at: true,
+        updated_at: true,
         vehicle: true,
-        deliveries: true
+        deliveries: true,
       },
       take: PgConfig.perPage,
       skip: PgConfig.perPage * (pageNumber - 1),
@@ -51,6 +53,11 @@ export const ReadTransporters = (pageNumber?: number) => {
         email: true,
         license_category: true,
         transport_license: true,
+        avatar_image: true,
+        created_at: true,
+        updated_at: true,
+        vehicle: true,
+        deliveries: true,
       },
     });
   }
