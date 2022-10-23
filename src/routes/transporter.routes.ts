@@ -15,7 +15,7 @@ route.post("/transporter/login", validate(loginSchema), DoLogin);
 //transporter routes
 route.post("/transporter", validate(transporterSchema), CreateTransporter);
 route.get("/transporter", AuthMiddleware, ReadTransporter);
-route.get("/transporters", AuthMiddleware, ReadAllTransporters); //query example to paginate: ?page=2
+route.get("/transporters", ReadAllTransporters); //query example to paginate: ?page=2
 route.patch("/transporter", AuthMiddleware, UpdateTransporter);
 route.delete("/transporter", AuthMiddleware, DeleteTransporter);
 

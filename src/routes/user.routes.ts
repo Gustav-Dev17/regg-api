@@ -34,7 +34,7 @@ route.post("/user/login", validate(loginSchema), DoLogin);
 //user routes
 route.post("/user", validate(userSchema), CreateUser);
 route.get("/user", AuthMiddleware, ReadUser);
-route.get("/users", AuthMiddleware, ReadAllUsers);
+route.get("/users", ReadAllUsers);
 route.patch("/user", AuthMiddleware, UpdateUser);
 route.delete("/user", AuthMiddleware, DeleteUser);
 

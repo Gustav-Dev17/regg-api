@@ -14,7 +14,16 @@ export const ReadUserByID = (id: string) => {
 };
 
 export const ReadUsers = () => {
-  return prisma.users.findMany();
+  return prisma.users.findMany({
+    select: {
+      id: true,
+      user_type: true,
+      name: true,
+      cpf: true,
+      phone: true,
+      email: true,
+    },
+  });
 };
 
 export const UpdateUser = (body: IRequestUserBody, id: string) => {

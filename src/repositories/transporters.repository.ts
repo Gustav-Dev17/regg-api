@@ -17,11 +17,32 @@ export const ReadTransporterByID = (id: string) => {
 export const ReadTransporters = (pageNumber?: number) => {
   if (pageNumber) {
     return prisma.transporters.findMany({
+      select: {
+        id: true,
+        user_type: true,
+        name: true,
+        cpf: true,
+        phone: true,
+        email: true,
+        license_category: true,
+        transport_license: true,
+      },
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
     });
   } else {
-    return prisma.transporters.findMany();
+    return prisma.transporters.findMany({
+      select: {
+        id: true,
+        user_type: true,
+        name: true,
+        cpf: true,
+        phone: true,
+        email: true,
+        license_category: true,
+        transport_license: true,
+      },
+    });
   }
 };
 

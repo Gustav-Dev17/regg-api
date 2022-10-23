@@ -5,7 +5,14 @@ import { CreateUserService, DeleteUserService, ListUserService, ListUsersService
 export const CreateUser = async (req: Request, res: Response) => {
   try {
     const user = await CreateUserService(req.body);
-    return res.status(201).json(user);
+    return res.status(201).json({
+      id: user.id,
+      user_type: user.user_type,
+      name: user.name,
+      cpf: user.cpf,
+      phone: user.phone,
+      email: user.email,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -28,7 +35,14 @@ export const ReadUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await ListUserService(id);
-    return res.status(200).json(user);
+    return res.status(200).json({
+      id: user?.id,
+      user_type: user?.user_type,
+      name: user?.name,
+      cpf: user?.cpf,
+      phone: user?.phone,
+      email: user?.email,
+    });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user!", descripton: (e as Error).message });
   }
@@ -47,7 +61,14 @@ export const UpdateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await UpdateUserService(req.body, id);
-    return res.status(200).json(user);
+    return res.status(200).json({
+      id: user.id,
+      user_type: user.user_type,
+      name: user.name,
+      cpf: user.cpf,
+      phone: user.phone,
+      email: user.email,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -76,7 +97,7 @@ export const DeleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await DeleteUserService(id);
-    return res.status(204).json(user);
+    return res.status(204).json({ user });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {

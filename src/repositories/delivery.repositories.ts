@@ -19,7 +19,7 @@ export const ReadDeliveries = (pageNumber: number) => {
   if (pageNumber) {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
     });
   } else {
     return prisma.deliveries.findMany();
@@ -30,7 +30,7 @@ export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
   if (pageNumber) {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
       where: { AND: [{ userId: userId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
       orderBy: { updated_at: "desc" },
     });
@@ -46,7 +46,7 @@ export const ReadDeliveriesByUserAndStatus = (userId: string, pageNumber: number
   if (pageNumber) {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
       where: { userId, status },
       orderBy: { updated_at: "desc" },
     });
@@ -62,7 +62,7 @@ export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: n
   if (pageNumber) {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
       where: { AND: [{ transporterId: transporterId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
       orderBy: { updated_at: "desc" },
     });
@@ -78,7 +78,7 @@ export const ReadDeliveriesByTransporterAndStatus = (transporterId: string, page
   if (pageNumber) {
     return prisma.deliveries.findMany({
       take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
+      skip: PgConfig.perPage * (pageNumber - 1),
       where: { transporterId, status },
       orderBy: { updated_at: "desc" },
     });

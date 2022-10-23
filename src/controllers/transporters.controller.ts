@@ -5,7 +5,16 @@ import { CreateTransporterService, DeleteTransporterService, ListTransporterServ
 export const CreateTransporter = async (req: Request, res: Response) => {
   try {
     const transporter = await CreateTransporterService(req.body);
-    return res.status(201).json(transporter);
+    return res.status(201).json({
+      id: transporter.id,
+      user_type: transporter.user_type,
+      name: transporter.name,
+      cpf: transporter.cpf,
+      phone: transporter.phone,
+      email: transporter.email,
+      license_category: transporter.license_category,
+      transport_license: transporter.transport_license,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -28,7 +37,16 @@ export const ReadTransporter = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const transporter = await ListTransporterService(id);
-    return res.status(200).json(transporter);
+    return res.status(200).json({
+      id: transporter?.id,
+      user_type: transporter?.user_type,
+      name: transporter?.name,
+      cpf: transporter?.cpf,
+      phone: transporter?.phone,
+      email: transporter?.email,
+      license_category: transporter?.license_category,
+      transport_license: transporter?.transport_license,
+    });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing transporter!", descripton: (e as Error).message });
   }
@@ -37,8 +55,8 @@ export const ReadTransporter = async (req: Request, res: Response) => {
 export const ReadAllTransporters = async (req: Request, res: Response) => {
   try {
     if (req.query.page) {
-      var pageNumber: number = parseInt(req.query.page as string);
-      const transporters = await ListTransportersService(pageNumber);
+      const pageNumber = parseInt(req.query.page as string);
+      const transporters = await ListTransportersService(pageNumber as number);
       return res.status(200).json(transporters);
     } else {
       const transporters = await ListTransportersService();
@@ -53,7 +71,16 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const transporter = await UpdateTransporterService(req.body, id);
-    return res.status(200).json(transporter);
+    return res.status(200).json({
+      id: transporter.id,
+      user_type: transporter.user_type,
+      name: transporter.name,
+      cpf: transporter.cpf,
+      phone: transporter.phone,
+      email: transporter.email,
+      license_category: transporter.license_category,
+      transport_license: transporter.transport_license,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
