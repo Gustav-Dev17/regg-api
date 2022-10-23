@@ -9,7 +9,15 @@ export const CreateTransporter = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
-        return res.status(409).json({ message: "Email address is already being used!" });
+        if (e.meta?.target === "Transporters_cpf_key") {
+          return res.status(409).json({ message: "CPF is already being used!" });
+        }
+        if (e.meta?.target === "Transporters_phone_key") {
+          return res.status(409).json({ message: "Phone number is already being used!" });
+        }
+        if (e.meta?.target === "Transporters_email_key") {
+          return res.status(409).json({ message: "E-mail address is already being used!" });
+        }
       }
     }
     return res.status(400).json({ message: "Error when creating transporter!", descripton: (e as Error).message });
@@ -49,7 +57,15 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
-        return res.status(409).json({ message: "Email address is already being used!" });
+        if (e.meta?.target === "Transporters_cpf_key") {
+          return res.status(409).json({ message: "CPF is already being used!" });
+        }
+        if (e.meta?.target === "Transporters_phone_key") {
+          return res.status(409).json({ message: "Phone number is already being used!" });
+        }
+        if (e.meta?.target === "Transporters_email_key") {
+          return res.status(409).json({ message: "E-mail address is already being used!" });
+        }
       }
       if (e.code === "P2023") {
         return res.status(400).json({ message: "Malformed id!" });

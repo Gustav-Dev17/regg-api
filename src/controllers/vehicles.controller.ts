@@ -15,6 +15,19 @@ export const CreateVehicle = async (req: Request, res: Response) => {
     const newVehicle = await CreateVehicleService(req.body);
     return res.status(201).json(newVehicle);
   } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        if (e.meta?.target === "Vehicles_license_plate_key") {
+          return res.status(409).json({ message: "License plate is already being used!" });
+        }
+        if (e.meta?.target === "Vehicles_renavam_key") {
+          return res.status(409).json({ message: "Renavam is already being used!" });
+        }
+        if (e.meta?.target === "Vehicles_chassi_key") {
+          return res.status(409).json({ message: "Chassi is already being used!" });
+        }
+      }
+    }
     return res.status(400).json({ message: "Error when creating vehicle!", descripton: (e as Error).message });
   }
 };
@@ -24,6 +37,11 @@ export const ReadVehicle = async (req: Request, res: Response) => {
     const vehicle = await ListVehicleService(req.params.id);
     return res.status(200).json(vehicle);
   } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2025") {
+        return res.status(404).json({ message: "Vehicle does not exist!" });
+      }
+    }
     return res.status(400).json({ message: "Error when listing vehicle!", descripton: (e as Error).message });
   }
 };
@@ -54,6 +72,17 @@ export const UpdateVehicle = async (req: Request, res: Response) => {
     return res.status(200).json(vehicle);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        if (e.meta?.target === "Vehicles_license_plate_key") {
+          return res.status(409).json({ message: "License plate is already being used!" });
+        }
+        if (e.meta?.target === "Vehicles_renavam_key") {
+          return res.status(409).json({ message: "Renavam is already being used!" });
+        }
+        if (e.meta?.target === "Vehicles_chassi_key") {
+          return res.status(409).json({ message: "Chassi is already being used!" });
+        }
+      }
       if (e.code === "P2023") {
         return res.status(400).json({ message: "Malformed id!" });
       }
