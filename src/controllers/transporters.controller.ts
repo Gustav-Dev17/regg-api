@@ -51,8 +51,7 @@ export const ReadTransporter = async (req: Request, res: Response) => {
       avatar_image: transporter?.avatar_image,
       created_at: transporter?.created_at,
       updated_at: transporter?.updated_at,
-      vehicle: transporter?.vehicle,
-      deliveries: transporter?.deliveries,
+      vehicle: transporter?.vehicle
     });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing transporter!", descripton: (e as Error).message });
@@ -66,7 +65,7 @@ export const ReadAllTransporters = async (req: Request, res: Response) => {
       const transporters = await ListTransportersService(pageNumber as number);
       return res.status(200).json(transporters);
     } else {
-      const transporters = await ListTransportersService();
+      const transporters = await ListTransportersService(1 as number);
       return res.status(200).json(transporters);
     }
   } catch (e) {
@@ -88,7 +87,7 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
       license_category: transporter.license_category,
       transport_license: transporter.transport_license,
       created_at: transporter.created_at,
-      updated_at: transporter.updated_at,
+      updated_at: transporter.updated_at
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

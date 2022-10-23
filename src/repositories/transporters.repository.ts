@@ -13,7 +13,6 @@ export const ReadTransporterByID = (id: string) => {
       include: {
         avatar_image: true,
         vehicle: true,
-        deliveries: true,
       },
     });
   } catch (e) {
@@ -21,46 +20,25 @@ export const ReadTransporterByID = (id: string) => {
   }
 };
 
-export const ReadTransporters = (pageNumber?: number) => {
-  if (pageNumber) {
-    return prisma.transporters.findMany({
-      select: {
-        id: true,
-        user_type: true,
-        name: true,
-        cpf: true,
-        phone: true,
-        email: true,
-        license_category: true,
-        transport_license: true,
-        avatar_image: true,
-        created_at: true,
-        updated_at: true,
-        vehicle: true,
-        deliveries: true,
-      },
-      take: PgConfig.perPage,
-      skip: PgConfig.perPage * (pageNumber - 1),
-    });
-  } else {
-    return prisma.transporters.findMany({
-      select: {
-        id: true,
-        user_type: true,
-        name: true,
-        cpf: true,
-        phone: true,
-        email: true,
-        license_category: true,
-        transport_license: true,
-        avatar_image: true,
-        created_at: true,
-        updated_at: true,
-        vehicle: true,
-        deliveries: true,
-      },
-    });
-  }
+export const ReadTransporters = (pageNumber: number) => {
+  return prisma.transporters.findMany({
+    select: {
+      id: true,
+      user_type: true,
+      name: true,
+      cpf: true,
+      phone: true,
+      email: true,
+      license_category: true,
+      transport_license: true,
+      avatar_image: true,
+      created_at: true,
+      updated_at: true,
+      vehicle: true,
+    },
+    take: PgConfig.perPage,
+    skip: PgConfig.perPage * (pageNumber - 1),
+  });
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {

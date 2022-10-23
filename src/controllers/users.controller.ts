@@ -46,9 +46,7 @@ export const ReadUser = async (req: Request, res: Response) => {
       email: user?.email,
       avatar_image: user?.avatar_image,
       created_at: user?.created_at,
-      updated_at: user?.updated_at,
-      selected_items: user?.selected_items,
-      deliveries: user?.deliveries
+      updated_at: user?.updated_at
     });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user!", descripton: (e as Error).message });

@@ -10,9 +10,7 @@ export const ReadUserByID = (id: string) => {
     return prisma.users.findUnique({
       where: { id },
       include: {
-        avatar_image: true,
-        selected_items: true,
-        deliveries: true,
+        avatar_image: true
       },
     });
   } catch (e) {
@@ -32,8 +30,6 @@ export const ReadUsers = () => {
       avatar_image: true,
       created_at: true,
       updated_at: true,
-      selected_items: true,
-      deliveries: true,
     },
   });
 };

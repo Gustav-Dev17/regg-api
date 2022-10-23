@@ -35,9 +35,14 @@ export const ReadDelivery = async (req: Request, res: Response) => {
 
 export const ReadAllDeliveries = async (req: Request, res: Response) => {
   try {
-    const pageNumber: number = parseInt(req.query.page as string);
-    const deliveries = await ReadDeliveriesService(pageNumber);
-    return res.status(200).json(deliveries);
+    if (req.query.page) {
+      const pageNumber: number = parseInt(req.query.page as string);
+      const deliveries = await ReadDeliveriesService(pageNumber);
+      return res.status(200).json(deliveries);
+    } else {
+      const deliveries = await ReadDeliveriesService(1 as number);
+      return res.status(200).json(deliveries);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing deliveries!", descripton: (e as Error).message });
   }
@@ -46,9 +51,14 @@ export const ReadAllDeliveries = async (req: Request, res: Response) => {
 export const ReadDeliveriesByUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const pageNumber: number = parseInt(req.query.page as string);
-    const deliveries = await ReadDeliveriesByUserService(id, pageNumber);
-    return res.status(200).json(deliveries);
+    if (req.query.page) {
+      const pageNumber: number = parseInt(req.query.page as string);
+      const deliveries = await ReadDeliveriesByUserService(id, pageNumber);
+      return res.status(200).json(deliveries);
+    } else {
+      const deliveries = await ReadDeliveriesByUserService(id, 1 as number);
+      return res.status(200).json(deliveries);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user's deliveries!", descripton: (e as Error).message });
   }
@@ -57,9 +67,14 @@ export const ReadDeliveriesByUser = async (req: Request, res: Response) => {
 export const ReadDeliveriesByUserAndStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const pageNumber: number = parseInt(req.query.page as string);
-    const deliveries = await ReadDeliveriesByUserAndStatusService(id, pageNumber, req.query.status as StatusTypes);
-    return res.status(200).json(deliveries);
+    if (req.query.page) {
+      const pageNumber: number = parseInt(req.query.page as string);
+      const deliveries = await ReadDeliveriesByUserAndStatusService(id, pageNumber, req.query.status as StatusTypes);
+      return res.status(200).json(deliveries);
+    } else {
+      const deliveries = await ReadDeliveriesByUserAndStatusService(id, 1 as number, req.query.status as StatusTypes);
+      return res.status(200).json(deliveries);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user's deliveries by status!", descripton: (e as Error).message });
   }
@@ -68,9 +83,14 @@ export const ReadDeliveriesByUserAndStatus = async (req: Request, res: Response)
 export const ReadDeliveriesByTransporter = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const pageNumber: number = parseInt(req.query.page as string);
-    const deliveries = await ReadDeliveriesByTransporterService(id, pageNumber);
-    return res.status(200).json(deliveries);
+    if (req.query.page) {
+      const pageNumber: number = parseInt(req.query.page as string);
+      const deliveries = await ReadDeliveriesByTransporterService(id, pageNumber);
+      return res.status(200).json(deliveries);
+    } else {
+      const deliveries = await ReadDeliveriesByTransporterService(id, 1 as number);
+      return res.status(200).json(deliveries);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user's deliveries!", descripton: (e as Error).message });
   }
@@ -79,9 +99,14 @@ export const ReadDeliveriesByTransporter = async (req: Request, res: Response) =
 export const ReadDeliveriesByTransporterAndStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const pageNumber: number = parseInt(req.query.page as string);
-    const deliveries = await ReadDeliveriesByTransporterAndStatusService(id, pageNumber, req.query.status as StatusTypes);
-    return res.status(200).json(deliveries);
+    if (req.query.page) {
+      const pageNumber: number = parseInt(req.query.page as string);
+      const deliveries = await ReadDeliveriesByTransporterAndStatusService(id, pageNumber, req.query.status as StatusTypes);
+      return res.status(200).json(deliveries);
+    } else {
+      const deliveries = await ReadDeliveriesByTransporterAndStatusService(id, 1 as number, req.query.status as StatusTypes);
+      return res.status(200).json(deliveries);
+    }
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user's deliveries by status!", descripton: (e as Error).message });
   }
