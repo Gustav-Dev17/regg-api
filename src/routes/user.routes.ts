@@ -15,17 +15,6 @@ import {
   UpdateSelectedItems,
   DeleteSelectedItems,
 } from "../controllers/selected.items.controller";
-import {
-  CreateDelivery,
-  ReadDelivery,
-  ReadAllDeliveries,
-  ReadDeliveriesByUser,
-  ReadDeliveriesByUserAndStatus,
-  ReadDeliveriesByTransporter,
-  ReadDeliveriesByTransporterAndStatus,
-  UpdateDelivery,
-  DeleteDelivery,
-} from "controllers/deliveries.controller";
 
 const route = Router();
 
@@ -34,7 +23,7 @@ route.post("/user/login", validate(loginSchema), DoLogin);
 //user routes
 route.post("/user", validate(userSchema), CreateUser);
 route.get("/user", AuthMiddleware, ReadUser);
-route.get("/users", ReadAllUsers);
+route.get("/users", AuthMiddleware, ReadAllUsers);
 route.patch("/user", AuthMiddleware, UpdateUser);
 route.delete("/user", AuthMiddleware, DeleteUser);
 
