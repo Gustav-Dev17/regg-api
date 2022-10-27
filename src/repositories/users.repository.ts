@@ -35,3 +35,28 @@ export const DeleteUser = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
+export const ForgotPassword = (id: string, reset_token: string) => {
+  try {
+    return prisma.users.update({
+      where: { id },
+      data: { reset_token },
+    });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
+export const ResetPassword = (id: string, password: string) => {
+  try {
+    return prisma.users.update({
+      where: { id },
+      data: {
+        reset_token: "",
+        password,
+      },
+    });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};

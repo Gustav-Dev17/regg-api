@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import { IRequestUserBody, IUser } from "types/user.body.types";
-import { CreateUsersRepo, ReadUsers, ReadUserByID, UpdateUser, DeleteUser } from "repositories/users.repository";
+import { CreateUsersRepo, ReadUsers, ReadUserByID, UpdateUser, DeleteUser, ForgotPassword, ResetPassword } from "repositories/users.repository";
+import { sign } from "jsonwebtoken";
+import { authConf } from "config/auth.config";
 
 export const CreateUserService = (body: IUser) => {
   try {
@@ -48,6 +50,28 @@ export const UpdateUserService = async (body: IRequestUserBody, id: string) => {
 export const DeleteUserService = (id: string) => {
   try {
     return DeleteUser(id);
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
+export const ForgotUserPassword = async (id: string) => {
+  try {
+    const user = await ReadUserByID(id);
+    const resetToken = sign({ userId: user?.id }, authConf.secret);
+    return ForgotPassword(id, resetToken);
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
+export const ResetUserPassword = async (id: string, password: string) => {
+  try {
+    const user = await ReadUserByID(id);
+    const newPass = password || user?.password;
+    const passHash = bcrypt.hashSync(newPass as string, 8);
+
+    return ResetPassword(id, passHash);
   } catch (e) {
     throw new Error((e as Error).message);
   }
