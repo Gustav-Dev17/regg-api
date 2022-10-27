@@ -7,7 +7,7 @@ import {
   ReadAvatarImagesById,
   UpdateAvatarImage,
   DeleteAvatarImages,
-} from "services/avatarImages.services";
+} from "../services/avatarImages.services";
 
 export const UploadAvatarImagesController = async (req: Request, res: Response) => {
   try {

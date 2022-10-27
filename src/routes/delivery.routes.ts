@@ -1,7 +1,7 @@
-import express from "express";
-import { validate } from "validators/fields.validator";
-import { AuthMiddleware } from "middlewares/auth.middleware";
-import { deliverySchema } from "schemas/delivery.schema";
+import { Router } from "express";
+import { validate } from "../validators/fields.validator";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { deliverySchema } from "../schemas/delivery.schema";
 
 import {
   CreateDelivery,
@@ -13,9 +13,9 @@ import {
   ReadDeliveriesByTransporterAndStatus,
   UpdateDelivery,
   DeleteDelivery,
-} from "controllers/deliveries.controller";
+} from "../controllers/deliveries.controller";
 
-const route = express.Router();
+const route = Router();
 
 //user's deliveries
 route.post("/delivery", validate(deliverySchema), AuthMiddleware, CreateDelivery);

@@ -1,4 +1,4 @@
-import { IRequestSelectedItemsBody, ISelectedItems } from "types/selected.items.body.types";
+import { IRequestSelectedItemsBody, ISelectedItems } from "../types/selected.items.body.types";
 import {
   CreateSelectedItemsRepo,
   ReadSelectedItemsByUserId,
@@ -7,7 +7,7 @@ import {
   ReadSelectedItemsByUserIdAndStatus,
   UpdateSelectedItems,
   DeleteSelectedItems,
-} from "repositories/selected.items.repository";
+} from "../repositories/selected.items.repository";
 
 export type StatusTypes = "InProgress" | "Finished";
 

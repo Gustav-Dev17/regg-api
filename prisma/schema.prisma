@@ -18,7 +18,8 @@ model Users {
     reset_token    String?
     avatar_image   AvatarImages?
     selected_items SelectedItems?
-    deliveries     Deliveries?
+    deliveries     Deliveries[]
+    //criado e ou atualizado em
     created_at     DateTime       @default(now())
     updated_at     DateTime       @updatedAt
 }
@@ -36,7 +37,7 @@ model Transporters {
     //relacionamentos
     vehicle           Vehicles?
     avatar_image      AvatarImages?
-    deliveries        Deliveries?
+    deliveries        Deliveries[]
     //criado e ou atualizado em
     created_at        DateTime      @default(now())
     updated_at        DateTime      @updatedAt

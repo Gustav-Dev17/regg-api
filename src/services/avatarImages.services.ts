@@ -1,4 +1,4 @@
-import { IAvatarImages, IRequestAvatarImagesBody } from "types/avatarImages.body.types";
+import { IAvatarImages, IRequestAvatarImagesBody } from "../types/avatarImages.body.types";
 import {
   CreateAvatarImagesRepo,
   ReadAvatarImagesRepo,
@@ -6,7 +6,7 @@ import {
   ReadAvatarImagesByUserIdRepo,
   UpdateAvatarImageRepo,
   DeleteAvatarImageRepo,
-} from "repositories/avatarImages.repository";
+} from "../repositories/avatarImages.repository";
 import fs from "fs";
 
 export const UploadAvatarImagesService = async (body: IAvatarImages) => {

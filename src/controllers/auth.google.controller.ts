@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { FindUserOrTransporter } from "services/auth.google.services";
+import { FindUserOrTransporter } from "../services/auth.google.services";
 
 export type UserTypes = "User" | "Transporter";
 

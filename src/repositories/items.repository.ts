@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { Item, IRequestItemBody } from "types/item.body.types";
+import prisma from "../services/prisma.services";
+import { Item, IRequestItemBody } from "../types/item.body.types";
 
 export const CreateItemsRepo = (body: Item) => {
   return prisma.items.create({ data: body });

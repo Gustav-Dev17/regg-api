@@ -1,7 +1,7 @@
-import express from "express";
-import { CheckEmail } from "controllers/auth.google.controller";
+import { Router } from "express";
+import { CheckEmail } from "../controllers/auth.google.controller";
 
-const route = express.Router();
+const route = Router();
 
 route.get("/login/google/", CheckEmail); //types client or transporter
 

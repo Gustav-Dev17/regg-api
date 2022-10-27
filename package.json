@@ -6,7 +6,7 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc",
-        "start": "node dist/server.js",
+        "start": "node ./dist/server.js",
         "migrate-db": "prisma db push",
         "generate": "prisma generate",
         "dev": "ts-node-dev --files -r tsconfig-paths/register --exit-child --ignore-watch node_modules src/server.ts"

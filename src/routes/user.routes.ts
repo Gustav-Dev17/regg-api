@@ -1,11 +1,11 @@
-import express from "express";
-import { loginSchema } from "schemas/login.schema";
-import { DoLogin } from "controllers/auth.user.controller";
-import { userSchema } from "schemas/user.schema";
-import { selectedItemsSchema } from "schemas/selected.items.schema";
-import { validate } from "validators/fields.validator";
-import { AuthMiddleware } from "middlewares/auth.middleware";
-import { CreateUser, DeleteUser, ReadUser, ReadAllUsers, UpdateUser } from "controllers/users.controller";
+import { Router } from "express";
+import { loginSchema } from "../schemas/login.schema";
+import { DoLogin } from "../controllers/auth.user.controller";
+import { userSchema } from "../schemas/user.schema";
+import { selectedItemsSchema } from "../schemas/selected.items.schema";
+import { validate } from "../validators/fields.validator";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { CreateUser, DeleteUser, ReadUser, ReadAllUsers, UpdateUser } from "../controllers/users.controller";
 import {
   CreateSelectedItems,
   ReadSelectedItemsById,
@@ -14,20 +14,9 @@ import {
   ReadSelectedItemsByUserIdAndStatus,
   UpdateSelectedItems,
   DeleteSelectedItems,
-} from "controllers/selected.items.controller";
-import {
-  CreateDelivery,
-  ReadDelivery,
-  ReadAllDeliveries,
-  ReadDeliveriesByUser,
-  ReadDeliveriesByUserAndStatus,
-  ReadDeliveriesByTransporter,
-  ReadDeliveriesByTransporterAndStatus,
-  UpdateDelivery,
-  DeleteDelivery,
-} from "controllers/deliveries.controller";
+} from "../controllers/selected.items.controller";
 
-const route = express.Router();
+const route = Router();
 
 route.post("/user/login", validate(loginSchema), DoLogin);
 

@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { IAvatarImages, IRequestAvatarImagesBody } from "types/avatarImages.body.types";
+import prisma from "../services/prisma.services";
+import { IAvatarImages, IRequestAvatarImagesBody } from "../types/avatarImages.body.types";
 
 export const CreateAvatarImagesRepo = (body: IAvatarImages) => {
   return prisma.avatarImages.create({

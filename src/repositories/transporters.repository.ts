@@ -1,6 +1,6 @@
-import prisma from "services/prisma.services";
-import { PgConfig } from "config/pagination.config";
-import { ITransporter, IRequestTransporterBody } from "types/transporter.body.types";
+import prisma from "../services/prisma.services";
+import { PgConfig } from "../config/pagination.config";
+import { ITransporter, IRequestTransporterBody } from "../types/transporter.body.types";
 
 export const CreateTransportersRepo = (body: ITransporter) => {
   return prisma.transporters.create({ data: body });
@@ -8,21 +8,37 @@ export const CreateTransportersRepo = (body: ITransporter) => {
 
 export const ReadTransporterByID = (id: string) => {
   try {
-    return prisma.transporters.findUnique({ where: { id } });
+    return prisma.transporters.findUnique({
+      where: { id },
+      include: {
+        avatar_image: true,
+        vehicle: true,
+      },
+    });
   } catch (e) {
     throw new Error((e as Error).message);
   }
 };
 
-export const ReadTransporters = (pageNumber?: number) => {
-  if (pageNumber) {
-    return prisma.transporters.findMany({
-      take: PgConfig.perPage,
-      skip: PgConfig.perPage * pageNumber,
-    });
-  } else {
-    return prisma.transporters.findMany();
-  }
+export const ReadTransporters = (pageNumber: number) => {
+  return prisma.transporters.findMany({
+    select: {
+      id: true,
+      user_type: true,
+      name: true,
+      cpf: true,
+      phone: true,
+      email: true,
+      license_category: true,
+      transport_license: true,
+      avatar_image: true,
+      created_at: true,
+      updated_at: true,
+      vehicle: true,
+    },
+    take: PgConfig.perPage,
+    skip: PgConfig.perPage * (pageNumber - 1),
+  });
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {

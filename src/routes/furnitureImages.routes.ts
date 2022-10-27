@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { uploadFurnitureImages } from "config/FurnitureImage.config";
+import { uploadFurnitureImages } from "../config/FurnitureImage.config";
 import multer from "multer";
-import { UploadFurnitureImage, ReadAllFurnitureImage, ReadFurnitureImagesById, ChangeFurnitureImage, DeleteFurnitureImage } from "controllers/furnitureImages.controller";
+import { UploadFurnitureImage, ReadAllFurnitureImage, ReadFurnitureImagesById, ChangeFurnitureImage, DeleteFurnitureImage } from "../controllers/furnitureImages.controller";
 
 const furnitureImagesRoutes = Router();
 

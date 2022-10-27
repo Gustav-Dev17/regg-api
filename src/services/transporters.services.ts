@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { IRequestTransporterBody, ITransporter } from "types/transporter.body.types";
-import { CreateTransportersRepo, ReadTransporters, ReadTransporterByID, UpdateTransporter, DeleteTransporter } from "repositories/transporters.repository";
+import { IRequestTransporterBody, ITransporter } from "../types/transporter.body.types";
+import { CreateTransportersRepo, ReadTransporters, ReadTransporterByID, UpdateTransporter, DeleteTransporter } from "../repositories/transporters.repository";
 
 export const CreateTransporterService = (body: ITransporter) => {
   try {
@@ -21,11 +21,7 @@ export const ListTransporterService = (id: string) => {
 
 export const ListTransportersService = (pageNumber?: number) => {
   try {
-    if (pageNumber) {
-      return ReadTransporters(pageNumber as number);
-    } else {
-      return ReadTransporters();
-    }
+    return ReadTransporters(pageNumber as number);
   } catch (e) {
     throw new Error((e as Error).message);
   }

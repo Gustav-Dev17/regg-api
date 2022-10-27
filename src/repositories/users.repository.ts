@@ -1,5 +1,5 @@
-import prisma from "services/prisma.services";
-import { IUser, IRequestUserBody } from "types/user.body.types";
+import prisma from "../services/prisma.services";
+import { IUser, IRequestUserBody } from "../types/user.body.types";
 
 export const CreateUsersRepo = (body: IUser) => {
   return prisma.users.create({ data: body });
@@ -7,14 +7,31 @@ export const CreateUsersRepo = (body: IUser) => {
 
 export const ReadUserByID = (id: string) => {
   try {
-    return prisma.users.findUnique({ where: { id } });
+    return prisma.users.findUnique({
+      where: { id },
+      include: {
+        avatar_image: true
+      },
+    });
   } catch (e) {
     throw new Error((e as Error).message);
   }
 };
 
 export const ReadUsers = () => {
-  return prisma.users.findMany();
+  return prisma.users.findMany({
+    select: {
+      id: true,
+      user_type: true,
+      name: true,
+      cpf: true,
+      phone: true,
+      email: true,
+      avatar_image: true,
+      created_at: true,
+      updated_at: true,
+    },
+  });
 };
 
 export const UpdateUser = (body: IRequestUserBody, id: string) => {

@@ -1,15 +1,32 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateUserService, DeleteUserService, ListUserService, ListUsersService, UpdateUserService } from "services/users.services";
+import { CreateUserService, DeleteUserService, ListUserService, ListUsersService, UpdateUserService } from "../services/users.services";
 
 export const CreateUser = async (req: Request, res: Response) => {
   try {
     const user = await CreateUserService(req.body);
-    return res.status(201).json(user);
+    return res.status(201).json({
+      id: user.id,
+      user_type: user.user_type,
+      name: user.name,
+      cpf: user.cpf,
+      phone: user.phone,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
-        return res.status(409).json({ message: "Email address is already being used!" });
+        if (e.meta?.target === "Users_cpf_key") {
+          return res.status(409).json({ message: "CPF is already being used!" });
+        }
+        if (e.meta?.target === "Users_phone_key") {
+          return res.status(409).json({ message: "Phone number is already being used!" });
+        }
+        if (e.meta?.target === "Users_email_key") {
+          return res.status(409).json({ message: "E-mail address is already being used!" });
+        }
       }
     }
     return res.status(400).json({ message: "Error when creating user!", descripton: (e as Error).message });
@@ -20,7 +37,17 @@ export const ReadUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await ListUserService(id);
-    return res.status(200).json(user);
+    return res.status(200).json({
+      id: user?.id,
+      user_type: user?.user_type,
+      name: user?.name,
+      cpf: user?.cpf,
+      phone: user?.phone,
+      email: user?.email,
+      avatar_image: user?.avatar_image,
+      created_at: user?.created_at,
+      updated_at: user?.updated_at
+    });
   } catch (e) {
     return res.status(400).json({ message: "Error when listing user!", descripton: (e as Error).message });
   }
@@ -39,11 +66,28 @@ export const UpdateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await UpdateUserService(req.body, id);
-    return res.status(200).json(user);
+    return res.status(200).json({
+      id: user.id,
+      user_type: user.user_type,
+      name: user.name,
+      cpf: user.cpf,
+      phone: user.phone,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
-        return res.status(409).json({ message: "Email address is already being used!" });
+        if (e.meta?.target === "Users_cpf_key") {
+          return res.status(409).json({ message: "CPF is already being used!" });
+        }
+        if (e.meta?.target === "Users_phone_key") {
+          return res.status(409).json({ message: "Phone number is already being used!" });
+        }
+        if (e.meta?.target === "Users_email_key") {
+          return res.status(409).json({ message: "E-mail address is already being used!" });
+        }
       }
       if (e.code === "P2023") {
         return res.status(400).json({ message: "Malformed id!" });
@@ -60,7 +104,7 @@ export const DeleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     const user = await DeleteUserService(id);
-    return res.status(204).json(user);
+    return res.status(204).json({ user });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
