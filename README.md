@@ -1,21 +1,19 @@
-<p align="center"><img src="https://matonoprato.com.br/wp-content/uploads/2020/12/amazonica.png" width="250"></p>
+# Regg API
 
-# Regia's move API
-
-Back-end application for Vitória Régia project.
+Back-end application for Regg project.
 
 ## 🧬 Cloning this project
 
 1. To clone this project with command line you must have <a href="https://git-scm.com/downloads">Git</a> installed on your machine. On your terminal run:
 
 ```
-git clone https://github.com/amazonsoft-tech/victoria-backend.git
+git clone https://github.com/amazonsoft-tech/regg-backend.git
 ```
 
 2. Access the root folder:
 
 ```
-cd victoria-backend
+cd regg-backend
 ```
 
 ## 💿 Installing dependencies
@@ -84,8 +82,6 @@ npm run dev
 ```
 {
     "name": "Markus Persson",
-    "cpf": "111.111.111-11",
-    "phone": "(XX) XXXXX-XXXX",
     "email": "markus_persson2112@outlook.com",
     "password": "12345"
 }
@@ -96,8 +92,6 @@ npm run dev
 {
     "id": "63122b9a213b12451580e909",
     "name": "Markus Persson",
-    "cpf": "111.111.111-11",
-    "phone": "(XX) XXXXX-XXXX",
     "email": "markus_persson2112@outlook.com",
     "password": "$2a$08$4ZH4bOlbCj3nofYFJ2585ulwFMejnohNvomrTWjedfX0cQXaw7Pza",
     "created_at": "2022-09-02T16:13:14.103Z",
@@ -111,8 +105,6 @@ npm run dev
     {
         "id": "63122b9a213b12451580e909",
         "name": "Gustav-Dev17",
-        "cpf": "111.111.111-11",
-        "phone": "(XX) XXXXX-XXXX",
         "email": "gustav-dev17@gmail.com",
         "password": "$2a$08$4ZH4bOlbCj3nofYFJ2585ulwFMejnohNvomrTWjedfX0cQXaw7Pza",
         "created_at": "2022-09-02T16:13:14.103Z",
@@ -121,8 +113,6 @@ npm run dev
     {
         "id": "63151aca4be411c7455c7604",
         "name": "Markus Persson",
-        "cpf": "111.111.111-11",
-        "phone": "(XX) XXXXX-XXXX",
         "email": "markus_persson2112@outlook.com",
         "password": "$2a$08$4ZH4bOlbCj3nofYFJ2585ulwFMejnohNvomrTWjedfX0cQXaw7Pza",
         "created_at": "2022-09-02T16:13:14.103Z",
@@ -134,8 +124,6 @@ npm run dev
 ```
 {
     "name": "Markus Persson",
-    "cpf": "222.222.222-22",
-    "phone": "(YY) YYYYY-YYYY",
     "email": "markus_persson2112@outlook.com",
     "password": "12345678"
 }
