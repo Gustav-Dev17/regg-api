@@ -10,12 +10,13 @@ import {
   DeleteSelectedItemsService,
 } from "../services/selected.items.services";
 
-export type StatusTypes = "InProgress" | "Finished";
+export type StatusTypes = "InProgress" | "Finished" | "Selected";
 
 export const CreateSelectedItems = async (req: Request, res: Response) => {
   try {
     const { id } = req;
     req.body.userId = id;
+    req.body.status = "Selected";
     const item = await CreateSelectedItemsService(req.body);
     return res.status(201).json(item);
   } catch (e) {
@@ -54,7 +55,7 @@ export const ReadAllSelectedItems = async (__: Request, res: Response) => {
 export const ReadSelectedItemsByUserIdAndStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    const item = await ListSelectedItemsByUserIdAndStatusService(id, req.query.status as StatusTypes);
+    const item = await ListSelectedItemsByUserIdAndStatusService(id);
     return res.status(200).json(item);
   } catch (e) {
     return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });

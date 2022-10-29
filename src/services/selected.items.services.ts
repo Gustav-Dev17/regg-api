@@ -9,10 +9,14 @@ import {
   DeleteSelectedItems,
 } from "../repositories/selected.items.repository";
 
-export type StatusTypes = "InProgress" | "Finished";
+export type StatusTypes = "InProgress" | "Finished" | "Selected";
 
-export const CreateSelectedItemsService = (body: ISelectedItems) => {
+export const CreateSelectedItemsService = async (body: ISelectedItems) => {
   try {
+    const existingSelected = await ReadSelectedItemsByUserIdAndStatus(body.userId);
+    if (existingSelected) {
+      throw new Error("There are already selected items!");
+    }
     return CreateSelectedItemsRepo(body);
   } catch (e) {
     throw new Error((e as Error).message);
@@ -43,9 +47,9 @@ export const ListAllSelectedItemsService = () => {
   }
 };
 
-export const ListSelectedItemsByUserIdAndStatusService = (id: string, status: StatusTypes) => {
+export const ListSelectedItemsByUserIdAndStatusService = (id: string) => {
   try {
-    return ReadSelectedItemsByUserIdAndStatus(id, status);
+    return ReadSelectedItemsByUserIdAndStatus(id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
