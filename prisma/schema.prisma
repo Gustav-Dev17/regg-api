@@ -8,20 +8,20 @@ generator client {
 }
 
 model Users {
-    id             String         @id @default(auto()) @map("_id") @db.ObjectId
-    user_type      UserTypes      @default(Client)
+    id             String          @id @default(auto()) @map("_id") @db.ObjectId
+    user_type      UserTypes       @default(Client)
     name           String
-    cpf            String         @unique
-    phone          String         @unique
-    email          String         @unique
+    cpf            String          @unique
+    phone          String          @unique
+    email          String          @unique
     password       String
     //relacionamentos
     avatar_image   AvatarImages?
-    selected_items SelectedItems?
+    selected_items SelectedItems[]
     deliveries     Deliveries[]
     //criado e ou atualizado em
-    created_at     DateTime       @default(now())
-    updated_at     DateTime       @updatedAt
+    created_at     DateTime        @default(now())
+    updated_at     DateTime        @updatedAt
 }
 
 model Transporters {
@@ -72,9 +72,9 @@ model Deliveries {
     destine       String
     destine_desc  String
     //relacionamentos
-    userId        String        @unique @db.ObjectId
+    userId        String        @db.ObjectId
     user          Users         @relation(fields: [userId], references: [id])
-    transporterId String?       @unique @db.ObjectId
+    transporterId String?       @db.ObjectId
     transporter   Transporters? @relation(fields: [transporterId], references: [id])
 
     selectedItemsId String        @unique @db.ObjectId
@@ -86,7 +86,7 @@ model Deliveries {
 
 model Items {
     id         String           @id @default(auto()) @map("_id") @db.ObjectId
-    name       String           @unique
+    title      String           @unique
     price      Float
     //relacionamentos
     image      FurnitureImages?
@@ -103,7 +103,7 @@ model SelectedItems {
     items_price    Float
     delivery_price Float
     //relacionamentos
-    userId         String      @unique @db.ObjectId
+    userId         String      @db.ObjectId
     user           Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
     //criado e ou atualizado em
     created_at     DateTime    @default(now())

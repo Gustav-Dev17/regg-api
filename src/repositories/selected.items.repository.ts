@@ -9,7 +9,7 @@ export const CreateSelectedItemsRepo = (body: ISelectedItems) => {
 
 export const ReadSelectedItemsByUserId = (userId: string) => {
   try {
-    return prisma.selectedItems.findUnique({ where: { userId } });
+    return prisma.selectedItems.findMany({ where: { userId } });
   } catch (e) {
     throw new Error((e as Error).message);
   }

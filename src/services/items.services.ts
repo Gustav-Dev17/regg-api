@@ -28,9 +28,9 @@ export const ListItemsService = () => {
 export const UpdateItemService = async (body: IRequestItemBody, id: string) => {
   try {
     const item = await ReadItemByID(id);
-    const name = body.name || item?.name;
+    const title = body.title || item?.title;
     const price = body.price || item?.price;
-    return UpdateItem({ name, price }, id);
+    return UpdateItem({ title, price }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
