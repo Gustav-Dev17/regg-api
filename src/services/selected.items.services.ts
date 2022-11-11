@@ -57,13 +57,13 @@ export const ListSelectedItemsByUserIdAndStatusService = (id: string) => {
 
 export const UpdateSelectedItemsService = async (body: IRequestSelectedItemsBody, id: string) => {
   try {
-    const item = await ReadSelectedItemsById(id);
-    const status = body.status || item?.status;
-    const items = body.items || item?.items;
-    const items_amount = (body.items_amount as number) || (item?.items_amount as number);
-    const items_price = (body.items_price as number) || (item?.items_price as number);
-    const delivery_price = (body.delivery_price as number) || (item?.delivery_price as number);
-    return UpdateSelectedItems({ status, items, items_amount, items_price, delivery_price }, id);
+//    const item = await ReadSelectedItemsById(id);
+//     const status = body.status || item?.status;
+//     const items = body.items || item?.items;
+//     const items_amount = (body.items_amount as number) || (item?.items_amount as number);
+//     const items_price = (body.items_price as number) || (item?.items_price as number);
+//     const delivery_price = (body.delivery_price as number) || (item?.delivery_price as number);
+    return UpdateSelectedItems(body, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
