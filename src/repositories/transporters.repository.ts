@@ -22,11 +22,6 @@ export const ReadTransporterByID = (id: string) => {
 
 export const ReadTransporters = (pageNumber: number) => {
   return prisma.transporters.findMany({
-    where: {
-      vehicle: {
-        some: {},
-      },
-    },
     select: {
       id: true,
       user_type: true,
