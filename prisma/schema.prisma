@@ -15,6 +15,7 @@ model Users {
     phone          String          @unique
     email          String          @unique
     password       String
+    reset_token    String?
     //relacionamentos
     avatar_image   AvatarImages?
     selected_items SelectedItems[]
