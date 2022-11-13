@@ -5,8 +5,7 @@
     "author": "Gustav OL <70300539+Gustav-Dev17@users.noreply.github.com>",
     "license": "MIT",
     "scripts": {
-        "generate": "npx prisma generate",
-        "push-db": "npx prisma db push",
+        "prepare": "npx prisma generate && npx prisma db push",
         "build": "tsc",
         "start": "node ./dist/server.js",
         "dev": "ts-node-dev --files -r tsconfig-paths/register --exit-child --ignore-watch node_modules src/server.ts"
