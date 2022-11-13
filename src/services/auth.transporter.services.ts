@@ -21,9 +21,6 @@ export const LoginService = async (email: string, password: string) => {
         userType: transporter.user_type,
       },
       authConf.secret as string,
-      {
-        expiresIn: authConf.expires,
-      },
     );
 
     return token;

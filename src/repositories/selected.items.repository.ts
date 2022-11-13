@@ -1,7 +1,7 @@
 import prisma from "../services/prisma.services";
 import { ISelectedItems, IRequestSelectedItemsBody } from "../types/selected.items.body.types";
 
-export type StatusTypes = "InProgress" | "Finished";
+export type StatusTypes = "InProgress" | "Finished" | "Selected";
 
 export const CreateSelectedItemsRepo = (body: ISelectedItems) => {
   return prisma.selectedItems.create({ data: body });
@@ -9,7 +9,7 @@ export const CreateSelectedItemsRepo = (body: ISelectedItems) => {
 
 export const ReadSelectedItemsByUserId = (userId: string) => {
   try {
-    return prisma.selectedItems.findUnique({ where: { userId } });
+    return prisma.selectedItems.findMany({ where: { userId } });
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -27,9 +27,10 @@ export const ReadAllSelectedItems = () => {
   return prisma.selectedItems.findMany();
 };
 
-export const ReadSelectedItemsByUserIdAndStatus = (userId: string, status: StatusTypes) => {
+export const ReadSelectedItemsByUserIdAndStatus = (userId: string) => {
   try {
-    return prisma.selectedItems.findMany({ where: { userId, status } });
+    const status = "Selected"
+    return prisma.selectedItems.findFirst({ where: { userId, status } });
   } catch (e) {
     throw new Error((e as Error).message);
   }

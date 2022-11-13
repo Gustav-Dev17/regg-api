@@ -8,20 +8,20 @@ generator client {
 }
 
 model Users {
-    id             String         @id @default(auto()) @map("_id") @db.ObjectId
-    user_type      UserTypes      @default(Client)
+    id             String          @id @default(auto()) @map("_id") @db.ObjectId
+    user_type      UserTypes       @default(Client)
     name           String
-    cpf            String         @unique
-    phone          String         @unique
-    email          String         @unique
+    cpf            String          @unique
+    phone          String          @unique
+    email          String          @unique
     password       String
-    reset_token    String?
+    //relacionamentos
     avatar_image   AvatarImages?
-    selected_items SelectedItems?
+    selected_items SelectedItems[]
     deliveries     Deliveries[]
     //criado e ou atualizado em
-    created_at     DateTime       @default(now())
-    updated_at     DateTime       @updatedAt
+    created_at     DateTime        @default(now())
+    updated_at     DateTime        @updatedAt
 }
 
 model Transporters {
@@ -45,6 +45,7 @@ model Transporters {
 
 model Vehicles {
     id            String       @id @default(auto()) @map("_id") @db.ObjectId
+    active        Boolean      @default(true)
     owner_name    String
     owner_cpf     String
     brand         String
@@ -65,25 +66,29 @@ model Vehicles {
 }
 
 model Deliveries {
-    id              String        @id @default(auto()) @map("_id") @db.ObjectId
-    status          StatusTypes   @default(Waiting)
-    origin          String
-    origin_desc     String
-    destine         String
-    destine_desc    String
-    userId          String        @unique @db.ObjectId
-    user            Users         @relation(fields: [userId], references: [id])
-    transporterId   String?       @unique @db.ObjectId
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    status        StatusTypes   @default(Waiting)
+    origin        String
+    origin_desc   String
+    destine       String
+    destine_desc  String
+    distance      String
+    //relacionamentos
+    userId        String        @db.ObjectId
+    user          Users         @relation(fields: [userId], references: [id])
+    transporterId String?       @db.ObjectId
+    transporter   Transporters? @relation(fields: [transporterId], references: [id])
+
     selectedItemsId String        @unique @db.ObjectId
+    selectedItems   SelectedItems @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
+    //criado e ou atualizado em
     created_at      DateTime      @default(now())
     updated_at      DateTime      @updatedAt
-    transporter     Transporters? @relation(fields: [transporterId], references: [id])
-    selectedItems   SelectedItems @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
 }
 
 model Items {
     id         String           @id @default(auto()) @map("_id") @db.ObjectId
-    name       String           @unique
+    title      String           @unique
     price      Float
     //relacionamentos
     image      FurnitureImages?
@@ -93,17 +98,19 @@ model Items {
 }
 
 model SelectedItems {
-    id             String       @id @default(auto()) @map("_id") @db.ObjectId
+    id             String      @id @default(auto()) @map("_id") @db.ObjectId
     status         StatusTypes
     items          ItemsType[]
     items_amount   Int
     items_price    Float
     delivery_price Float
-    userId         String       @unique @db.ObjectId
-    user           Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    created_at     DateTime     @default(now())
-    updated_at     DateTime     @updatedAt
-    Deliveries     Deliveries[]
+    //relacionamentos
+    userId         String      @db.ObjectId
+    user           Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    //criado e ou atualizado em
+    created_at     DateTime    @default(now())
+    updated_at     DateTime    @updatedAt
+    Deliveries     Deliveries?
 }
 
 model FurnitureImages {

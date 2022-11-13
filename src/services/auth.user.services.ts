@@ -13,7 +13,7 @@ export const LoginService = async (email: string, password: string) => {
     if (!matchPassword) {
       throw new Error("Invalid credentials!");
     }
-    const token = jwt.sign({ userId: user.id, userType: user.user_type }, authConf.secret as string, { expiresIn: authConf.expires });
+    const token = jwt.sign({ userId: user.id, userType: user.user_type }, authConf.secret as string);
 
     return token;
   } catch (e) {

@@ -6,6 +6,7 @@ export interface IRequestDeliveryBody {
   origin_desc?: string;
   destine?: string;
   destine_desc?: string;
+  distance?: string;
   userId?: string;
   transporterId?: string | null;
   selectedItemsId?: string;
@@ -17,6 +18,7 @@ export interface IDelivery {
   origin_desc: string;
   destine: string;
   destine_desc: string;
+  distance: string;
   userId: string;
   transporterId: string;
   selectedItemsId: string;
@@ -28,6 +30,7 @@ export interface IDeliveryFields {
   origin_desc: string;
   destine: string;
   destine_desc: string;
+  distance: string;
   userId?: string;
   transporterId: string;
   selectedItemsId: string;
