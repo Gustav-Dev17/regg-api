@@ -45,6 +45,7 @@ model Transporters {
 
 model Vehicles {
     id            String       @id @default(auto()) @map("_id") @db.ObjectId
+    active        Boolean      @default(true)
     owner_name    String
     owner_cpf     String
     brand         String
@@ -71,6 +72,7 @@ model Deliveries {
     origin_desc   String
     destine       String
     destine_desc  String
+    distance      String
     //relacionamentos
     userId        String        @db.ObjectId
     user          Users         @relation(fields: [userId], references: [id])

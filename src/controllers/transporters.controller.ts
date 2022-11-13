@@ -58,6 +58,28 @@ export const ReadTransporter = async (req: Request, res: Response) => {
   }
 };
 
+export const ReadTransporterWithId = async (req: Request, res: Response) => {
+  try {
+    const transporter = await ListTransporterService(req.params.id);
+    return res.status(200).json({
+      id: transporter?.id,
+      user_type: transporter?.user_type,
+      name: transporter?.name,
+      cpf: transporter?.cpf,
+      phone: transporter?.phone,
+      email: transporter?.email,
+      license_category: transporter?.license_category,
+      transport_license: transporter?.transport_license,
+      avatar_image: transporter?.avatar_image,
+      created_at: transporter?.created_at,
+      updated_at: transporter?.updated_at,
+      vehicle: transporter?.vehicle
+    });
+  } catch (e) {
+    return res.status(400).json({ message: "Error when listing transporter!", descripton: (e as Error).message });
+  }
+};
+
 export const ReadAllTransporters = async (req: Request, res: Response) => {
   try {
     if (req.query.page) {
