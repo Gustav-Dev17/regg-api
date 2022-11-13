@@ -3,6 +3,8 @@ import { PgConfig } from "../config/pagination.config";
 import { IDelivery, IRequestDeliveryBody } from "../types/delivery.body.types";
 import { StatusTypes } from "../types/delivery.body.types";
 
+export const PossibleStatus = "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting";
+
 export const CreateDeliveriesRepo = (body: IDelivery) => {
   return prisma.deliveries.create({ data: body });
 };
@@ -26,7 +28,12 @@ export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
   return prisma.deliveries.findMany({
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-    where: { AND: [{ userId: userId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
+    where: {
+      AND: [{ userId: userId }],
+      NOT: {
+        status: "Finished",
+      },
+    },
     orderBy: { updated_at: "desc" },
   });
 };
@@ -44,7 +51,12 @@ export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: n
   return prisma.deliveries.findMany({
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-    where: { AND: [{ transporterId: transporterId }, { status: "Accepted" || "Cancelled" || "InProgress " || "Refused" || "Waiting" }] },
+    where: {
+      AND: [{ transporterId: transporterId }],
+      NOT: {
+        status: "Finished",
+      },
+    },
     orderBy: { updated_at: "desc" },
   });
 };
