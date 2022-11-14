@@ -19,6 +19,14 @@ export const ReadDeliveryByID = (id: string) => {
 
 export const ReadDeliveries = (pageNumber: number) => {
   return prisma.deliveries.findMany({
+    include: {
+      selectedItems: true,
+      transporter: {
+        include: {
+          vehicle: true,
+        },
+      },
+    },
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
   });
@@ -26,46 +34,70 @@ export const ReadDeliveries = (pageNumber: number) => {
 
 export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
   return prisma.deliveries.findMany({
-    take: PgConfig.perPage,
-    skip: PgConfig.perPage * (pageNumber - 1),
     where: {
       AND: [{ userId: userId }],
       NOT: {
         status: "Finished",
       },
     },
+    include: {
+      selectedItems: true,
+      transporter: {
+        include: {
+          vehicle: true,
+        },
+      },
+    },
+    take: PgConfig.perPage,
+    skip: PgConfig.perPage * (pageNumber - 1),
     orderBy: { updated_at: "desc" },
   });
 };
 
 export const ReadDeliveriesByUserAndStatus = (userId: string, pageNumber: number, status: StatusTypes) => {
   return prisma.deliveries.findMany({
+    where: { userId, status },
+    include: {
+      selectedItems: true,
+      transporter: {
+        include: {
+          vehicle: true,
+        },
+      },
+    },
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-    where: { userId, status },
     orderBy: { updated_at: "desc" },
   });
 };
 
 export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: number) => {
   return prisma.deliveries.findMany({
-    take: PgConfig.perPage,
-    skip: PgConfig.perPage * (pageNumber - 1),
     where: {
       AND: [{ transporterId: transporterId }],
       NOT: {
         status: "Finished",
       },
     },
+    include: {
+      selectedItems: true,
+      user: true,
+    },
+    take: PgConfig.perPage,
+    skip: PgConfig.perPage * (pageNumber - 1),
     orderBy: { updated_at: "desc" },
   });
 };
 
 export const ReadDeliveriesByTransporterAndStatus = (transporterId: string, pageNumber: number, status: StatusTypes) => {
   return prisma.deliveries.findMany({
+    where: { transporterId, status },
+    include: {
+      selectedItems: true,
+      user: true,
+    },
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-    where: { transporterId, status },
     orderBy: { updated_at: "desc" },
   });
 };
