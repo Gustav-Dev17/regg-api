@@ -16,11 +16,9 @@ model Users {
     email          String          @unique
     password       String
     reset_token    String?
-    //relacionamentos
     avatar_image   AvatarImages?
     selected_items SelectedItems[]
     deliveries     Deliveries[]
-    //criado e ou atualizado em
     created_at     DateTime        @default(now())
     updated_at     DateTime        @updatedAt
 }
@@ -35,11 +33,9 @@ model Transporters {
     transport_license Boolean
     email             String        @unique
     password          String
-    //relacionamentos
     vehicle           Vehicles?
     avatar_image      AvatarImages?
     deliveries        Deliveries[]
-    //criado e ou atualizado em
     created_at        DateTime      @default(now())
     updated_at        DateTime      @updatedAt
 }
@@ -58,31 +54,26 @@ model Vehicles {
     license_plate String       @unique
     renavam       String       @unique
     chassi        String       @unique
-    //relacionamentos
     transporter   Transporters @relation(fields: [transporterId], references: [id], onDelete: Cascade)
     transporterId String       @unique @db.ObjectId
-    //criado e ou atualizado em
     created_at    DateTime     @default(now())
     updated_at    DateTime     @updatedAt
 }
 
 model Deliveries {
-    id            String        @id @default(auto()) @map("_id") @db.ObjectId
-    status        StatusTypes   @default(Waiting)
-    origin        String
-    origin_desc   String
-    destine       String
-    destine_desc  String
-    distance      String
-    //relacionamentos
-    userId        String        @db.ObjectId
-    user          Users         @relation(fields: [userId], references: [id])
-    transporterId String?       @db.ObjectId
-    transporter   Transporters? @relation(fields: [transporterId], references: [id])
-
+    id              String        @id @default(auto()) @map("_id") @db.ObjectId
+    status          StatusTypes   @default(Waiting)
+    origin          String
+    origin_desc     String
+    destine         String
+    destine_desc    String
+    distance        String
+    userId          String        @db.ObjectId
+    user            Users         @relation(fields: [userId], references: [id])
+    transporterId   String?       @db.ObjectId
+    transporter     Transporters? @relation(fields: [transporterId], references: [id])
     selectedItemsId String        @unique @db.ObjectId
     selectedItems   SelectedItems @relation(fields: [selectedItemsId], references: [id], onDelete: Cascade)
-    //criado e ou atualizado em
     created_at      DateTime      @default(now())
     updated_at      DateTime      @updatedAt
 }
@@ -91,9 +82,7 @@ model Items {
     id         String           @id @default(auto()) @map("_id") @db.ObjectId
     title      String           @unique
     price      Float
-    //relacionamentos
     image      FurnitureImages?
-    //criado e ou atualizado em
     created_at DateTime         @default(now())
     updated_at DateTime         @updatedAt
 }
@@ -105,10 +94,8 @@ model SelectedItems {
     items_amount   Int
     items_price    Float
     delivery_price Float
-    //relacionamentos
     userId         String      @db.ObjectId
-    user           Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    //criado e ou atualizado em
+    user           Users       @relation(fields: [userId], references: [id])
     created_at     DateTime    @default(now())
     updated_at     DateTime    @updatedAt
     Deliveries     Deliveries?
@@ -118,10 +105,8 @@ model FurnitureImages {
     id            String   @id @default(auto()) @map("_id") @db.ObjectId
     image_altname String
     image_path    String
-    //relacionamentos
     item          Items    @relation(fields: [itemId], references: [id], onDelete: Cascade)
     itemId        String   @unique @db.ObjectId
-    //criado e ou atualizado em
     created_at    DateTime @default(now())
     updated_at    DateTime @updatedAt
 }
@@ -129,12 +114,10 @@ model FurnitureImages {
 model AvatarImages {
     id            String        @id @default(auto()) @map("_id") @db.ObjectId
     avatar_path   String
-    //relacionamentos
     userId        String?       @unique @db.ObjectId
     user          Users?        @relation(fields: [userId], references: [id], onDelete: Cascade)
     transporterId String?       @unique @db.ObjectId
     transporter   Transporters? @relation(fields: [transporterId], references: [id], onDelete: Cascade)
-    //criado e ou atualizado em
     created_at    DateTime      @default(now())
     updated_at    DateTime      @updatedAt
 }
