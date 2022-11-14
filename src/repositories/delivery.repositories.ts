@@ -11,7 +11,18 @@ export const CreateDeliveriesRepo = (body: IDelivery) => {
 
 export const ReadDeliveryByID = (id: string) => {
   try {
-    return prisma.deliveries.findUnique({ where: { id } });
+    return prisma.deliveries.findUnique({
+      where: { id },
+      include: {
+        selectedItems: true,
+        user: true,
+        transporter: {
+          include: {
+            vehicle: true,
+          },
+        },
+      },
+    });
   } catch (e) {
     throw new Error((e as Error).message);
   }
