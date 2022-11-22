@@ -11,14 +11,14 @@ export const CheckEmail = async (req: Request, res: Response) => {
     if (userOrTransporter) {
       return res.status(200).json(userOrTransporter);
     } else {
-      return res.status(404).json({ message: "User or client does not exist!" });
+      return res.status(404).json({ message: "Usuário/transportador inexistente!" });
     }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "User or client does not exist!" });
+        return res.status(404).json({ message: "Usuário/transportador inexistente!" });
       }
     }
-    return res.status(400).json({ message: "Error when looking for user or client!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao encontrar usuário/cliente!", descripton: (e as Error).message });
   }
 };

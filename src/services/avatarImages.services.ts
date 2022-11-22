@@ -13,7 +13,7 @@ export const UploadAvatarImagesService = async (body: IAvatarImages) => {
   try {
     const userId = await ReadAvatarImagesByUserId(body.userId);
     if (userId) {
-      throw new Error("User already have an image");
+      throw new Error("O usuário já tem uma imagem!");
     }
     return CreateAvatarImagesRepo(body);
   } catch (e) {

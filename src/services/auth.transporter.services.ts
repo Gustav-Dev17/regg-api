@@ -7,11 +7,11 @@ export const LoginService = async (email: string, password: string) => {
   try {
     const transporter = await prisma.transporters.findFirstOrThrow({ where: { email } });
     if (!transporter) {
-      throw new Error("Transporter does not exist!");
+      throw new Error("Transportador não encontrado!");
     }
     const matchPassword = await bcrypt.compare(password, transporter.password);
     if (!matchPassword) {
-      throw new Error("Invalid credentials!");
+      throw new Error("Credenciais inválidas!");
     }
     const token = jwt.sign(
       {

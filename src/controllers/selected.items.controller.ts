@@ -20,7 +20,7 @@ export const CreateSelectedItems = async (req: Request, res: Response) => {
     const item = await CreateSelectedItemsService(req.body);
     return res.status(201).json(item);
   } catch (e) {
-    return res.status(400).json({ message: "Error when creating package of selected items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro na criação do pacote de itens!", descripton: (e as Error).message });
   }
 };
 
@@ -29,7 +29,7 @@ export const ReadSelectedItemsById = async (req: Request, res: Response) => {
     const item = await ListSelectedItemsByIdService(req.params.id);
     return res.status(200).json(item);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar itens selecionados!", descripton: (e as Error).message });
   }
 };
 
@@ -39,7 +39,7 @@ export const ReadSelectedItemsByUserId = async (req: Request, res: Response) => 
     const item = await ListSelectedItemsByUserIdService(id);
     return res.status(200).json(item);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar itens selecionados!", descripton: (e as Error).message });
   }
 };
 
@@ -48,7 +48,7 @@ export const ReadAllSelectedItems = async (__: Request, res: Response) => {
     const items = await ListAllSelectedItemsService();
     return res.status(200).json(items);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar itens selecionados!", descripton: (e as Error).message });
   }
 };
 
@@ -58,7 +58,7 @@ export const ReadSelectedItemsByUserIdAndStatus = async (req: Request, res: Resp
     const item = await ListSelectedItemsByUserIdAndStatusService(id);
     return res.status(200).json(item);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing selected items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar itens selecionados!", descripton: (e as Error).message });
   }
 };
 
@@ -69,13 +69,13 @@ export const UpdateSelectedItems = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Package of selected items does not exist!" });
+        return res.status(404).json({ message: "Pacote de itens não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when updating package of items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao atualizar pacote de itens!", descripton: (e as Error).message });
   }
 };
 
@@ -86,12 +86,12 @@ export const DeleteSelectedItems = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Package of selected items does not exist!" });
+        return res.status(404).json({ message: "Pacote de itens não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when deleting package of items!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao deletar pacote de itens!", descripton: (e as Error).message });
   }
 };

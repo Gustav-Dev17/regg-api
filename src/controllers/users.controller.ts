@@ -19,17 +19,17 @@ export const CreateUser = async (req: Request, res: Response) => {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         if (e.meta?.target === "Users_cpf_key") {
-          return res.status(409).json({ message: "CPF is already being used!" });
+          return res.status(409).json({ message: "O CPF informado já está em uso!" });
         }
         if (e.meta?.target === "Users_phone_key") {
-          return res.status(409).json({ message: "Phone number is already being used!" });
+          return res.status(409).json({ message: "O telefone informado já está em uso!" });
         }
         if (e.meta?.target === "Users_email_key") {
-          return res.status(409).json({ message: "E-mail address is already being used!" });
+          return res.status(409).json({ message: "O e-mail informado já está em uso!" });
         }
       }
     }
-    return res.status(400).json({ message: "Error when creating user!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao criar a conta do usuário!", descripton: (e as Error).message });
   }
 };
 
@@ -46,10 +46,10 @@ export const ReadUser = async (req: Request, res: Response) => {
       email: user?.email,
       avatar_image: user?.avatar_image,
       created_at: user?.created_at,
-      updated_at: user?.updated_at
+      updated_at: user?.updated_at,
     });
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar dados do usuário!", descripton: (e as Error).message });
   }
 };
 
@@ -58,7 +58,7 @@ export const ReadAllUsers = async (__: Request, res: Response) => {
     const users = await ListUsersService();
     return res.status(200).json(users);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing users!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar usuários!", descripton: (e as Error).message });
   }
 };
 
@@ -80,23 +80,23 @@ export const UpdateUser = async (req: Request, res: Response) => {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         if (e.meta?.target === "Users_cpf_key") {
-          return res.status(409).json({ message: "CPF is already being used!" });
+          return res.status(409).json({ message: "O CPF informado já está em uso!" });
         }
         if (e.meta?.target === "Users_phone_key") {
-          return res.status(409).json({ message: "Phone number is already being used!" });
+          return res.status(409).json({ message: "O telefone informado já está em uso!" });
         }
         if (e.meta?.target === "Users_email_key") {
-          return res.status(409).json({ message: "E-mail address is already being used!" });
+          return res.status(409).json({ message: "O e-mail informado já está em uso!" });
         }
       }
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "User does not exist!" });
+        return res.status(404).json({ message: "Usuário não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when updating user!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao atualizar dados do usuário!", descripton: (e as Error).message });
   }
 };
 
@@ -108,12 +108,12 @@ export const DeleteUser = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "User does not exist!" });
+        return res.status(404).json({ message: "Usuário não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when deleting user!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao deletar a conta do usuário!", descripton: (e as Error).message });
   }
 };

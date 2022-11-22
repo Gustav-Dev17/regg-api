@@ -7,11 +7,11 @@ export const LoginService = async (email: string, password: string) => {
   try {
     const user = await prisma.users.findFirstOrThrow({ where: { email } });
     if (!user) {
-      throw new Error("User does not exist!");
+      throw new Error("Usuário não encontrado!");
     }
     const matchPassword = await bcrypt.compare(password, user.password);
     if (!matchPassword) {
-      throw new Error("Invalid credentials!");
+      throw new Error("Credenciais inválidas!");
     }
     const token = jwt.sign({ userId: user.id, userType: user.user_type }, authConf.secret as string);
 

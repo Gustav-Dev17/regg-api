@@ -15,7 +15,7 @@ export const CreateSelectedItemsService = async (body: ISelectedItems) => {
   try {
     const existingSelected = await ReadSelectedItemsByUserIdAndStatus(body.userId);
     if (existingSelected) {
-      throw new Error("There are already selected items!");
+      throw new Error("Já existem itens selecionados!");
     }
     return CreateSelectedItemsRepo(body);
   } catch (e) {

@@ -18,17 +18,17 @@ export const CreateVehicle = async (req: Request, res: Response) => {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         if (e.meta?.target === "Vehicles_license_plate_key") {
-          return res.status(409).json({ message: "License plate is already being used!" });
+          return res.status(409).json({ message: "Essa placa já está em uso por outro veículo!" });
         }
         if (e.meta?.target === "Vehicles_renavam_key") {
-          return res.status(409).json({ message: "Renavam is already being used!" });
+          return res.status(409).json({ message: "Esse renavam já está em uso por outro veículo!" });
         }
         if (e.meta?.target === "Vehicles_chassi_key") {
-          return res.status(409).json({ message: "Chassi is already being used!" });
+          return res.status(409).json({ message: "Esse Chassi já está em uso por outro veículo!" });
         }
       }
     }
-    return res.status(400).json({ message: "Error when creating vehicle!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao adicionar o veículo!", descripton: (e as Error).message });
   }
 };
 
@@ -39,10 +39,10 @@ export const ReadVehicle = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Vehicle does not exist!" });
+        return res.status(404).json({ message: "Veículo não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when listing vehicle!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar dados do veículo!", descripton: (e as Error).message });
   }
 };
 
@@ -51,7 +51,7 @@ export const ReadAllVehicles = async (_req: Request, res: Response) => {
     const vehicles = await ListVehiclesService();
     return res.status(200).json(vehicles);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing vehicles!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar veículos!", descripton: (e as Error).message });
   }
 };
 
@@ -62,7 +62,7 @@ export const ReadVehicleByTransporter = async (req: Request, res: Response) => {
     const vehicles = await ListVehicleByUserService(id);
     return res.status(200).json(vehicles);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user's vehicles!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar o veículo!", descripton: (e as Error).message });
   }
 };
 
@@ -74,23 +74,23 @@ export const UpdateVehicle = async (req: Request, res: Response) => {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         if (e.meta?.target === "Vehicles_license_plate_key") {
-          return res.status(409).json({ message: "License plate is already being used!" });
+          return res.status(409).json({ message: "Essa placa já está em uso por outro veículo!" });
         }
         if (e.meta?.target === "Vehicles_renavam_key") {
-          return res.status(409).json({ message: "Renavam is already being used!" });
+          return res.status(409).json({ message: "Esse renavam já está em uso por outro veículo!" });
         }
         if (e.meta?.target === "Vehicles_chassi_key") {
-          return res.status(409).json({ message: "Chassi is already being used!" });
+          return res.status(409).json({ message: "Esse Chassi já está em uso por outro veículo!" });
         }
       }
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Vehicle does not exist!" });
+        return res.status(404).json({ message: "Veículo não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when updating vehicle!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao atualizar dados do veículo!", descripton: (e as Error).message });
   }
 };
 
@@ -101,12 +101,12 @@ export const DeleteVehicle = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Vehicle does not exist!" });
+        return res.status(404).json({ message: "Veículo não encontrado!" });
       }
     }
-    return res.status(400).json({ message: "Error when deleting vehicle!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao deletar o veículo!", descripton: (e as Error).message });
   }
 };

@@ -29,7 +29,7 @@ app.use(deliveryRoutes);
 app.use(googleAuth);
 
 app.get("/", (__, res) => {
-  res.send("Back-end is running...");
+  res.send("Application is running...");
 });
 
 export { app };

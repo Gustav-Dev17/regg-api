@@ -14,7 +14,7 @@ interface TokenPayload {
 export const AuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Não autorizado!" });
   }
   const token = authHeader.split(" ")[1];
   try {
@@ -32,6 +32,6 @@ export const AuthMiddleware = async (req: Request, res: Response, next: NextFunc
 
     return next();
   } catch {
-    return res.status(400).json({ message: "Invalid token!" });
+    return res.status(400).json({ message: "Token inválido!" });
   }
 };

@@ -16,10 +16,10 @@ export const UploadFurnitureImages = async (body: IFurnitureImages) => {
     const itemId = await ReadFurnitureByItemId(body.itemId);
 
     if (altname) {
-      throw new Error("Altname already exists");
+      throw new Error("Nome alternativo já informado!");
     }
     if (itemId) {
-      throw new Error("There's already an image for this item");
+      throw new Error("O item já possui uma imagem relacionada!");
     }
     return CreateFurnitureImagesRepo(body);
   } catch (e) {

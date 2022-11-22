@@ -80,7 +80,7 @@ export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: stri
           return DeleteDeliveryService(id);
         }
       } else {
-        throw new Error("You cannot change the delivery's status");
+        throw new Error("Você não tem permissão para alterar o status da entrega!");
       }
     }
 
@@ -104,7 +104,7 @@ export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: stri
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status }, id);
       } else {
-        throw new Error("Error. Something went wrong!");
+        throw new Error("Algo deu errado!");
       }
     }
   } catch (e) {

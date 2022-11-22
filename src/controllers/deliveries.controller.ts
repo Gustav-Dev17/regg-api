@@ -20,7 +20,7 @@ export const CreateDelivery = async (req: Request, res: Response) => {
     const delivery = await CreateDeliveryService(req.body);
     return res.status(201).json(delivery);
   } catch (e) {
-    return res.status(400).json({ message: "Error when creating delivery!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro na criação da entrega!", descripton: (e as Error).message });
   }
 };
 
@@ -29,7 +29,7 @@ export const ReadDelivery = async (req: Request, res: Response) => {
     const delivery = await ReadDeliveryService(req.params.id);
     return res.status(200).json(delivery);
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing delivery!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas!", descripton: (e as Error).message });
   }
 };
 
@@ -44,7 +44,7 @@ export const ReadAllDeliveries = async (req: Request, res: Response) => {
       return res.status(200).json(deliveries);
     }
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing deliveries!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas!", descripton: (e as Error).message });
   }
 };
 
@@ -60,7 +60,7 @@ export const ReadDeliveriesByUser = async (req: Request, res: Response) => {
       return res.status(200).json(deliveries);
     }
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user's deliveries!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas do usuário!", descripton: (e as Error).message });
   }
 };
 
@@ -76,7 +76,7 @@ export const ReadDeliveriesByUserAndStatus = async (req: Request, res: Response)
       return res.status(200).json(deliveries);
     }
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user's deliveries by status!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas por status!", descripton: (e as Error).message });
   }
 };
 
@@ -92,7 +92,7 @@ export const ReadDeliveriesByTransporter = async (req: Request, res: Response) =
       return res.status(200).json(deliveries);
     }
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user's deliveries!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas do usuário!", descripton: (e as Error).message });
   }
 };
 
@@ -108,7 +108,7 @@ export const ReadDeliveriesByTransporterAndStatus = async (req: Request, res: Re
       return res.status(200).json(deliveries);
     }
   } catch (e) {
-    return res.status(400).json({ message: "Error when listing user's deliveries by status!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao listar entregas por status!", descripton: (e as Error).message });
   }
 };
 
@@ -120,13 +120,13 @@ export const UpdateDelivery = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Delivery does not exist!" });
+        return res.status(404).json({ message: "Entrega não encontrada!" });
       }
     }
-    return res.status(400).json({ message: "Error when updating delivery!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao atualizar entrega!", descripton: (e as Error).message });
   }
 };
 
@@ -137,12 +137,12 @@ export const DeleteDelivery = async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2023") {
-        return res.status(400).json({ message: "Malformed id!" });
+        return res.status(400).json({ message: "Id malformado!" });
       }
       if (e.code === "P2025") {
-        return res.status(404).json({ message: "Delivery does not exist!" });
+        return res.status(404).json({ message: "Entrega não encontrada!" });
       }
     }
-    return res.status(400).json({ message: "Error when deleting delivery!", descripton: (e as Error).message });
+    return res.status(400).json({ message: "Erro ao deletar a entrega!", descripton: (e as Error).message });
   }
 };

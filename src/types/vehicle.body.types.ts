@@ -39,6 +39,6 @@ export interface IVehicleFields {
   fuel?: string;
   license_plate: string;
   renavam: string;
-  chassi: string;
+  chassi?: string;
   transporterId?: string;
 }

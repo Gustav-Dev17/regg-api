@@ -2,12 +2,12 @@ import * as yup from "yup";
 
 export const deliverySchema = yup.object().shape({
   status: yup.mixed().oneOf(["Accepted", "InProgress", "Refused", "Waiting", "Finished"]),
-  origin: yup.string().required("Origin coordinates are required!"),
-  origin_desc: yup.string().required("Origin description is required!"),
-  destine: yup.string().required("Destine coordinates are required!"),
-  destine_desc: yup.string().required("Destine description is required!"),
-  distance: yup.string().required("Distance is required!"),
+  origin: yup.string().required("As coordenadas de origem são obrigatórias!"),
+  origin_desc: yup.string().required("Descrição da origem é obrigatória!"),
+  destine: yup.string().required("As coordenadas de destino são obrigatórias!"),
+  destine_desc: yup.string().required("Descrição do destino é obrigatória!"),
+  distance: yup.string().required("A distância é obrigatória!"),
   userId: yup.string().notRequired(),
-  selectedItemsId: yup.string().required("selected items are required to create a delivery!"),
-  transporterId: yup.string().required("A transporter ID is required to create a delivery!"),
+  selectedItemsId: yup.string().required("Itens selecionados são obrigatórios para solicitar uma entrega!"),
+  transporterId: yup.string().required("Informar um transportador é obrigatório!"),
 });
