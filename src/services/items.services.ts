@@ -1,8 +1,12 @@
 import { IRequestItemBody, Item } from "../types/item.body.types";
 import { CreateItemsRepo, ReadItems, ReadItemByID, UpdateItem, DeleteItem } from "../repositories/items.repository";
+import { bucket } from "../firebase/config";
 
-export const CreateItemService = (body: Item) => {
+export const CreateItemService = (body: Item, image: string) => {
   try {
+    if (image) {
+      return CreateItemsRepo({ ...body, image });
+    }
     return CreateItemsRepo(body);
   } catch (e) {
     throw new Error((e as Error).message);
@@ -25,12 +29,19 @@ export const ListItemsService = () => {
   }
 };
 
-export const UpdateItemService = async (body: IRequestItemBody, id: string) => {
+export const UpdateItemService = async (body: IRequestItemBody, id: string, image: string) => {
   try {
     const item = await ReadItemByID(id);
-    const title = body.title || item?.title;
-    const price = body.price || item?.price;
-    return UpdateItem({ title, price }, id);
+    if (image) {
+      if (item?.image) {
+        const file = item.image.split("/");
+        const deleteFile = file[file.length - 1];
+
+        await bucket.file(deleteFile).delete();
+      }
+      return UpdateItem({ ...body, image }, id);
+    }
+    return UpdateItem({ ...body }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -43,3 +54,4 @@ export const DeleteItemService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+

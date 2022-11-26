@@ -3,8 +3,6 @@ import express from "express";
 import itemRoutes from "./routes/item.routes";
 import userRoutes from "./routes/user.routes";
 import transporterRoutes from "./routes/transporter.routes";
-import furnitureImagesRoutes from "./routes/furnitureImages.routes";
-import avatarImagesRoutes from "./routes/avatarImages.routes";
 import deliveryRoutes from "./routes/delivery.routes";
 import googleAuth from "./routes/auth.google.routes";
 
@@ -23,13 +21,8 @@ app.use("/avatar-images", express.static("avatar-images"));
 app.use(userRoutes);
 app.use(itemRoutes);
 app.use(transporterRoutes);
-app.use(furnitureImagesRoutes);
-app.use(avatarImagesRoutes);
 app.use(deliveryRoutes);
 app.use(googleAuth);
 
-app.get("/", (__, res) => {
-  res.send("Application is running...");
-});
-
 export { app };
+

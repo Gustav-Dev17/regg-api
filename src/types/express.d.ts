@@ -4,5 +4,7 @@ declare namespace Express {
     userType: string;
     transporterName?: string;
     transporterCPF?: string;
+    firebaseUrl: string;
   }
 }
+

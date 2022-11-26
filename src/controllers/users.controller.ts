@@ -44,7 +44,7 @@ export const ReadUser = async (req: Request, res: Response) => {
       cpf: user?.cpf,
       phone: user?.phone,
       email: user?.email,
-      avatar_image: user?.avatar_image,
+      avatar_url: user?.avatar_url,
       created_at: user?.created_at,
       updated_at: user?.updated_at,
     });
@@ -64,8 +64,9 @@ export const ReadAllUsers = async (__: Request, res: Response) => {
 
 export const UpdateUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req;
-    const user = await UpdateUserService(req.body, id);
+    const { id, firebaseUrl } = req;
+    console.log(req.body);
+    const user = await UpdateUserService(req.body, id, firebaseUrl);
     return res.status(200).json({
       id: user.id,
       user_type: user.user_type,
@@ -73,6 +74,7 @@ export const UpdateUser = async (req: Request, res: Response) => {
       cpf: user.cpf,
       phone: user.phone,
       email: user.email,
+      avatar_url: user.avatar_url,
       created_at: user.created_at,
       updated_at: user.updated_at,
     });
@@ -117,3 +119,4 @@ export const DeleteUser = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Erro ao deletar a conta do usuário!", descripton: (e as Error).message });
   }
 };
+

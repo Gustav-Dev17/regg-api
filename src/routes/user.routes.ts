@@ -15,6 +15,8 @@ import {
   UpdateSelectedItems,
   DeleteSelectedItems,
 } from "../controllers/selected.items.controller";
+import { multerUpload } from "../config/multer";
+import { UploadMiddleware } from "../middlewares/upload.middleware";
 
 const route = Router();
 
@@ -24,7 +26,7 @@ route.post("/user/login", validate(loginSchema), DoLogin);
 route.post("/user", validate(userSchema), CreateUser);
 route.get("/user", AuthMiddleware, ReadUser);
 route.get("/users", AuthMiddleware, ReadAllUsers);
-route.patch("/user", AuthMiddleware, UpdateUser);
+route.patch("/user", AuthMiddleware, multerUpload.single("img"), UploadMiddleware, UpdateUser);
 route.delete("/user", AuthMiddleware, DeleteUser);
 
 //user's package of items
@@ -37,3 +39,4 @@ route.patch("/selectedItems/update/:id", AuthMiddleware, UpdateSelectedItems);
 route.delete("/selectedItems/delete/:id", AuthMiddleware, DeleteSelectedItems);
 
 export default route;
+

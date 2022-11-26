@@ -16,7 +16,7 @@ model Users {
     email          String          @unique
     password       String
     reset_token    String?
-    avatar_image   AvatarImages?
+    avatar_url     String?
     selected_items SelectedItems[]
     deliveries     Deliveries[]
     created_at     DateTime        @default(now())
@@ -24,20 +24,20 @@ model Users {
 }
 
 model Transporters {
-    id                String        @id @default(auto()) @map("_id") @db.ObjectId
-    user_type         UserTypes     @default(Transporter)
+    id                String       @id @default(auto()) @map("_id") @db.ObjectId
+    user_type         UserTypes    @default(Transporter)
     name              String
-    phone             String        @unique
-    cpf               String        @unique
+    phone             String       @unique
+    cpf               String       @unique
     license_category  String
     transport_license Boolean
-    email             String        @unique
+    email             String       @unique
     password          String
     vehicle           Vehicles?
-    avatar_image      AvatarImages?
+    avatar_url        String?
     deliveries        Deliveries[]
-    created_at        DateTime      @default(now())
-    updated_at        DateTime      @updatedAt
+    created_at        DateTime     @default(now())
+    updated_at        DateTime     @updatedAt
 }
 
 model Vehicles {
@@ -79,12 +79,12 @@ model Deliveries {
 }
 
 model Items {
-    id         String           @id @default(auto()) @map("_id") @db.ObjectId
-    title      String           @unique
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    title      String   @unique
     price      Float
-    image      FurnitureImages?
-    created_at DateTime         @default(now())
-    updated_at DateTime         @updatedAt
+    image      String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 }
 
 model SelectedItems {
@@ -99,27 +99,6 @@ model SelectedItems {
     created_at     DateTime    @default(now())
     updated_at     DateTime    @updatedAt
     Deliveries     Deliveries?
-}
-
-model FurnitureImages {
-    id            String   @id @default(auto()) @map("_id") @db.ObjectId
-    image_altname String
-    image_path    String
-    item          Items    @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    itemId        String   @unique @db.ObjectId
-    created_at    DateTime @default(now())
-    updated_at    DateTime @updatedAt
-}
-
-model AvatarImages {
-    id            String        @id @default(auto()) @map("_id") @db.ObjectId
-    avatar_path   String
-    userId        String?       @unique @db.ObjectId
-    user          Users?        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    transporterId String?       @unique @db.ObjectId
-    transporter   Transporters? @relation(fields: [transporterId], references: [id], onDelete: Cascade)
-    created_at    DateTime      @default(now())
-    updated_at    DateTime      @updatedAt
 }
 
 enum StatusTypes {

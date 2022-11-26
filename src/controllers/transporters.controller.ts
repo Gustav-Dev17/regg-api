@@ -48,7 +48,7 @@ export const ReadTransporter = async (req: Request, res: Response) => {
       email: transporter?.email,
       license_category: transporter?.license_category,
       transport_license: transporter?.transport_license,
-      avatar_image: transporter?.avatar_image,
+      avatar_url: transporter?.avatar_url,
       created_at: transporter?.created_at,
       updated_at: transporter?.updated_at,
       vehicle: transporter?.vehicle,
@@ -70,10 +70,10 @@ export const ReadTransporterWithId = async (req: Request, res: Response) => {
       email: transporter?.email,
       license_category: transporter?.license_category,
       transport_license: transporter?.transport_license,
-      avatar_image: transporter?.avatar_image,
       created_at: transporter?.created_at,
       updated_at: transporter?.updated_at,
       vehicle: transporter?.vehicle,
+      avatar_url: transporter?.avatar_url,
     });
   } catch (e) {
     return res.status(400).json({ message: "Erro ao listar dados do transportador!", descripton: (e as Error).message });
@@ -97,8 +97,8 @@ export const ReadAllTransporters = async (req: Request, res: Response) => {
 
 export const UpdateTransporter = async (req: Request, res: Response) => {
   try {
-    const { id } = req;
-    const transporter = await UpdateTransporterService(req.body, id);
+    const { id, firebaseUrl } = req;
+    const transporter = await UpdateTransporterService(req.body, id, firebaseUrl);
     return res.status(200).json({
       id: transporter.id,
       user_type: transporter.user_type,
@@ -108,6 +108,7 @@ export const UpdateTransporter = async (req: Request, res: Response) => {
       email: transporter.email,
       license_category: transporter.license_category,
       transport_license: transporter.transport_license,
+      avatar_url: transporter?.avatar_url,
       created_at: transporter.created_at,
       updated_at: transporter.updated_at,
     });
@@ -152,3 +153,4 @@ export const DeleteTransporter = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Erro ao deletar a conta do transportador!", descripton: (e as Error).message });
   }
 };
+
