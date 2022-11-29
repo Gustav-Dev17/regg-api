@@ -6,6 +6,7 @@ export interface IRequestTransporterBody {
   password?: string;
   license_category?: string;
   transport_license?: boolean;
+  avatar_url?: string;
 }
 
 export interface ITransporter {
@@ -17,3 +18,4 @@ export interface ITransporter {
   license_category: string;
   transport_license: boolean;
 }
+

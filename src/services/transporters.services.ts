@@ -1,6 +1,7 @@
-import bcrypt from "bcryptjs";
 import { IRequestTransporterBody, ITransporter } from "../types/transporter.body.types";
 import { CreateTransportersRepo, ReadTransporters, ReadTransporterByID, UpdateTransporter, DeleteTransporter } from "../repositories/transporters.repository";
+import { bucket } from "../firebase/config";
+import bcrypt from "bcryptjs";
 
 export const CreateTransporterService = (body: ITransporter) => {
   try {
@@ -27,20 +28,24 @@ export const ListTransportersService = (pageNumber?: number) => {
   }
 };
 
-export const UpdateTransporterService = async (body: IRequestTransporterBody, id: string) => {
+export const UpdateTransporterService = async (body: IRequestTransporterBody, id: string, image: string) => {
   try {
     const transporter = await ReadTransporterByID(id);
-    const name = body.name || transporter?.name;
-    const cpf = body.cpf || transporter?.cpf;
-    const phone = body.phone || transporter?.phone;
-    const email = body.email || transporter?.email;
-    const license_category = body.license_category || transporter?.license_category;
-    const transport_license = body.transport_license || transporter?.transport_license;
-    const decryptedPassword = body.password || transporter?.password;
+    const { password } = body;
 
-    const password = bcrypt.hashSync(decryptedPassword as string, 8);
+    body.password = password ? bcrypt.hashSync(password as string, 10) : transporter?.password;
 
-    return UpdateTransporter({ name, cpf, phone, email, license_category, transport_license, password }, id);
+    if (image) {
+      if (transporter?.avatar_url) {
+        const file = transporter.avatar_url.split("/");
+        const deleteFile = file[file.length - 1];
+
+        await bucket.file(deleteFile).delete();
+      }
+      return UpdateTransporter({ ...body, avatar_url: image }, id);
+    }
+
+    return UpdateTransporter({ ...body }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -53,3 +58,4 @@ export const DeleteTransporterService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+

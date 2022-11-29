@@ -4,7 +4,8 @@ import { CreateItemService, DeleteItemService, ListItemService, ListItemsService
 
 export const CreateItem = async (req: Request, res: Response) => {
   try {
-    const item = await CreateItemService(req.body);
+    const { firebaseUrl } = req;
+    const item = await CreateItemService(req.body, firebaseUrl);
     return res.status(201).json(item);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -36,7 +37,8 @@ export const ReadAllItems = async (__: Request, res: Response) => {
 
 export const UpdateItem = async (req: Request, res: Response) => {
   try {
-    const item = await UpdateItemService(req.body, req.params.id);
+    const { firebaseUrl } = req;
+    const item = await UpdateItemService(req.body, req.params.id, firebaseUrl);
     return res.status(200).json(item);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -70,3 +72,4 @@ export const DeleteItem = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Error ao deletar o item!", descripton: (e as Error).message });
   }
 };
+

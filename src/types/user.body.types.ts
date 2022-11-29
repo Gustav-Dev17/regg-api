@@ -5,6 +5,7 @@ export interface IRequestUserBody {
   email?: string;
   password?: string;
   reset_token?: string;
+  avatar_url?: string;
 }
 
 export interface IUser {
@@ -15,3 +16,4 @@ export interface IUser {
   password: string;
   reset_token?: string;
 }
+
