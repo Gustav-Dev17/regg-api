@@ -65,7 +65,6 @@ export const ReadAllUsers = async (__: Request, res: Response) => {
 export const UpdateUser = async (req: Request, res: Response) => {
   try {
     const { id, firebaseUrl } = req;
-    console.log(req.body);
     const user = await UpdateUserService(req.body, id, firebaseUrl);
     return res.status(200).json({
       id: user.id,

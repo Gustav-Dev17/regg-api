@@ -34,9 +34,9 @@ export const UpdateUserService = async (body: IRequestUserBody, id: string, imag
   try {
     const user = await ReadUserByID(id);
 
-    const decryptedPassword = body.password || user?.password;
+    const { password } = body;
 
-    const password = bcrypt.hashSync(decryptedPassword as string, 8);
+    body.password = password ? bcrypt.hashSync(password as string, 10) : user?.password;
 
     if (image) {
       if (user?.avatar_url) {
@@ -45,10 +45,10 @@ export const UpdateUserService = async (body: IRequestUserBody, id: string, imag
 
         await bucket.file(deleteFile).delete();
       }
-      return UpdateUser({ ...body, avatar_url: image, password }, id);
+      return UpdateUser({ ...body, avatar_url: image }, id);
     }
 
-    return UpdateUser({ ...body, password }, id);
+    return UpdateUser({ ...body }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }

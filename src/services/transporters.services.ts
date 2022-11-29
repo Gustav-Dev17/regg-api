@@ -31,9 +31,10 @@ export const ListTransportersService = (pageNumber?: number) => {
 export const UpdateTransporterService = async (body: IRequestTransporterBody, id: string, image: string) => {
   try {
     const transporter = await ReadTransporterByID(id);
-    const decryptedPassword = body.password || transporter?.password;
+    const { password } = body;
 
-    const password = bcrypt.hashSync(decryptedPassword as string, 8);
+    body.password = password ? bcrypt.hashSync(password as string, 10) : transporter?.password;
+
     if (image) {
       if (transporter?.avatar_url) {
         const file = transporter.avatar_url.split("/");
@@ -41,10 +42,10 @@ export const UpdateTransporterService = async (body: IRequestTransporterBody, id
 
         await bucket.file(deleteFile).delete();
       }
-      return UpdateTransporter({ ...body, avatar_url: image, password }, id);
+      return UpdateTransporter({ ...body, avatar_url: image }, id);
     }
 
-    return UpdateTransporter({ ...body, password }, id);
+    return UpdateTransporter({ ...body }, id);
   } catch (e) {
     throw new Error((e as Error).message);
   }
