@@ -18,6 +18,9 @@ app.use(
 app.use(express.json());
 app.use("/furniture-images", express.static("furniture-images"));
 app.use("/avatar-images", express.static("avatar-images"));
+app.get('/', (req, res) => {
+  res.send('Hello')
+})
 app.use(userRoutes);
 app.use(itemRoutes);
 app.use(transporterRoutes);
