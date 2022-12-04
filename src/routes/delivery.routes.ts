@@ -13,6 +13,7 @@ import {
   ReadDeliveriesByTransporterAndStatus,
   UpdateDelivery,
   DeleteDelivery,
+  UpdateTransporterInDelivery,
 } from "../controllers/deliveries.controller";
 
 const route = Router();
@@ -28,6 +29,8 @@ route.get("/deliveriesByUserAndStatus", AuthMiddleware, ReadDeliveriesByUserAndS
 route.get("/deliveriesByTransporter", AuthMiddleware, ReadDeliveriesByTransporter); //?page=
 route.get("/deliveriesByTransporterAndStatus", AuthMiddleware, ReadDeliveriesByTransporterAndStatus); //?page= and ?status=
 route.patch("/delivery/:id", AuthMiddleware, UpdateDelivery);
+route.patch("/transporterInDelivery/:id", AuthMiddleware, UpdateTransporterInDelivery);
 route.delete("/delivery/:id", AuthMiddleware, DeleteDelivery);
 
 export default route;
+

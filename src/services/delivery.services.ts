@@ -119,3 +119,16 @@ export const DeleteDeliveryService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
+export const UpdateTransporterInDeliveryService = async (id: string, userType: string, transporterId: string) => {
+  try {
+    if (userType === "Client") {
+      return UpdateDelivery({ transporterId }, id);
+    } else {
+      throw new Error("Você não tem permissão para alterar o status da entrega!");
+    }
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+

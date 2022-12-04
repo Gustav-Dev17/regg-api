@@ -11,6 +11,7 @@ import {
   ReadDeliveriesByTransporterAndStatusService,
   UpdateDeliveryService,
   DeleteDeliveryService,
+  UpdateTransporterInDeliveryService,
 } from "../services/delivery.services";
 
 export const CreateDelivery = async (req: Request, res: Response) => {
@@ -130,6 +131,24 @@ export const UpdateDelivery = async (req: Request, res: Response) => {
   }
 };
 
+export const UpdateTransporterInDelivery = async (req: Request, res: Response) => {
+  try {
+    const { userType } = req;
+    const delivery = await UpdateTransporterInDeliveryService(req.params.id, userType, req.body.transporterId);
+    return res.status(200).json(delivery);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2023") {
+        return res.status(400).json({ message: "Id malformado!" });
+      }
+      if (e.code === "P2025") {
+        return res.status(404).json({ message: "Entrega não encontrada!" });
+      }
+    }
+    return res.status(400).json({ message: "Erro ao atualizar entrega!", descripton: (e as Error).message });
+  }
+};
+
 export const DeleteDelivery = async (req: Request, res: Response) => {
   try {
     await DeleteDeliveryService(req.params.id);
@@ -146,3 +165,4 @@ export const DeleteDelivery = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Erro ao deletar a entrega!", descripton: (e as Error).message });
   }
 };
+
