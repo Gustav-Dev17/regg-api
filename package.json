@@ -6,7 +6,7 @@
     "license": "MIT",
     "scripts": {
         "prepare": "npx prisma generate",
-        "build": "yarn tsc",
+        "build": "yarn && tsc",
         "start": "node ./dist/server.js",
         "dev": "ts-node-dev --files -r tsconfig-paths/register --exit-child --ignore-watch node_modules src/server.ts"
     },
