@@ -6,8 +6,6 @@ yarn-error.log
 dist/
 # Lock files
 package-*.json
-*.lock
-
 # IDEs Folders
 .idea
 .vscode
