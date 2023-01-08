@@ -9,6 +9,7 @@ import { CreateTransporter, DeleteTransporter, ReadTransporter, ReadTransporterW
 import { CreateVehicle, DeleteVehicle, ReadVehicle, ReadVehicleByTransporter, ReadAllVehicles, UpdateVehicle } from "../controllers/vehicles.controller";
 import { multerUpload } from "../config/multer";
 import { UploadMiddleware } from "../middlewares/upload.middleware";
+import { AddPlayerIdToTransporter, ListPlayersIdsFromTransporter, RemovePlayerIdFromTransporter } from "../controllers/playersId.controller";
 
 const route = Router();
 
@@ -29,6 +30,11 @@ route.get("/vehicles", AuthMiddleware, ReadAllVehicles);
 route.get("/transporter/vehicle", AuthMiddleware, AuthMiddleware, ReadVehicleByTransporter);
 route.patch("/vehicle/:id", AuthMiddleware, UpdateVehicle);
 route.delete("/vehicle/:id", AuthMiddleware, DeleteVehicle);
+
+//players ids
+route.post("/playerId/transporter", AuthMiddleware, AddPlayerIdToTransporter);
+route.delete("/playerId/transporter/:id", AuthMiddleware, RemovePlayerIdFromTransporter);
+route.get("/players/transporter", AuthMiddleware, ListPlayersIdsFromTransporter);
 
 export default route;
 

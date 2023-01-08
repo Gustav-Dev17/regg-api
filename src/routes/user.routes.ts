@@ -17,6 +17,7 @@ import {
 } from "../controllers/selected.items.controller";
 import { multerUpload } from "../config/multer";
 import { UploadMiddleware } from "../middlewares/upload.middleware";
+import { AddPlayerIdToUser, ListPlayersIdsFromUser, RemovePlayerIdFromUser } from "../controllers/playersId.controller";
 
 const route = Router();
 
@@ -37,6 +38,11 @@ route.get("/selectedItems/readAll", AuthMiddleware, ReadAllSelectedItems);
 route.get("/selectedItems/readBy", AuthMiddleware, ReadSelectedItemsByUserIdAndStatus); //query example: ?status=2
 route.patch("/selectedItems/update/:id", AuthMiddleware, UpdateSelectedItems);
 route.delete("/selectedItems/delete/:id", AuthMiddleware, DeleteSelectedItems);
+
+//players ids
+route.post("/playerId/user", AuthMiddleware, AddPlayerIdToUser);
+route.delete("/playerId/user/:id", AuthMiddleware, RemovePlayerIdFromUser);
+route.get("/players/user", AuthMiddleware, ListPlayersIdsFromUser);
 
 export default route;
 
