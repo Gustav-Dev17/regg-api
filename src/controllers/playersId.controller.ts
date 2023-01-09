@@ -64,8 +64,7 @@ export const RemovePlayerIdFromTransporter = async (req: Request, res: Response)
 
 export const ListPlayersIdsFromUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req;
-    const players = await ListPlayersIdsFromUserService(id);
+    const players = await ListPlayersIdsFromUserService(req.params.userId);
     return res.status(200).json(players);
   } catch (e) {
     return res.status(400).json({ message: (e as Error).message });
@@ -74,8 +73,7 @@ export const ListPlayersIdsFromUser = async (req: Request, res: Response) => {
 
 export const ListPlayersIdsFromTransporter = async (req: Request, res: Response) => {
   try {
-    const { id } = req;
-    const players = await ListPlayersIdsFromTransporterService(id);
+    const players = await ListPlayersIdsFromTransporterService(req.params.transporterId);
     return res.status(200).json(players);
   } catch (e) {
     return res.status(400).json({ message: (e as Error).message });

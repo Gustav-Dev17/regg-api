@@ -34,7 +34,7 @@ route.delete("/vehicle/:id", AuthMiddleware, DeleteVehicle);
 //players ids
 route.post("/player/transporter", AuthMiddleware, AddPlayerIdToTransporter);
 route.delete("/player/transporter/:id", AuthMiddleware, RemovePlayerIdFromTransporter);
-route.get("/players/transporter", AuthMiddleware, ListPlayersIdsFromTransporter);
+route.get("/players/transporter/:transporterId", AuthMiddleware, ListPlayersIdsFromTransporter);
 
 export default route;
 

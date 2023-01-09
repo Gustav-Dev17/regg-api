@@ -42,7 +42,7 @@ route.delete("/selectedItems/delete/:id", AuthMiddleware, DeleteSelectedItems);
 //players ids
 route.post("/player/user", AuthMiddleware, AddPlayerIdToUser);
 route.delete("/player/user/:id", AuthMiddleware, RemovePlayerIdFromUser);
-route.get("/players/user", AuthMiddleware, ListPlayersIdsFromUser);
+route.get("/players/user/:userId", AuthMiddleware, ListPlayersIdsFromUser);
 
 export default route;
 
