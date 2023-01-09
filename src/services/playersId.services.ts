@@ -15,7 +15,7 @@ export const AddPlayerIdToUserService = async (userId: string, id: string) => {
   }
 
   if (playersIdsAlreadyAdded.ids.includes(id)) {
-    throw new Error("Id exists in list");
+    return "Id exists in list";
   }
 
   await prisma.playersId.update({ where: { id: playersIdsAlreadyAdded.id }, data: { ids: [...playersIdsAlreadyAdded.ids, id] } });
