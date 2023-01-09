@@ -40,8 +40,8 @@ route.patch("/selectedItems/update/:id", AuthMiddleware, UpdateSelectedItems);
 route.delete("/selectedItems/delete/:id", AuthMiddleware, DeleteSelectedItems);
 
 //players ids
-route.post("/playerId/user", AuthMiddleware, AddPlayerIdToUser);
-route.delete("/playerId/user/:id", AuthMiddleware, RemovePlayerIdFromUser);
+route.post("/player/user", AuthMiddleware, AddPlayerIdToUser);
+route.delete("/player/user/:id", AuthMiddleware, RemovePlayerIdFromUser);
 route.get("/players/user", AuthMiddleware, ListPlayersIdsFromUser);
 
 export default route;
