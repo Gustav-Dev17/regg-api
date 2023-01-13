@@ -29,8 +29,8 @@ export const ReadAllSelectedItems = () => {
 
 export const ReadSelectedItemsByUserIdAndStatus = (userId: string) => {
   try {
-    const status = "Selected"
-    return prisma.selectedItems.findFirst({ where: { userId, status } });
+    const status = "Selected";
+    return prisma.selectedItems.findFirst({ where: { userId, status }, include: { user: true } });
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -54,3 +54,4 @@ export const DeleteSelectedItems = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
