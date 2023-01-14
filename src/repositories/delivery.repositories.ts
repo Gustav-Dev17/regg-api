@@ -65,8 +65,15 @@ export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
   });
 };
 
-export const ReadDeliveriesByUserAndStatus = (userId: string, pageNumber: number, status: StatusTypes) => {
-  return prisma.deliveries.findMany({
+export const ReadDeliveriesByUserAndStatus = async (userId: string, pageNumber: number, status: StatusTypes) => {
+  const totalCount = await prisma.deliveries.aggregate({
+    where: { userId, status },
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const deliveries = await prisma.deliveries.findMany({
     where: { userId, status },
     include: {
       selectedItems: true,
@@ -80,6 +87,13 @@ export const ReadDeliveriesByUserAndStatus = (userId: string, pageNumber: number
     skip: PgConfig.perPage * (pageNumber - 1),
     orderBy: { updated_at: "desc" },
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    deliveries,
+  };
 };
 
 export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: number) => {
