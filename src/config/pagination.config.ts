@@ -1,3 +1,4 @@
 export const PgConfig = {
-  perPage: 3,
+  perPage: 10,
 };
+
