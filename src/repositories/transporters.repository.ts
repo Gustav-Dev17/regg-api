@@ -17,8 +17,19 @@ export const ReadTransporterByID = (id: string) => {
   }
 };
 
-export const ReadTransporters = (pageNumber: number) => {
-  return prisma.transporters.findMany({
+export const ReadTransporters = async (pageNumber: number) => {
+  const totalCount = await prisma.transporters.aggregate({
+    _count: true,
+    where: {
+      vehicle: {
+        active: true,
+      },
+    },
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const transporters = await prisma.transporters.findMany({
     where: {
       vehicle: {
         active: true,
@@ -41,6 +52,13 @@ export const ReadTransporters = (pageNumber: number) => {
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    transporters,
+  };
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {
@@ -61,4 +79,3 @@ export const DeleteTransporter = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
-

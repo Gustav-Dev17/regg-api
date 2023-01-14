@@ -20,7 +20,7 @@ export const ListTransporterService = (id: string) => {
   }
 };
 
-export const ListTransportersService = (pageNumber?: number) => {
+export const ListTransportersService = (pageNumber: number) => {
   try {
     return ReadTransporters(pageNumber as number);
   } catch (e) {
@@ -58,4 +58,3 @@ export const DeleteTransporterService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
-

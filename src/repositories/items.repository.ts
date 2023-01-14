@@ -1,4 +1,5 @@
 import prisma from "../services/prisma.services";
+import { PgConfig } from "../config/pagination.config";
 import { Item, IRequestItemBody } from "../types/item.body.types";
 
 export const CreateItemsRepo = (body: Item) => {
@@ -13,8 +14,24 @@ export const ReadItemByID = (id: string) => {
   }
 };
 
-export const ReadItems = () => {
-  return prisma.items.findMany();
+export const ReadItems = async (pageNumber: number) => {
+  const totalCount = await prisma.items.aggregate({
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const items = await prisma.items.findMany({
+    take: PgConfig.perPage,
+    skip: PgConfig.perPage * (pageNumber - 1),
+  });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    items,
+  };
 };
 
 export const UpdateItem = (body: IRequestItemBody, id: string) => {

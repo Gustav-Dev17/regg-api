@@ -82,14 +82,17 @@ export const ReadTransporterWithId = async (req: Request, res: Response) => {
 
 export const ReadAllTransporters = async (req: Request, res: Response) => {
   try {
-    if (req.query.page) {
-      const pageNumber = parseInt(req.query.page as string);
-      const transporters = await ListTransportersService(pageNumber as number);
-      return res.status(200).json(transporters);
-    } else {
-      const transporters = await ListTransportersService(1 as number);
-      return res.status(200).json(transporters);
-    }
+    const pageNumber = parseInt(req.query.page as string);
+    const transporters = await ListTransportersService((pageNumber as number) || 1);
+    return res.status(200).json(transporters);
+    // if (req.query.page) {
+    //   const pageNumber = parseInt(req.query.page as string);
+    //   const transporters = await ListTransportersService(pageNumber as number);
+    //   return res.status(200).json(transporters);
+    // } else {
+    //   const transporters = await ListTransportersService(1 as number);
+    //   return res.status(200).json(transporters);
+    // }
   } catch (e) {
     return res.status(400).json({ message: "Erro ao listar transportadores!", descripton: (e as Error).message });
   }
@@ -153,4 +156,3 @@ export const DeleteTransporter = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Erro ao deletar a conta do transportador!", descripton: (e as Error).message });
   }
 };
-

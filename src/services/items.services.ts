@@ -21,9 +21,9 @@ export const ListItemService = (id: string) => {
   }
 };
 
-export const ListItemsService = () => {
+export const ListItemsService = (pageNumber: number) => {
   try {
-    return ReadItems();
+    return ReadItems(pageNumber as number);
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -54,4 +54,3 @@ export const DeleteItemService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
-

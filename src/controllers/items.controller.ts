@@ -26,9 +26,10 @@ export const ReadItem = async (req: Request, res: Response) => {
   }
 };
 
-export const ReadAllItems = async (__: Request, res: Response) => {
+export const ReadAllItems = async (req: Request, res: Response) => {
   try {
-    const items = await ListItemsService();
+    const pageNumber = parseInt(req.query.page as string);
+    const items = await ListItemsService((pageNumber as number) || 1);
     return res.status(200).json(items);
   } catch (e) {
     return res.status(400).json({ message: "Erro ao listar os itens!", descripton: (e as Error).message });
@@ -72,4 +73,3 @@ export const DeleteItem = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Error ao deletar o item!", descripton: (e as Error).message });
   }
 };
-
