@@ -2,6 +2,21 @@ import prisma from "../services/prisma.services";
 import { PgConfig } from "../config/pagination.config";
 import { Item, IRequestItemBody } from "../types/item.body.types";
 
+export const SearchItems = (key: string) => {
+  try {
+    return prisma.items.findMany({
+      where: {
+        title: {
+          contains: key,
+          mode: "insensitive",
+        },
+      },
+    });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const CreateItemsRepo = (body: Item) => {
   return prisma.items.create({ data: body });
 };

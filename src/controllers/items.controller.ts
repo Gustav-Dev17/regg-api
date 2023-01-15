@@ -1,6 +1,16 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateItemService, DeleteItemService, ListItemService, ListItemsService, UpdateItemService } from "../services/items.services";
+import { SearchItemsService, CreateItemService, DeleteItemService, ListItemService, ListItemsService, UpdateItemService } from "../services/items.services";
+
+export const SearchItems = async (req: Request, res: Response) => {
+  try {
+    const key = req.query.search;
+    const items = await SearchItemsService((key as string) || ("" as string));
+    return res.status(200).json(items);
+  } catch (e) {
+    return res.status(400).json({ message: "Erro ao encontrar o(s) item(ns)!", descripton: (e as Error).message });
+  }
+};
 
 export const CreateItem = async (req: Request, res: Response) => {
   try {

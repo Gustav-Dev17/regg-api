@@ -1,6 +1,14 @@
 import { IRequestItemBody, Item } from "../types/item.body.types";
-import { CreateItemsRepo, ReadItems, ReadItemByID, UpdateItem, DeleteItem } from "../repositories/items.repository";
+import { SearchItems, CreateItemsRepo, ReadItems, ReadItemByID, UpdateItem, DeleteItem } from "../repositories/items.repository";
 import { bucket } from "../firebase/config";
+
+export const SearchItemsService = (key: string) => {
+  try {
+    return SearchItems(key);
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
 
 export const CreateItemService = (body: Item, image: string) => {
   try {
