@@ -9,6 +9,12 @@ export const CreateDeliveriesRepo = (body: IDelivery) => {
   return prisma.deliveries.create({ data: body });
 };
 
+export const CheckExistingAwaitingDeliveries = (userId: string, status: StatusTypes) => {
+  return prisma.deliveries.findMany({
+    where: { userId, status },
+  });
+};
+
 export const ReadDeliveryByID = (id: string) => {
   try {
     return prisma.deliveries.findUnique({

@@ -18,7 +18,7 @@ export const CreateDelivery = async (req: Request, res: Response) => {
   try {
     const { id } = req; //id do user
     req.body.userId = id;
-    const delivery = await CreateDeliveryService(req.body);
+    const delivery = await CreateDeliveryService(req.body, id);
     return res.status(201).json(delivery);
   } catch (e) {
     return res.status(400).json({ message: "Erro na criação da entrega!", descripton: (e as Error).message });
@@ -165,4 +165,3 @@ export const DeleteDelivery = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Erro ao deletar a entrega!", descripton: (e as Error).message });
   }
 };
-

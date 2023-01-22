@@ -2,6 +2,7 @@ import { IDelivery, IRequestDeliveryBody } from "../types/delivery.body.types";
 import { ReadSelectedItemsById, UpdateSelectedItems } from "../repositories/selected.items.repository";
 import {
   CreateDeliveriesRepo,
+  CheckExistingAwaitingDeliveries,
   ReadDeliveryByID,
   ReadDeliveries,
   ReadDeliveriesByUser,
@@ -14,9 +15,15 @@ import {
 
 import { StatusTypes } from "../types/delivery.body.types";
 
-export const CreateDeliveryService = async (body: IDelivery) => {
+export const CreateDeliveryService = async (body: IDelivery, id: string) => {
   try {
-    return CreateDeliveriesRepo(body);
+    const existingDelivery = await CheckExistingAwaitingDeliveries(id, "Waiting" as StatusTypes);
+
+    if (existingDelivery.length > 0) {
+      throw new Error("Já existe uma entrega em espera!");
+    } else {
+      return CreateDeliveriesRepo(body);
+    }
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -131,4 +138,3 @@ export const UpdateTransporterInDeliveryService = async (id: string, userType: s
     throw new Error((e as Error).message);
   }
 };
-
