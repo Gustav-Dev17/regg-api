@@ -11,6 +11,10 @@ export class SocketIO {
       socket.on("changeStatusForClient", ({ deliveryId }) => {
         io.to(deliveryId).emit("sendToClient", { update: true });
       });
+
+      socket.on("changeStatusForTransporter", ({ deliveryId, cancel }) => {
+        io.to(deliveryId).emit("sendToTransporter", { cancel });
+      });
     });
   }
 }
