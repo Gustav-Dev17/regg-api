@@ -30,8 +30,8 @@ model Transporters {
     name              String
     phone             String       @unique
     cpf               String       @unique
-    license_category  String
-    transport_license Boolean
+    license_category  String?
+    transport_license Boolean?
     email             String       @unique
     password          String
     vehicle           Vehicles?

@@ -15,7 +15,6 @@ export interface ITransporter {
   phone: string;
   email: string;
   password: string;
-  license_category: string;
-  transport_license: boolean;
+  license_category?: string;
+  transport_license?: boolean;
 }
-

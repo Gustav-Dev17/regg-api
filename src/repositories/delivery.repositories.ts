@@ -34,8 +34,14 @@ export const ReadDeliveryByID = (id: string) => {
   }
 };
 
-export const ReadDeliveries = (pageNumber: number) => {
-  return prisma.deliveries.findMany({
+export const ReadDeliveries = async (pageNumber: number) => {
+  const totalCount = await prisma.deliveries.aggregate({
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const deliveries = await prisma.deliveries.findMany({
     include: {
       selectedItems: true,
       transporter: {
@@ -47,10 +53,29 @@ export const ReadDeliveries = (pageNumber: number) => {
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    deliveries,
+  };
 };
 
-export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
-  return prisma.deliveries.findMany({
+export const ReadDeliveriesByUser = async (userId: string, pageNumber: number) => {
+  const totalCount = await prisma.deliveries.aggregate({
+    where: {
+      AND: [{ userId: userId }],
+      NOT: {
+        status: "Finished",
+      },
+    },
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const deliveries = await prisma.deliveries.findMany({
     where: {
       AND: [{ userId: userId }],
       NOT: {
@@ -69,6 +94,13 @@ export const ReadDeliveriesByUser = (userId: string, pageNumber: number) => {
     skip: PgConfig.perPage * (pageNumber - 1),
     orderBy: { updated_at: "desc" },
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    deliveries,
+  };
 };
 
 export const ReadDeliveriesByUserAndStatus = async (userId: string, pageNumber: number, status: StatusTypes) => {
@@ -102,8 +134,20 @@ export const ReadDeliveriesByUserAndStatus = async (userId: string, pageNumber: 
   };
 };
 
-export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: number) => {
-  return prisma.deliveries.findMany({
+export const ReadDeliveriesByTransporter = async (transporterId: string, pageNumber: number) => {
+  const totalCount = await prisma.deliveries.aggregate({
+    where: {
+      AND: [{ transporterId: transporterId }],
+      NOT: {
+        status: "Finished",
+      },
+    },
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const deliveries = await prisma.deliveries.findMany({
     where: {
       AND: [{ transporterId: transporterId }],
       NOT: {
@@ -116,12 +160,26 @@ export const ReadDeliveriesByTransporter = (transporterId: string, pageNumber: n
     },
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-    orderBy: { updated_at: "desc" },
+    orderBy: { updated_at: "asc" },
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    deliveries,
+  };
 };
 
-export const ReadDeliveriesByTransporterAndStatus = (transporterId: string, pageNumber: number, status: StatusTypes) => {
-  return prisma.deliveries.findMany({
+export const ReadDeliveriesByTransporterAndStatus = async (transporterId: string, pageNumber: number, status: StatusTypes) => {
+  const totalCount = await prisma.deliveries.aggregate({
+    where: { transporterId, status },
+    _count: true,
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const deliveries = await prisma.deliveries.findMany({
     where: { transporterId, status },
     include: {
       selectedItems: true,
@@ -131,6 +189,13 @@ export const ReadDeliveriesByTransporterAndStatus = (transporterId: string, page
     skip: PgConfig.perPage * (pageNumber - 1),
     orderBy: { updated_at: "desc" },
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    deliveries,
+  };
 };
 
 export const UpdateDelivery = (body: IRequestDeliveryBody, id: string) => {
