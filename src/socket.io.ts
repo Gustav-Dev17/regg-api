@@ -4,7 +4,7 @@ import { io } from "./app";
 export class SocketIO {
   static webSocket(app: Express) {
     io.on("connection", (socket) => {
-      socket.on("join", ({ deliveryId, userId }) => {
+      socket.on("join", ({ deliveryId }) => {
         socket.join(deliveryId);
       });
 
