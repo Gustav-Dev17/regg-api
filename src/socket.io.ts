@@ -6,9 +6,10 @@ export class SocketIO {
     io.on("connection", (socket) => {
       socket.on("join", ({ deliveryId, userId }) => {
         socket.join(deliveryId);
-        if (userId) {
-          socket.join(userId);
-        }
+      });
+
+      socket.on("joinTransporter", ({ userId }) => {
+        socket.join(userId);
       });
 
       socket.on("changeStatusForClient", ({ deliveryId }) => {
