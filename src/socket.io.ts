@@ -4,11 +4,12 @@ import { io } from "./app";
 export class SocketIO {
   static webSocket(app: Express) {
     io.on("connection", (socket) => {
-      socket.on("join", ({ deliveryId, userId }) => {
+      socket.on("join", ({ deliveryId }) => {
         socket.join(deliveryId);
-        if (userId) {
-          socket.join(userId);
-        }
+      });
+
+      socket.on("joinTransporter", ({ userId }) => {
+        socket.join(userId);
       });
 
       socket.on("changeStatusForClient", ({ deliveryId }) => {
