@@ -30,23 +30,24 @@ export const ReadItemByID = (id: string) => {
 };
 
 export const ReadItems = async (pageNumber: number) => {
-  const totalCount = await prisma.items.aggregate({
+  /* const totalCount = await prisma.items.aggregate({
     _count: true,
   });
 
-  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage); */
 
-  const items = await prisma.items.findMany({
+  /* const items = await prisma.items.findMany({
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
-  });
+  }); */
 
-  return {
+  /* return {
     totalCount: totalCount._count,
     totalPage,
     currentPage: pageNumber,
     items,
-  };
+  }; */
+  return prisma.items.findMany();
 };
 
 export const UpdateItem = (body: IRequestItemBody, id: string) => {
@@ -67,3 +68,4 @@ export const DeleteItem = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
