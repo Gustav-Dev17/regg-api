@@ -70,6 +70,7 @@ model Deliveries {
     destine         String
     destine_desc    String
     distance        String
+    isPaid          Boolean?
     userId          String        @db.ObjectId
     user            Users         @relation(fields: [userId], references: [id])
     transporterId   String?       @db.ObjectId

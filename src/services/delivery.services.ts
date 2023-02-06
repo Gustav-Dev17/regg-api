@@ -9,6 +9,7 @@ import {
   ReadDeliveriesByUserAndStatus,
   ReadDeliveriesByTransporter,
   ReadDeliveriesByTransporterAndStatus,
+  ReadDeliveryToPay,
   UpdateDelivery,
   DeleteDelivery,
 } from "../repositories/delivery.repositories";
@@ -61,6 +62,14 @@ export const ReadDeliveriesByUserAndStatusService = (id: string, pageNumber: num
   }
 };
 
+export const ReadDeliveryToBePaidService = (id: string) => {
+  try {
+    return ReadDeliveryToPay(id);
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const ReadDeliveriesByTransporterService = (id: string, pageNumber: number) => {
   try {
     return ReadDeliveriesByTransporter(id, pageNumber);
@@ -77,7 +86,7 @@ export const ReadDeliveriesByTransporterAndStatusService = (id: string, pageNumb
   }
 };
 
-export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: string, userType: string) => {
+export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: string, userType: string, transpId: string) => {
   try {
     const delivery = await ReadDeliveryByID(id);
 
@@ -96,7 +105,16 @@ export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: stri
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status, transporterId: null }, id);
       }
-      if (body.status === "Accepted" || body.status === "InProgress") {
+      if (body.status === "Accepted") {
+        const hasUnpaid = await ReadDeliveryToPay(transpId);
+        if (hasUnpaid) {
+          throw new Error("Há uma entrega com pagamento pendente! Para realizar novas entregas, efetue o pagamento.");
+        } else {
+          const status = body.status || (delivery?.status as StatusTypes);
+          return UpdateDelivery({ status }, id);
+        }
+      }
+      if (body.status === "InProgress") {
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status }, id);
       }

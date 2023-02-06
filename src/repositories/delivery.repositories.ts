@@ -134,6 +134,22 @@ export const ReadDeliveriesByUserAndStatus = async (userId: string, pageNumber: 
   };
 };
 
+export const ReadDeliveryToPay = async (transporterId: string) => {
+  try {
+    return prisma.deliveries.findFirst({
+      where: {
+        transporterId: transporterId,
+        isPaid: false,
+      },
+      include: {
+        selectedItems: true,
+      },
+    });
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const ReadDeliveriesByTransporter = async (transporterId: string, pageNumber: number) => {
   const totalCount = await prisma.deliveries.aggregate({
     where: {
