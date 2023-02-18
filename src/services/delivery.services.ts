@@ -70,6 +70,21 @@ export const ReadDeliveryToBePaidService = (id: string) => {
   }
 };
 
+export const SimulatePaymentService = async (transpId: string) => {
+  try {
+    const deliveryToPay = await ReadDeliveryToPay(transpId);
+
+    if (deliveryToPay) {
+      return UpdateDelivery({ isPaid: true }, deliveryToPay?.id);
+    } 
+    else {
+      throw new Error("Não foi encontrada uma entrega a ser paga!");
+    }
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const ReadDeliveriesByTransporterService = (id: string, pageNumber: number) => {
   try {
     return ReadDeliveriesByTransporter(id, pageNumber);

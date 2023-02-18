@@ -10,6 +10,7 @@ import {
   ReadDeliveriesByTransporterService,
   ReadDeliveriesByTransporterAndStatusService,
   ReadDeliveryToBePaidService,
+  SimulatePaymentService,
   UpdateDeliveryService,
   DeleteDeliveryService,
   UpdateTransporterInDeliveryService,
@@ -89,6 +90,17 @@ export const ReadDeliveryToBePaid = async (req: Request, res: Response) => {
     return res.status(200).json(deliveries);
   } catch (e) {
     return res.status(400).json({ message: "Erro ao listar entregas não pagas!", descripton: (e as Error).message });
+  }
+};
+
+export const SimulatePaymentDelivery = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+
+    const paidDelivery = await SimulatePaymentService(id);
+    return res.status(200).json(paidDelivery);
+  } catch (e) {
+    return res.status(400).json({ message: "Erro ao atualizar status de pagamento!", descripton: (e as Error).message });
   }
 };
 
