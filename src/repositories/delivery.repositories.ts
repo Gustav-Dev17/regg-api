@@ -139,6 +139,7 @@ export const ReadDeliveryToPay = async (transporterId: string) => {
     return prisma.deliveries.findFirst({
       where: {
         transporterId: transporterId,
+        status: "Finished",
         isPaid: false,
       },
       include: {
