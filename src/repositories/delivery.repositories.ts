@@ -144,6 +144,9 @@ export const ReadDeliveryToPay = async (transporterId: string) => {
         },
         isPaid: false,
       },
+      include: {
+        selectedItems: true,
+      },
     });
   } catch (e) {
     throw new Error((e as Error).message);
@@ -232,4 +235,3 @@ export const DeleteDelivery = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
-
