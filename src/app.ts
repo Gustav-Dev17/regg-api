@@ -35,10 +35,6 @@ app.get("/", (req, res) => {
   res.send("Running");
 });
 
-app.post("/webhook", (req, res) => {
-  res.send("Hello, world!");
-});
-
 app.use(userRoutes);
 app.use(itemRoutes);
 app.use(transporterRoutes);
