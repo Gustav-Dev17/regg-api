@@ -30,12 +30,13 @@ app.use(
   }),
 );
 app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Running");
 });
 
-app.get("/webhook", (req, res) => {
-  res.send("Hello world");
+app.post("/webhook", (req, res) => {
+  res.send("Hello, world!");
 });
 
 app.use(userRoutes);
