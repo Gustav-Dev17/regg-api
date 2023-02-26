@@ -23,6 +23,10 @@ export class SocketIO {
       socket.on("updateSolicitations", ({ userId }) => {
         io.to(userId).emit("sendUpdate");
       });
+
+      socket.on("joinId", (data) => {
+        socket.join(data);
+      });
     });
   }
 }
