@@ -139,8 +139,8 @@ export const ReadDeliveryToPay = async (transporterId: string) => {
     return prisma.deliveries.findFirst({
       where: {
         transporterId: transporterId,
-        status: {
-          not: "Waiting",
+        NOT: {
+          status: "Waiting",
         },
         isPaid: false,
       },
