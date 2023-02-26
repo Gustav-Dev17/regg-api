@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.send("Running");
 });
 
-app.post("/webhook", (req, res) => {
+app.get("/webhook", (req, res) => {
   res.send("Hello world");
 });
 
