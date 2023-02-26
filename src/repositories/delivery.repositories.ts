@@ -139,13 +139,10 @@ export const ReadDeliveryToPay = async (transporterId: string) => {
     return prisma.deliveries.findFirst({
       where: {
         transporterId: transporterId,
-        NOT: {
-          status: "Waiting",
+        status: {
+          not: "Waiting",
         },
         isPaid: false,
-      },
-      include: {
-        selectedItems: true,
       },
     });
   } catch (e) {
@@ -235,3 +232,4 @@ export const DeleteDelivery = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
