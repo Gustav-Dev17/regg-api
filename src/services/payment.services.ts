@@ -1,65 +1,43 @@
 import { Response } from "express";
 import moment from "moment-timezone";
-import Gerencianet from "gn-api-sdk-typescript";
-import Credentials from "../config/payment.credentials.config";
+import { paymentConfig } from "../config/payment.config";
 
-const gerencianet = new Gerencianet(Credentials);
+const mercadopago = require("mercadopago");
+mercadopago.configurations.setAccessToken(paymentConfig.access_token);
 
-export const CreateImmediateChargeService = async (transporterName: string, transporterCPF: string, deliveryId: string, deliveryPrice: number) => {
-  const fuso = "America/Manaus";
-  const now = moment.tz(fuso);
-  const targetTime = moment.tz(fuso).set({
-    hour: 23,
-    minute: 59,
-    second: 0,
-    millisecond: 0,
-  });
+export const CreateImmediateChargeService = async (
+  transporterId: string,
+  transporterName: string,
+  transporterCPF: string,
+  transporterEmail: string,
+  deliveryId: string,
+  deliveryPrice: number,
+) => {
+  const rowPrice = deliveryPrice * 0.05;
+  const roundedPrice = rowPrice.toFixed(2);
 
-  const timeUntilTarget = targetTime.diff(now, "seconds");
-  const valueToPay = deliveryPrice * 0.05;
-
-  const charge = {
-    calendario: {
-      expiracao: timeUntilTarget,
-    },
-    devedor: {
-      cpf: transporterCPF.replace(/\D/g, ""),
-      nome: transporterName,
-    },
-    valor: {
-      original: valueToPay.toFixed(2),
-    },
-    chave: String(process.env.PIX_KEY),
-    infoAdicionais: [
-      {
-        nome: "Pagamento ao",
-        valor: "Reggie App",
+  const payment_data = {
+    transaction_amount: Number(roundedPrice),
+    description: "Pagamento de entrega N. " + deliveryId.toString().toUpperCase(),
+    external_reference: deliveryId.toString(),
+    statement_descriptor: "Reggie App",
+    payment_method_id: "pix",
+    payer: {
+      id: transporterId,
+      email: transporterEmail,
+      identification: {
+        type: "CPF",
+        number: transporterCPF.replace(/\D/g, ""),
       },
-      {
-        nome: "Entrega/Transporte",
-        valor: "N. " + deliveryId.toString().toUpperCase(),
-      },
-    ],
+    },
   };
 
-  const chargeResponse = await gerencianet.pixCreateImmediateCharge([], charge);
-
-  const QRcode = await GenerateQRCode(chargeResponse.loc.id);
+  const chargeResponse = await mercadopago.payment.create(payment_data);
 
   return {
-    id_delivery: deliveryId.toString().toUpperCase(),
-    total: valueToPay.toFixed(2),
-    qrcode: QRcode.imagemQrcode,
-    code: QRcode.qrcode,
-    expiration_at: targetTime,
+    delivery_id: deliveryId.toString().toUpperCase(),
+    total: roundedPrice,
+    qrcode: chargeResponse.response.point_of_interaction.transaction_data.qr_code_base64,
+    code: chargeResponse.response.point_of_interaction.transaction_data.qr_code,
   };
-};
-
-export const GenerateQRCode = async (locid: string) => {
-  let params = {
-    id: locid,
-  };
-
-  const response = await gerencianet.pixGenerateQRCode(params);
-  return response;
 };
