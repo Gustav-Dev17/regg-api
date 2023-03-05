@@ -26,8 +26,12 @@ export const ConfirmPayment = async (req: Request, res: Response) => {
     const { id } = req;
     const pass = req.query.mercadoPagoPass;
 
-    if (id !== null && id !== "63fbd8fa3c2607578c917d78" && pass !== null && pass !== "8U%DJcp3Ij9KEEhCDXkNH%m#hJJpYLfVAY9Jb$6FcPSfHGkem4") {
+    if (id === null || id !== "63fbd8fa3c2607578c917d78") {
       throw new Error("Solicitação de usuário inválida!");
+    }
+
+    if (pass === null || pass !== "8U%DJcp3Ij9KEEhCDXkNH%mhJJpYLfVAY9Jb$6FcPSfHGkem4") {
+      throw new Error("Origem e ou passe de solicitação inválido(s)!");
     }
 
     const notificationData = req.body;
@@ -36,8 +40,7 @@ export const ConfirmPayment = async (req: Request, res: Response) => {
       data: notificationData,
       passMP: pass,
     });
-
-} catch (e) {
+  } catch (e) {
     return res.status(400).json({ message: "Erro ao confirmar pagamento", descripton: (e as Error).message });
   }
 };
