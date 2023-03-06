@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ListTransporterService } from "../services/transporters.services";
 import { ReadDeliveryToBePaidService } from "../services/delivery.services";
-import { CreateImmediateChargeService } from "../services/payment.services";
+import { CreateImmediateChargeService, CheckPaymentStatusService } from "../services/payment.services";
 import { Console } from "console";
 
 export const WantPayment = async (req: Request, res: Response) => {
@@ -24,24 +24,21 @@ export const WantPayment = async (req: Request, res: Response) => {
 export const ConfirmPayment = async (req: Request, res: Response) => {
   try {
     const { id } = req;
-    // const pass = req.query.mercadoPagoPass;
+    const paymentId = req.body.data.id;
+    const paymentAction = req.body.action;
 
     if (id === null || id !== "63fbd8fa3c2607578c917d78") {
       throw new Error("Solicitação de usuário inválida!");
     }
 
-    // if (pass === null || pass !== "8U%DJcp3Ij9KEEhCDXkNH%mhJJpYLfVAY9Jb$6FcPSfHGkem4") {
-    //   throw new Error("Origem e ou passe de solicitação inválido(s)!");
-    // }
+    const confirmation = await CheckPaymentStatusService(paymentId, paymentAction);
 
-    const notificationData = req.body;
+    if (confirmation) {
+        console.log(confirmation);
+        console.log("paid");
+      return res.status(200).json("Entrega paga com sucesso!");
+    }
 
-    console.log("///Testando resposta");
-    console.log(notificationData);
-
-    return res.status(200).json({
-      data: notificationData,
-    });
   } catch (e) {
     return res.status(400).json({ message: "Erro ao confirmar pagamento", descripton: (e as Error).message });
   }

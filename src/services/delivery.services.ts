@@ -70,7 +70,7 @@ export const ReadDeliveryToBePaidService = (id: string) => {
   }
 };
 
-export const SimulatePaymentService = async (transpId: string) => {
+export const MakePaymentService = async (transpId: string) => {
   try {
     const deliveryToPay = await ReadDeliveryToPay(transpId);
 

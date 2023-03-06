@@ -10,7 +10,7 @@ import {
   ReadDeliveriesByTransporterService,
   ReadDeliveriesByTransporterAndStatusService,
   ReadDeliveryToBePaidService,
-  SimulatePaymentService,
+  MakePaymentService,
   UpdateDeliveryService,
   DeleteDeliveryService,
   UpdateTransporterInDeliveryService,
@@ -97,7 +97,7 @@ export const SimulatePaymentDelivery = async (req: Request, res: Response) => {
   try {
     const { id } = req;
 
-    const paidDelivery = await SimulatePaymentService(id);
+    const paidDelivery = await MakePaymentService(id);
     return res.status(200).json(paidDelivery);
   } catch (e) {
     return res.status(400).json({ message: "Erro ao atualizar status de pagamento!", descripton: (e as Error).message });
