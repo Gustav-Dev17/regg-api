@@ -43,7 +43,6 @@ export const CreateImmediateChargeService = async (
   };
 
   const chargeResponse = await mercadopago.payment.create(payment_data);
-  console.log(chargeResponse);
   return {
     delivery_id: deliveryId.toString().toUpperCase(),
     total: roundedPrice,

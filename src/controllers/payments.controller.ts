@@ -22,24 +22,19 @@ export const WantPayment = async (req: Request, res: Response) => {
 };
 
 export const ConfirmPayment = async (req: Request, res: Response) => {
-  try {
-    const { id } = req;
-    const paymentId = req.body.data.id;
-    const paymentAction = req.body.action;
+  const { id } = req;
+  const paymentId = req.body.data.id;
+  const paymentAction = req.body.action;
 
-    if (id === null || id !== "63fbd8fa3c2607578c917d78") {
-      throw new Error("Solicitação de usuário inválida!");
-    }
-
-    const confirmation = await CheckPaymentStatusService(paymentId, paymentAction);
-
-    if (confirmation) {
-        console.log(confirmation);
-        console.log("paid");
-      return res.status(200).json("Entrega paga com sucesso!");
-    }
-
-  } catch (e) {
-    return res.status(400).json({ message: "Erro ao confirmar pagamento", descripton: (e as Error).message });
+  if (id === null || id !== "63fbd8fa3c2607578c917d78") {
+    throw new Error("Solicitação de usuário inválida!");
   }
+
+  const confirmation = await CheckPaymentStatusService(paymentId, paymentAction);
+
+  if (confirmation) {
+    return res.status(200).json("Entrega paga com sucesso!");
+  }
+
+  return res.status(201); //necessário pq o mercadopago espera esse retorno pra parar de enviar notificações.
 };
