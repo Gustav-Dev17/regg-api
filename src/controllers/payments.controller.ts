@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ListTransporterService } from "../services/transporters.services";
 import { ReadDeliveryToBePaidService } from "../services/delivery.services";
 import { CreateImmediateChargeService, CheckPaymentStatusService } from "../services/payment.services";
-import { io } from "src/app";
+import { io } from "../app";
 
 export const WantPayment = async (req: Request, res: Response) => {
   try {
