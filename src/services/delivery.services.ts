@@ -13,8 +13,8 @@ import {
   UpdateDelivery,
   DeleteDelivery,
 } from "../repositories/delivery.repositories";
-
 import { StatusTypes } from "../types/delivery.body.types";
+import { io } from "../app";
 
 export const CreateDeliveryService = async (body: IDelivery, id: string) => {
   try {
@@ -23,7 +23,9 @@ export const CreateDeliveryService = async (body: IDelivery, id: string) => {
     if (existingDelivery.length > 0) {
       throw new Error("Já existe uma entrega em espera!");
     } else {
-      return CreateDeliveriesRepo(body);
+      const delivery = await CreateDeliveriesRepo(body);
+      io.to(body.transporterId).emit("sendToTransporter");
+      return delivery;
     }
   } catch (e) {
     throw new Error((e as Error).message);
@@ -75,9 +77,9 @@ export const MakePaymentService = async (transpId: string) => {
     const deliveryToPay = await ReadDeliveryToPay(transpId);
 
     if (deliveryToPay) {
+      io.to(deliveryToPay.id).emit("sendToTransporter", { update: true });
       return UpdateDelivery({ isPaid: true }, deliveryToPay?.id);
-    } 
-    else {
+    } else {
       throw new Error("Não foi encontrada uma entrega a ser paga!");
     }
   } catch (e) {
@@ -171,3 +173,4 @@ export const UpdateTransporterInDeliveryService = async (id: string, userType: s
     throw new Error((e as Error).message);
   }
 };
+
