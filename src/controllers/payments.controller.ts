@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ListTransporterService } from "../services/transporters.services";
 import { ReadDeliveryToBePaidService } from "../services/delivery.services";
 import { CreateImmediateChargeService, CheckPaymentStatusService } from "../services/payment.services";
-import { Console } from "console";
+import { io } from "src/app";
 
 export const WantPayment = async (req: Request, res: Response) => {
   try {
@@ -33,8 +33,10 @@ export const ConfirmPayment = async (req: Request, res: Response) => {
   const confirmation = await CheckPaymentStatusService(paymentId, paymentAction);
 
   if (confirmation) {
+    io.to(id).emit("sendToTransporter", { update: true });
     return res.status(200).json("Entrega paga com sucesso!");
   }
 
   return res.status(201); //necessário pq o mercadopago espera esse retorno pra parar de enviar notificações.
 };
+
