@@ -26,6 +26,8 @@ export const ConfirmPayment = async (req: Request, res: Response) => {
   const paymentId = req.body.data.id;
   const paymentAction = req.body.action;
 
+  console.log(id);
+
   if (id === null || id !== "63fbd8fa3c2607578c917d78") {
     throw new Error("Solicitação de usuário inválida!");
   }
@@ -34,6 +36,7 @@ export const ConfirmPayment = async (req: Request, res: Response) => {
 
   if (confirmation) {
     io.to(id).emit("sendToTransporter", { update: true });
+    console.log("aqui");
     return res.status(200).json("Entrega paga com sucesso!");
   }
 
