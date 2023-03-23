@@ -12,8 +12,8 @@ export class SocketIO {
         socket.join(userId);
       });
 
-      socket.on("changeStatusForClient", ({ deliveryId }) => {
-        io.to(deliveryId).emit("sendToClient", { update: true });
+      socket.on("changeStatusForClient", ({ deliveryId, update }) => {
+        io.to(deliveryId).emit("sendToClient", { update });
       });
 
       socket.on("changeStatusForTransporter", ({ deliveryId, cancel }) => {
