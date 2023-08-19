@@ -4,6 +4,9 @@
     "main": "dist/server.js",
     "author": "Gustav OL <70300539+Gustav-Dev17@users.noreply.github.com>",
     "license": "MIT",
+    "engines": {
+        "node": "18"
+    },
     "scripts": {
         "prepare": "npx prisma generate",
         "build": "yarn && tsc",
