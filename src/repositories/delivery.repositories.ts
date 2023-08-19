@@ -16,22 +16,18 @@ export const CheckExistingAwaitingDeliveries = (userId: string, status: StatusTy
 };
 
 export const ReadDeliveryByID = (id: string) => {
-  try {
-    return prisma.deliveries.findUnique({
-      where: { id },
-      include: {
-        selectedItems: true,
-        user: true,
-        transporter: {
-          include: {
-            vehicle: true,
-          },
+  return prisma.deliveries.findUnique({
+    where: { id },
+    include: {
+      selectedItems: true,
+      user: true,
+      transporter: {
+        include: {
+          vehicle: true,
         },
       },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+    },
+  });
 };
 
 export const ReadDeliveries = async (pageNumber: number) => {
@@ -135,22 +131,18 @@ export const ReadDeliveriesByUserAndStatus = async (userId: string, pageNumber: 
 };
 
 export const ReadDeliveryToPay = async (transporterId: string) => {
-  try {
-    return prisma.deliveries.findFirst({
-      where: {
-        transporterId: transporterId,
-        status: {
-          not: "Waiting",
-        },
-        isPaid: false,
+  return prisma.deliveries.findFirst({
+    where: {
+      transporterId: transporterId,
+      status: {
+        not: "Waiting",
       },
-      include: {
-        selectedItems: true,
-      },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+      isPaid: false,
+    },
+    include: {
+      selectedItems: true,
+    },
+  });
 };
 
 export const ReadDeliveriesByTransporter = async (transporterId: string, pageNumber: number) => {
@@ -218,20 +210,12 @@ export const ReadDeliveriesByTransporterAndStatus = async (transporterId: string
 };
 
 export const UpdateDelivery = (body: IRequestDeliveryBody, id: string) => {
-  try {
-    return prisma.deliveries.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.deliveries.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteDelivery = (id: string) => {
-  try {
-    return prisma.deliveries.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.deliveries.delete({ where: { id } });
 };

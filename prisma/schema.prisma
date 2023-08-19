@@ -50,6 +50,7 @@ model Vehicles {
     brand         String
     model         String
     capacity      String?
+    type          VehicleTypes
     year          String
     color         String?
     fuel          String?
@@ -71,6 +72,7 @@ model Deliveries {
     destine_desc    String
     distance        String
     isPaid          Boolean?
+    needsHelper     Boolean       @default(false)
     paymentId       String?
     userId          String        @db.ObjectId
     user            Users         @relation(fields: [userId], references: [id])
@@ -127,6 +129,14 @@ enum StatusTypes {
 enum UserTypes {
     Client
     Transporter
+}
+
+enum VehicleTypes {
+    Pickup
+    Caminhao_Toco
+    Caminhao_Truck
+    Carreta_5Eixos
+    Carreta_Eixo_Estendido
 }
 
 type ItemsType {

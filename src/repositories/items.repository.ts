@@ -3,18 +3,14 @@ import { PgConfig } from "../config/pagination.config";
 import { Item, IRequestItemBody } from "../types/item.body.types";
 
 export const SearchItems = (key: string) => {
-  try {
-    return prisma.items.findMany({
-      where: {
-        title: {
-          contains: key,
-          mode: "insensitive",
-        },
+  return prisma.items.findMany({
+    where: {
+      title: {
+        contains: key,
+        mode: "insensitive",
       },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+    },
+  });
 };
 
 export const CreateItemsRepo = (body: Item) => {
@@ -22,50 +18,20 @@ export const CreateItemsRepo = (body: Item) => {
 };
 
 export const ReadItemByID = (id: string) => {
-  try {
-    return prisma.items.findUnique({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.findUnique({ where: { id } });
 };
 
 export const ReadItems = async (pageNumber: number) => {
-  /* const totalCount = await prisma.items.aggregate({
-    _count: true,
-  });
-
-  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage); */
-
-  /* const items = await prisma.items.findMany({
-    take: PgConfig.perPage,
-    skip: PgConfig.perPage * (pageNumber - 1),
-  }); */
-
-  /* return {
-    totalCount: totalCount._count,
-    totalPage,
-    currentPage: pageNumber,
-    items,
-  }; */
   return prisma.items.findMany();
 };
 
 export const UpdateItem = (body: IRequestItemBody, id: string) => {
-  try {
-    return prisma.items.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteItem = (id: string) => {
-  try {
-    return prisma.items.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.delete({ where: { id } });
 };
-

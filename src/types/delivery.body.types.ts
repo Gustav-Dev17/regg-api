@@ -7,6 +7,7 @@ export interface IRequestDeliveryBody {
   destine?: string;
   destine_desc?: string;
   distance?: string;
+  needsHelper?: boolean;
   isPaid?: boolean;
   paymentId?: string;
   userId?: string;
@@ -21,6 +22,7 @@ export interface IDelivery {
   destine: string;
   destine_desc: string;
   distance: string;
+  needsHelper: boolean;
   isPaid: boolean;
   paymentId?: string;
   userId: string;
@@ -37,6 +39,7 @@ export interface IDeliveryFields {
   distance: string;
   isPaid?: boolean;
   paymentId?: string;
+  needsHelper: boolean;
   userId?: string;
   transporterId: string;
   selectedItemsId: string;

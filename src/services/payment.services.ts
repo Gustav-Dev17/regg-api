@@ -16,8 +16,8 @@ export const CreateImmediateChargeService = async (
   deliveryId: string,
   deliveryPrice: number,
 ) => {
-  const rowPrice = deliveryPrice * 0.05;
-  const roundedPrice = rowPrice.toFixed(2);
+  const rawPrice = deliveryPrice * 0.05;
+  const roundedPrice = rawPrice.toFixed(2);
 
   const names: string[] = transporterName.split(" ");
   const firstName: string = names[0];
@@ -49,7 +49,7 @@ export const CreateImmediateChargeService = async (
     //Se chegou aqui, significa que é a primeira vez que um pagamento é criado ou que a data do pagamento expirou, então um novo pagamento deverá ser criado
 
     const payment_data = {
-      transaction_amount: 0.01,
+      transaction_amount: (Math.random() * (0.10 - 0.01) + 0.01),
       description: "Pagamento de entrega N. " + deliveryId.toString().toUpperCase(),
       statement_descriptor: "Reggie App",
       payment_method_id: "pix",

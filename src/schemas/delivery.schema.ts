@@ -8,6 +8,7 @@ export const deliverySchema = yup.object().shape({
   destine_desc: yup.string().required("Descrição do destino é obrigatória!"),
   distance: yup.string().required("A distância é obrigatória!"),
   isPaid: yup.boolean().notRequired(),
+  needsHelper: yup.boolean().required(),
   paymentId: yup.string().notRequired(),
   userId: yup.string().notRequired(),
   selectedItemsId: yup.string().required("Itens selecionados são obrigatórios para solicitar uma entrega!"),

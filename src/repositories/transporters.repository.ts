@@ -7,14 +7,10 @@ export const CreateTransportersRepo = (body: ITransporter) => {
 };
 
 export const ReadTransporterByID = (id: string) => {
-  try {
-    return prisma.transporters.findUnique({
-      where: { id },
-      include: { vehicle: true },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.findUnique({
+    where: { id },
+    include: { vehicle: true },
+  });
 };
 
 export const ReadTransporters = async (pageNumber: number) => {
@@ -62,20 +58,12 @@ export const ReadTransporters = async (pageNumber: number) => {
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {
-  try {
-    return prisma.transporters.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteTransporter = (id: string) => {
-  try {
-    return prisma.transporters.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.delete({ where: { id } });
 };

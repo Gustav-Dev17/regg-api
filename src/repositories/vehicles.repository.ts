@@ -6,11 +6,7 @@ export const CreateVehiclesRepo = (body: IVehicle) => {
 };
 
 export const ReadVehicleByID = (id: string) => {
-  try {
-    return prisma.vehicles.findUnique({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.vehicles.findUnique({ where: { id } });
 };
 
 export const ReadVehicles = () => {
@@ -22,20 +18,12 @@ export const ReadVehicleByUser = (transporterId: string) => {
 };
 
 export const UpdateVehicle = (body: IRequestVehicleBody, id: string) => {
-  try {
-    return prisma.vehicles.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.vehicles.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteVehicle = (id: string) => {
-  try {
-    return prisma.vehicles.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.vehicles.delete({ where: { id } });
 };

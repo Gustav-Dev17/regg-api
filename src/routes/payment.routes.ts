@@ -6,6 +6,7 @@ import { SimulatePaymentDelivery } from "../controllers/deliveries.controller";
 const route = Router();
 
 route.post("/payment", AuthMiddleware, WantPayment);
+
 route.patch("/payment/simulate", AuthMiddleware, SimulatePaymentDelivery);
 
 route.post("/payment/webhook", AuthMiddleware, ConfirmPayment);
