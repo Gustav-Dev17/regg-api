@@ -27,7 +27,7 @@ export interface IVehicle {
   year: string;
   color?: string;
   fuel?: string;
-  type: VehicleTypes;
+  type?: VehicleTypes;
   license_plate: string;
   renavam: string;
   chassi: string;
@@ -44,7 +44,7 @@ export interface IVehicleFields {
   color?: string;
   fuel?: string;
   license_plate: string;
-  type: VehicleTypes;
+  type?: VehicleTypes;
   renavam: string;
   chassi?: string;
   transporterId?: string;

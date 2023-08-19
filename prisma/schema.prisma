@@ -43,24 +43,24 @@ model Transporters {
 }
 
 model Vehicles {
-    id            String       @id @default(auto()) @map("_id") @db.ObjectId
-    active        Boolean      @default(true)
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    active        Boolean       @default(true)
     owner_name    String
     owner_cpf     String
     brand         String
     model         String
     capacity      String?
-    type          VehicleTypes
+    type          VehicleTypes?
     year          String
     color         String?
     fuel          String?
-    license_plate String       @unique
-    renavam       String       @unique
-    chassi        String       @unique
-    transporter   Transporters @relation(fields: [transporterId], references: [id], onDelete: Cascade)
-    transporterId String       @unique @db.ObjectId
-    created_at    DateTime     @default(now())
-    updated_at    DateTime     @updatedAt
+    license_plate String        @unique
+    renavam       String        @unique
+    chassi        String        @unique
+    transporter   Transporters  @relation(fields: [transporterId], references: [id], onDelete: Cascade)
+    transporterId String        @unique @db.ObjectId
+    created_at    DateTime      @default(now())
+    updated_at    DateTime      @updatedAt
 }
 
 model Deliveries {
