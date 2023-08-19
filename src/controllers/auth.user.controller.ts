@@ -7,6 +7,6 @@ export const DoLogin = async (req: Request, res: Response): Promise<Response> =>
     const token = await LoginService(email, password);
     return res.status(200).json({ token: token });
   } catch (e) {
-    return res.status(401).json({ message: "Erro ao logar o usuário!", descripton: (e as Error).message });
+    return res.status(401).json({ message: "E-mail ou senha incorretos!", descripton: (e as Error).message });
   }
 };

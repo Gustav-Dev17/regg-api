@@ -6,6 +6,6 @@ export const transporterSchema = yup.object().shape({
   phone: yup.string().min(11, "Telefone de ter pelo menos 11 caracteres, além do DDD!").required("Informe um número de telefone!"),
   email: yup.string().email().required("Informe um endereço de e-mail!"),
   password: yup.string().min(8, "A senha deve conter pelo menos 8 caracteres!").required("Informe uma senha!"),
-  license_category: yup.string().min(1, "Categoria deve conter pelo menos 1 caracter!").required("Informe uma categoria!"),
-  transport_license: yup.boolean().required("Status da licença é obrigatório!"),
+  license_category: yup.string().min(1, "Categoria deve conter pelo menos 1 caracter!").notRequired(),
+  transport_license: yup.boolean().notRequired(),
 });

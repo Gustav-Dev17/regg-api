@@ -6,13 +6,9 @@ export const CreateUsersRepo = (body: IUser) => {
 };
 
 export const ReadUserByID = (id: string) => {
-  try {
-    return prisma.users.findUnique({
-      where: { id },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.users.findUnique({
+    where: { id },
+  });
 };
 
 export const ReadUsers = () => {
@@ -31,46 +27,29 @@ export const ReadUsers = () => {
 };
 
 export const UpdateUser = (body: IRequestUserBody, id: string) => {
-  try {
-    return prisma.users.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.users.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteUser = (id: string) => {
-  try {
-    return prisma.users.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.users.delete({ where: { id } });
 };
 
 export const ForgotPassword = (id: string, reset_token: string) => {
-  try {
-    return prisma.users.update({
-      where: { id },
-      data: { reset_token },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.users.update({
+    where: { id },
+    data: { reset_token },
+  });
 };
 
 export const ResetPassword = (id: string, password: string) => {
-  try {
-    return prisma.users.update({
-      where: { id },
-      data: {
-        reset_token: "",
-        password,
-      },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.users.update({
+    where: { id },
+    data: {
+      reset_token: "",
+      password,
+    },
+  });
 };
-

@@ -2,21 +2,31 @@ import { IDelivery, IRequestDeliveryBody } from "../types/delivery.body.types";
 import { ReadSelectedItemsById, UpdateSelectedItems } from "../repositories/selected.items.repository";
 import {
   CreateDeliveriesRepo,
+  CheckExistingAwaitingDeliveries,
   ReadDeliveryByID,
   ReadDeliveries,
   ReadDeliveriesByUser,
   ReadDeliveriesByUserAndStatus,
   ReadDeliveriesByTransporter,
   ReadDeliveriesByTransporterAndStatus,
+  ReadDeliveryToPay,
   UpdateDelivery,
   DeleteDelivery,
 } from "../repositories/delivery.repositories";
-
 import { StatusTypes } from "../types/delivery.body.types";
+import { io } from "../app";
 
-export const CreateDeliveryService = async (body: IDelivery) => {
+export const CreateDeliveryService = async (body: IDelivery, id: string) => {
   try {
-    return CreateDeliveriesRepo(body);
+    const existingDelivery = await CheckExistingAwaitingDeliveries(id, "Waiting" as StatusTypes);
+
+    if (existingDelivery.length > 0) {
+      throw new Error("Já existe uma entrega em espera!");
+    } else {
+      const delivery = await CreateDeliveriesRepo(body);
+      io.to(body.transporterId).emit("sendToTransporter");
+      return delivery;
+    }
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -54,6 +64,29 @@ export const ReadDeliveriesByUserAndStatusService = (id: string, pageNumber: num
   }
 };
 
+export const ReadDeliveryToBePaidService = (id: string) => {
+  try {
+    return ReadDeliveryToPay(id);
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
+export const MakePaymentService = async (transpId: string) => {
+  try {
+    const deliveryToPay = await ReadDeliveryToPay(transpId);
+
+    if (deliveryToPay) {
+      io.to(deliveryToPay.id).emit("sendToTransporter", { update: true });
+      return UpdateDelivery({ isPaid: true }, deliveryToPay?.id);
+    } else {
+      throw new Error("Não foi encontrada uma entrega a ser paga!");
+    }
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+
 export const ReadDeliveriesByTransporterService = (id: string, pageNumber: number) => {
   try {
     return ReadDeliveriesByTransporter(id, pageNumber);
@@ -70,7 +103,7 @@ export const ReadDeliveriesByTransporterAndStatusService = (id: string, pageNumb
   }
 };
 
-export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: string, userType: string) => {
+export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: string, userType: string, transpId: string) => {
   try {
     const delivery = await ReadDeliveryByID(id);
 
@@ -89,7 +122,16 @@ export const UpdateDeliveryService = async (body: IRequestDeliveryBody, id: stri
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status, transporterId: null }, id);
       }
-      if (body.status === "Accepted" || body.status === "InProgress") {
+      if (body.status === "Accepted") {
+        const hasUnpaid = await ReadDeliveryToPay(transpId);
+        if (hasUnpaid) {
+          throw new Error("Há uma entrega com pagamento pendente! Para realizar novas entregas, efetue o pagamento.");
+        } else {
+          const status = body.status || (delivery?.status as StatusTypes);
+          return UpdateDelivery({ status }, id);
+        }
+      }
+      if (body.status === "InProgress") {
         const status = body.status || (delivery?.status as StatusTypes);
         return UpdateDelivery({ status }, id);
       }
@@ -119,3 +161,16 @@ export const DeleteDeliveryService = (id: string) => {
     throw new Error((e as Error).message);
   }
 };
+
+export const UpdateTransporterInDeliveryService = async (id: string, userType: string, transporterId: string) => {
+  try {
+    if (userType === "Client") {
+      return UpdateDelivery({ transporterId, status: "Waiting" }, id);
+    } else {
+      throw new Error("Você não tem permissão para alterar o status da entrega!");
+    }
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};
+

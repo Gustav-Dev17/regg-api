@@ -1,6 +1,16 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateItemService, DeleteItemService, ListItemService, ListItemsService, UpdateItemService } from "../services/items.services";
+import { SearchItemsService, CreateItemService, DeleteItemService, ListItemService, ListItemsService, UpdateItemService } from "../services/items.services";
+
+export const SearchItems = async (req: Request, res: Response) => {
+  try {
+    const key = req.query.search;
+    const items = await SearchItemsService((key as string) || ("" as string));
+    return res.status(200).json(items);
+  } catch (e) {
+    return res.status(400).json({ message: "Erro ao encontrar o(s) item(ns)!", descripton: (e as Error).message });
+  }
+};
 
 export const CreateItem = async (req: Request, res: Response) => {
   try {
@@ -26,9 +36,10 @@ export const ReadItem = async (req: Request, res: Response) => {
   }
 };
 
-export const ReadAllItems = async (__: Request, res: Response) => {
+export const ReadAllItems = async (req: Request, res: Response) => {
   try {
-    const items = await ListItemsService();
+    const pageNumber = parseInt(req.query.page as string);
+    const items = await ListItemsService((pageNumber as number) || 1);
     return res.status(200).json(items);
   } catch (e) {
     return res.status(400).json({ message: "Erro ao listar os itens!", descripton: (e as Error).message });
@@ -72,4 +83,3 @@ export const DeleteItem = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Error ao deletar o item!", descripton: (e as Error).message });
   }
 };
-

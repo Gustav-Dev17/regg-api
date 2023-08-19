@@ -21,6 +21,7 @@ model Users {
     deliveries     Deliveries[]
     created_at     DateTime        @default(now())
     updated_at     DateTime        @updatedAt
+    PlayersId      PlayersId[]
 }
 
 model Transporters {
@@ -29,8 +30,8 @@ model Transporters {
     name              String
     phone             String       @unique
     cpf               String       @unique
-    license_category  String
-    transport_license Boolean
+    license_category  String?
+    transport_license Boolean?
     email             String       @unique
     password          String
     vehicle           Vehicles?
@@ -38,6 +39,7 @@ model Transporters {
     deliveries        Deliveries[]
     created_at        DateTime     @default(now())
     updated_at        DateTime     @updatedAt
+    PlayersId         PlayersId[]
 }
 
 model Vehicles {
@@ -48,6 +50,7 @@ model Vehicles {
     brand         String
     model         String
     capacity      String?
+    type          VehicleTypes
     year          String
     color         String?
     fuel          String?
@@ -68,6 +71,9 @@ model Deliveries {
     destine         String
     destine_desc    String
     distance        String
+    isPaid          Boolean?
+    needsHelper     Boolean       @default(false)
+    paymentId       String?
     userId          String        @db.ObjectId
     user            Users         @relation(fields: [userId], references: [id])
     transporterId   String?       @db.ObjectId
@@ -101,6 +107,15 @@ model SelectedItems {
     Deliveries     Deliveries?
 }
 
+model PlayersId {
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    ids           String[]
+    User          Users?        @relation(fields: [userId], references: [id])
+    userId        String?       @db.ObjectId
+    Transporter   Transporters? @relation(fields: [transporterId], references: [id])
+    transporterId String?       @db.ObjectId
+}
+
 enum StatusTypes {
     Accepted
     Selected
@@ -114,6 +129,14 @@ enum StatusTypes {
 enum UserTypes {
     Client
     Transporter
+}
+
+enum VehicleTypes {
+    Pickup
+    Caminhao_Toco
+    Caminhao_Truck
+    Carreta_5Eixos
+    Carreta_Eixo_Estendido
 }
 
 type ItemsType {

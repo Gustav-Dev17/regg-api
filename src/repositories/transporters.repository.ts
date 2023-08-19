@@ -7,18 +7,25 @@ export const CreateTransportersRepo = (body: ITransporter) => {
 };
 
 export const ReadTransporterByID = (id: string) => {
-  try {
-    return prisma.transporters.findUnique({
-      where: { id },
-      include: { vehicle: true },
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.findUnique({
+    where: { id },
+    include: { vehicle: true },
+  });
 };
 
-export const ReadTransporters = (pageNumber: number) => {
-  return prisma.transporters.findMany({
+export const ReadTransporters = async (pageNumber: number) => {
+  const totalCount = await prisma.transporters.aggregate({
+    _count: true,
+    where: {
+      vehicle: {
+        active: true,
+      },
+    },
+  });
+
+  const totalPage = Math.ceil((totalCount._count as number) / PgConfig.perPage);
+
+  const transporters = await prisma.transporters.findMany({
     where: {
       vehicle: {
         active: true,
@@ -41,24 +48,22 @@ export const ReadTransporters = (pageNumber: number) => {
     take: PgConfig.perPage,
     skip: PgConfig.perPage * (pageNumber - 1),
   });
+
+  return {
+    totalCount: totalCount._count,
+    totalPage,
+    currentPage: pageNumber,
+    transporters,
+  };
 };
 
 export const UpdateTransporter = (body: IRequestTransporterBody, id: string) => {
-  try {
-    return prisma.transporters.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteTransporter = (id: string) => {
-  try {
-    return prisma.transporters.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.transporters.delete({ where: { id } });
 };
-

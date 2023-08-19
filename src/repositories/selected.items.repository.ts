@@ -8,19 +8,11 @@ export const CreateSelectedItemsRepo = (body: ISelectedItems) => {
 };
 
 export const ReadSelectedItemsByUserId = (userId: string) => {
-  try {
-    return prisma.selectedItems.findMany({ where: { userId } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.selectedItems.findMany({ where: { userId } });
 };
 
 export const ReadSelectedItemsById = (id: string) => {
-  try {
-    return prisma.selectedItems.findUnique({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.selectedItems.findUnique({ where: { id } });
 };
 
 export const ReadAllSelectedItems = () => {
@@ -28,29 +20,17 @@ export const ReadAllSelectedItems = () => {
 };
 
 export const ReadSelectedItemsByUserIdAndStatus = (userId: string) => {
-  try {
-    const status = "Selected"
-    return prisma.selectedItems.findFirst({ where: { userId, status } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  const status = "Selected";
+  return prisma.selectedItems.findFirst({ where: { userId, status }, include: { user: true } });
 };
 
 export const UpdateSelectedItems = (body: IRequestSelectedItemsBody, id: string) => {
-  try {
-    return prisma.selectedItems.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.selectedItems.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteSelectedItems = (id: string) => {
-  try {
-    return prisma.selectedItems.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.selectedItems.delete({ where: { id } });
 };

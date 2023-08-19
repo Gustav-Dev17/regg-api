@@ -1,37 +1,37 @@
 import prisma from "../services/prisma.services";
+import { PgConfig } from "../config/pagination.config";
 import { Item, IRequestItemBody } from "../types/item.body.types";
+
+export const SearchItems = (key: string) => {
+  return prisma.items.findMany({
+    where: {
+      title: {
+        contains: key,
+        mode: "insensitive",
+      },
+    },
+  });
+};
 
 export const CreateItemsRepo = (body: Item) => {
   return prisma.items.create({ data: body });
 };
 
 export const ReadItemByID = (id: string) => {
-  try {
-    return prisma.items.findUnique({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.findUnique({ where: { id } });
 };
 
-export const ReadItems = () => {
+export const ReadItems = async (pageNumber: number) => {
   return prisma.items.findMany();
 };
 
 export const UpdateItem = (body: IRequestItemBody, id: string) => {
-  try {
-    return prisma.items.update({
-      where: { id },
-      data: body,
-    });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.update({
+    where: { id },
+    data: body,
+  });
 };
 
 export const DeleteItem = (id: string) => {
-  try {
-    return prisma.items.delete({ where: { id } });
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  return prisma.items.delete({ where: { id } });
 };

@@ -9,15 +9,18 @@ import {
   ReadDeliveriesByUserAndStatusService,
   ReadDeliveriesByTransporterService,
   ReadDeliveriesByTransporterAndStatusService,
+  ReadDeliveryToBePaidService,
+  MakePaymentService,
   UpdateDeliveryService,
   DeleteDeliveryService,
+  UpdateTransporterInDeliveryService,
 } from "../services/delivery.services";
 
 export const CreateDelivery = async (req: Request, res: Response) => {
   try {
     const { id } = req; //id do user
     req.body.userId = id;
-    const delivery = await CreateDeliveryService(req.body);
+    const delivery = await CreateDeliveryService(req.body, id);
     return res.status(201).json(delivery);
   } catch (e) {
     return res.status(400).json({ message: "Erro na criação da entrega!", descripton: (e as Error).message });
@@ -80,6 +83,27 @@ export const ReadDeliveriesByUserAndStatus = async (req: Request, res: Response)
   }
 };
 
+export const ReadDeliveryToBePaid = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+    const deliveries = await ReadDeliveryToBePaidService(id);
+    return res.status(200).json(deliveries);
+  } catch (e) {
+    return res.status(400).json({ message: "Erro ao listar entregas não pagas!", descripton: (e as Error).message });
+  }
+};
+
+export const SimulatePaymentDelivery = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+
+    const paidDelivery = await MakePaymentService(id);
+    return res.status(200).json(paidDelivery);
+  } catch (e) {
+    return res.status(400).json({ message: "Erro ao atualizar status de pagamento!", descripton: (e as Error).message });
+  }
+};
+
 export const ReadDeliveriesByTransporter = async (req: Request, res: Response) => {
   try {
     const { id } = req;
@@ -114,8 +138,27 @@ export const ReadDeliveriesByTransporterAndStatus = async (req: Request, res: Re
 
 export const UpdateDelivery = async (req: Request, res: Response) => {
   try {
+    const { id } = req;
     const { userType } = req;
-    const delivery = await UpdateDeliveryService(req.body, req.params.id, userType);
+    const delivery = await UpdateDeliveryService(req.body, req.params.id, userType, id);
+    return res.status(200).json(delivery);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2023") {
+        return res.status(400).json({ message: "Id malformado!" });
+      }
+      if (e.code === "P2025") {
+        return res.status(404).json({ message: "Entrega não encontrada!" });
+      }
+    }
+    return res.status(400).json({ message: "Erro ao atualizar entrega!", descripton: (e as Error).message });
+  }
+};
+
+export const UpdateTransporterInDelivery = async (req: Request, res: Response) => {
+  try {
+    const { userType } = req;
+    const delivery = await UpdateTransporterInDeliveryService(req.params.id, userType, req.body.transporterId);
     return res.status(200).json(delivery);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
