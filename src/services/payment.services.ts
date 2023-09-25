@@ -26,7 +26,6 @@ export const CreateImmediateChargeService = async (
   const deliveryToPay = await ReadDeliveryToBePaidService(transporterId); //Retorna a entrega e verifica se ela já tem um paymentIf
 
   if (deliveryToPay) {
-    
     if (deliveryToPay.paymentId != null && deliveryToPay.paymentId !== "") {
       const paymentData = await mercadopago.get("/v1/payments/" + deliveryToPay.paymentId);
 
@@ -39,7 +38,7 @@ export const CreateImmediateChargeService = async (
         return {
           payment_existence: "Existing payment",
           delivery_id: deliveryId.toString().toUpperCase(),
-          total: roundedPrice,
+          total: Number(roundedPrice),
           qrcode: paymentData.response.point_of_interaction.transaction_data.qr_code_base64,
           code: paymentData.response.point_of_interaction.transaction_data.qr_code,
         };
@@ -49,7 +48,7 @@ export const CreateImmediateChargeService = async (
     //Se chegou aqui, significa que é a primeira vez que um pagamento é criado ou que a data do pagamento expirou, então um novo pagamento deverá ser criado
 
     const payment_data = {
-      transaction_amount: (Math.random() * (0.10 - 0.01) + 0.01),
+      transaction_amount: Number(roundedPrice),
       description: "Pagamento de entrega N. " + deliveryId.toString().toUpperCase(),
       statement_descriptor: "Reggie App",
       payment_method_id: "pix",
@@ -76,7 +75,7 @@ export const CreateImmediateChargeService = async (
     return {
       payment_existence: "New payment",
       delivery_id: deliveryId.toString().toUpperCase(),
-      total: roundedPrice,
+      total: Number(roundedPrice),
       qrcode: chargeResponse.response.point_of_interaction.transaction_data.qr_code_base64,
       code: chargeResponse.response.point_of_interaction.transaction_data.qr_code,
     };
