@@ -17,7 +17,8 @@ export const CreateImmediateChargeService = async (
   deliveryPrice: number,
 ) => {
   const rawPrice = deliveryPrice * 0.05;
-  const roundedPrice = rawPrice.toFixed(2);
+  //const roundedPrice = rawPrice.toFixed(2);
+    const roundedPrice = 0.01;
 
   const names: string[] = transporterName.split(" ");
   const firstName: string = names[0];
@@ -38,7 +39,7 @@ export const CreateImmediateChargeService = async (
         return {
           payment_existence: "Existing payment",
           delivery_id: deliveryId.toString().toUpperCase(),
-          total: Number(roundedPrice),
+          total: roundedPrice,
           qrcode: paymentData.response.point_of_interaction.transaction_data.qr_code_base64,
           code: paymentData.response.point_of_interaction.transaction_data.qr_code,
         };
@@ -48,7 +49,7 @@ export const CreateImmediateChargeService = async (
     //Se chegou aqui, significa que é a primeira vez que um pagamento é criado ou que a data do pagamento expirou, então um novo pagamento deverá ser criado
 
     const payment_data = {
-      transaction_amount: Number(roundedPrice),
+      transaction_amount: roundedPrice,
       description: "Pagamento de entrega N. " + deliveryId.toString().toUpperCase(),
       statement_descriptor: "Reggie App",
       payment_method_id: "pix",
@@ -75,7 +76,7 @@ export const CreateImmediateChargeService = async (
     return {
       payment_existence: "New payment",
       delivery_id: deliveryId.toString().toUpperCase(),
-      total: Number(roundedPrice),
+      total: roundedPrice,
       qrcode: chargeResponse.response.point_of_interaction.transaction_data.qr_code_base64,
       code: chargeResponse.response.point_of_interaction.transaction_data.qr_code,
     };
