@@ -1,6 +1,6 @@
 # Regg API
 
-Back-end application for Regg project.
+A complete API for a moving furniture delivery application, encompassing user registration and authentication, order management, real-time delivery status and payment processing.
 
 ## 🧬 Cloning this project
 
